@@ -1,32 +1,62 @@
 <template>
   <div id="app">
     <div class="main">
-      <chessboard @onMove="showInfo"/>
+      <chessboard @onMove="showInfo" />
     </div>
-      <div>{{positionInfo}}</div>
+    <div>{{ positionInfo }}</div>
   </div>
 </template>
 
 <script>
-import {chessboard} from 'vue-chessboard'
+import { chessboard } from 'vue-chessboard'
 import 'vue-chessboard/dist/vue-chessboard.css'
 export default {
   name: 'App',
-  components: {chessboard},
+  components: { chessboard },
   data() {
     return {
-      positionInfo: []
+      positionInfo: [],
     }
   },
-  methods: {
-    showInfo(data) {
-      this.positionInfo = data
+  async created() {
+    try {
+      let channel = await this.$axios.$get('chart')
+    } catch (error) {
+      console.log(error)
     }
-  }
+  },
+  mounted() {
+    this.socket = this.$nuxtSocket({
+      channel: '/',
+    })
+    this.socket.on('broadcast', async (msg) => {
+      try {
+      } catch (error) {
+        console.log(error)
+      }
+    })
+  },
+  methods: {
+    // async sendMessage() {
+    //   let result = {
+    //     channelID: this.$route.params.id,
+    //     // edit nuxt auth user _id
+    //     authorID: "61161010e35ff03d848f644e",
+    //     message: this.message,
+    //     created: new Date()
+    //   }
+
+    //   this.socket.emit('message', result)
+    // },
+    async showInfo(data) {
+      this.positionInfo = data
+      // this.socket.emit('message', data)
+    },
+  },
 }
 </script>
 
-<style >
+<style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -46,5 +76,4 @@ export default {
   width: 630px;
   height: 630px;
 }
-
 </style>
