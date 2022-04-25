@@ -7,6 +7,8 @@ const mongoose = require('mongoose')
 
 const router = require('./routes/index')
 
+const chart_model = require('./models/chart')
+
 mongoose
   .connect(process.env.DATABASE_CONNECTION_STRING, {
     useNewUrlParser: true,
@@ -34,6 +36,11 @@ io.on('connection', (socket) => {
   console.log('a user connected')
   socket.on('disconnect', () => {
     console.log('user disconnected')
+  })
+
+  socket.on('message', async (msg) => {
+    await chart_model.findOneAndUpdate({ _id: msg._id }, msg)
+    io.emit('broadcast', msg)
   })
 })
 
