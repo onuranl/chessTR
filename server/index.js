@@ -34,11 +34,32 @@ app.use(express.json())
 //FIXED IT
 io.on('connection', (socket) => {
   console.log('a user connected')
+  socket.on('connection', async (userInfo) => {
+    let data = await chart_model.findById(userInfo.chartID)
+
+    if (data.users.length <= 1) {
+      await chart_model.findOneAndUpdate(
+        { _id: userInfo.chartID },
+        { $push: { users: userInfo.user } }
+      )
+    } else {
+      await chart_model.findOneAndUpdate(
+        { _id: userInfo.chartID },
+        { $push: { audience: userInfo.user.name } }
+      )
+    }
+
+    let newData = await chart_model.findById(userInfo.chartID)
+
+    console.log({ newData })
+
+    io.emit('broadcast', newData)
+  })
   socket.on('disconnect', () => {
     console.log('user disconnected')
   })
 
-  socket.on('message', async (msg) => {
+  socket.on('moveOn', async (msg) => {
     await chart_model.findOneAndUpdate({ _id: msg._id }, msg)
     io.emit('broadcast', msg)
   })
