@@ -34,6 +34,7 @@ app.use(express.json())
 //FIXED IT
 io.on('connection', (socket) => {
   console.log('a user connected')
+
   socket.on('connection', async (userInfo) => {
     let data = await chart_model.findById(userInfo.chartID)
 
@@ -51,8 +52,6 @@ io.on('connection', (socket) => {
 
     let newData = await chart_model.findById(userInfo.chartID)
 
-    console.log({ newData })
-
     io.emit('broadcast', newData)
   })
   socket.on('disconnect', () => {
@@ -61,7 +60,8 @@ io.on('connection', (socket) => {
 
   socket.on('moveOn', async (msg) => {
     await chart_model.findOneAndUpdate({ _id: msg._id }, msg)
-    io.emit('broadcast', msg)
+    let newData = await chart_model.findById(msg._id)
+    io.emit('broadcast', newData)
   })
 })
 

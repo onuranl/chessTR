@@ -1,35 +1,34 @@
 <template>
   <div v-if="chart" id="app">
-    <game v-if="userInfo" :userInfo="userInfo" />
+    <div class="d-flex" v-if="userInfo">
+      <game />
+      <div class="d-flex align-items-center ml-4">
+        <board class="board" />
+      </div>
+    </div>
     <user-info v-else :users="chart.users" />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
-  data() {
-    return {
-      chartID: null,
-      chart: null,
-    }
-  },
   async created() {
-    this.chartID = this.$route.params.id
-    try {
-      let chart = await this.$axios.$get('chart/' + this.chartID)
-      if (chart) {
-        this.chart = chart
-      } else {
-        console.log('there is no chart for this id')
-      }
-    } catch (error) {
-      console.log({ error })
-    }
+    this.setChartID(this.$route.params.id)
+    this.getChart()
   },
   computed: {
-    ...mapGetters({ userInfo: 'user/userInfo' }),
+    ...mapGetters({
+      userInfo: 'user/userInfo',
+      chart: 'chart/chart',
+    }),
+  },
+  methods: {
+    ...mapMutations({
+      setChartID: 'chart/setChartID',
+    }),
+    ...mapActions({ getChart: 'chart/getChart' }),
   },
 }
 </script>
@@ -43,5 +42,12 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
   height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.board {
+  width: 357px;
+  height: 262px;
 }
 </style>
