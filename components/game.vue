@@ -32,6 +32,7 @@ export default {
     this.socket.emit('connection', {
       chartID: this.chartID,
       user: this.userInfo,
+      time: 300000,
     })
     this.started = true
     this.socket.on('broadcast', async (msg) => {

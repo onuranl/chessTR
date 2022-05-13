@@ -1,10 +1,11 @@
 <template>
-  <div v-if="chart" id="app">
-    <div class="d-flex" v-if="userInfo">
-      <game />
-      <div class="d-flex align-items-center ml-4">
-        <board class="board" />
+  <div v-if="chart" id="app" class="container">
+    <div class="d-flex justify-content-between" v-if="userInfo">
+      <chat class="chat" />
+      <div class="game">
+        <game />
       </div>
+      <board class="d-flex align-items-center" />
     </div>
     <user-info v-else :users="chart.users" />
   </div>
@@ -42,12 +43,5 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
   height: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.board {
-  width: 357px;
-  height: 262px;
 }
 </style>

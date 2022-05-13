@@ -31,8 +31,6 @@ async function create(req, res) {
     chartHistory,
   }
 
-  console.log({ chartHistory })
-
   try {
     const result = await chart_service.create(payload)
 

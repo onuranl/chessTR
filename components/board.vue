@@ -2,9 +2,9 @@
   <div>
     <b-card-group deck>
       <b-card
-        :header="setName.otherUser.name"
+        :header="setName.otherUser ? setName.otherUser.name : '----'"
         header-tag="header"
-        :footer="setName.currentUser.name"
+        :footer="setName.currentUser ? setName.currentUser.name : '----'"
         footer-tag="footer"
         title="Title"
       >
@@ -12,12 +12,6 @@
         <b-button href="#" variant="primary">Go somewhere</b-button>
       </b-card>
     </b-card-group>
-    <div id="app">
-      <button @click="start">Start</button>
-      <button @click="stop">Stop</button>
-      <button @click="reset">Reset</button>
-      <p>{{ formattedElapsedTime }}</p>
-    </div>
   </div>
 </template>
 

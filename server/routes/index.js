@@ -1,31 +1,63 @@
-const generate_routes = require("./generate_routes");
+const generate_routes = require('./generate_routes')
 
-const chart_controller = require("../controllers/chart-controller");
+const verifyToken = require('../middlewares/verify-token')
 
-const routes = [{
-    path: "/chart",
+const auth_controller = require('../controllers/auth-controller')
+const user_controller = require('../controllers/user-controller')
+const chart_controller = require('../controllers/chart-controller')
+
+const routes = [
+  {
+    path: '/auth',
     children: [
       {
-        path: "/",
-        handler: chart_controller.get,
-        method: "get",
+        path: '/register',
+        handler: auth_controller.register,
+        method: 'post',
       },
       {
-        path: "/:id",
-        handler: chart_controller.getByID,
-        method: "get",
+        path: '/login',
+        handler: auth_controller.login,
+        method: 'post',
       },
       {
-        path: "/",
-        handler: chart_controller.create,
-        method: "post",
+        path: '/logout',
+        handler: auth_controller.logout,
+        method: 'post',
       },
       {
-        path: "/:id",
-        handler: chart_controller.update,
-        method: "put",
+        path: '/user',
+        handler: user_controller.user,
+        method: 'get',
+        middleware: verifyToken,
       },
     ],
-}]
+  },
+  {
+    path: '/chart',
+    children: [
+      {
+        path: '/',
+        handler: chart_controller.get,
+        method: 'get',
+      },
+      {
+        path: '/:id',
+        handler: chart_controller.getByID,
+        method: 'get',
+      },
+      {
+        path: '/',
+        handler: chart_controller.create,
+        method: 'post',
+      },
+      {
+        path: '/:id',
+        handler: chart_controller.update,
+        method: 'put',
+      },
+    ],
+  },
+]
 
-module.exports = generate_routes(routes);
+module.exports = generate_routes(routes)

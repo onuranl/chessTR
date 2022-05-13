@@ -1,12 +1,22 @@
 <template>
   <div>
     <button @click="newGame">create room</button>
+    <button @click="logOut">logOut</button>
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
+  // middleware({ store, redirect }) {
+  //   if (!store.state.auth.user) {
+  //     return redirect('/login')
+  //   }
+  // },
+  auth: 'guest',
   methods: {
+    ...mapMutations({ logOut: 'auth/logOut' }),
     async newGame() {
       await this.$axios
         .$post('chart')

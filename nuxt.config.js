@@ -37,6 +37,10 @@ export default {
     'nuxt-socket-io',
   ],
 
+  router: {
+    middleware: ['auth'],
+  },
+
   io: {
     sockets: [
       {
