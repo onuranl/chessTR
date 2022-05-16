@@ -40,6 +40,22 @@ const chart = {
         console.log({ error })
       }
     },
+    async createChart() {
+      try {
+        await axios
+          .post(baseURL + '/chart')
+          .then((result) => {
+            if (result) {
+              this.app.router.push('chart/' + result._id)
+            }
+          })
+          .catch((err) => {
+            console.log({ err })
+          })
+      } catch (error) {
+        console.log({ error })
+      }
+    },
   },
 }
 

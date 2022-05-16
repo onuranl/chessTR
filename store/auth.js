@@ -48,7 +48,6 @@ const auth = {
           })
           if (result.data.status) {
             commit('setUser', result.data.user)
-            this.app.router.push('/')
           } else {
             commit('logOut')
           }

@@ -9,12 +9,6 @@
 import { mapMutations } from 'vuex'
 
 export default {
-  // middleware({ store, redirect }) {
-  //   if (!store.state.auth.user) {
-  //     return redirect('/login')
-  //   }
-  // },
-  auth: 'guest',
   methods: {
     ...mapMutations({ logOut: 'auth/logOut' }),
     async newGame() {

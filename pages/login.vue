@@ -46,6 +46,9 @@ export default {
     async submit() {
       try {
         await this.logIn(this.form)
+        setInterval(() => {
+          location.reload()
+        }, 1000)
       } catch (error) {
         console.log({ error })
       }
