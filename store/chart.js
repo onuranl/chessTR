@@ -8,10 +8,12 @@ const chart = {
     chartID: null,
     chart: null,
     started: false,
+    color: null,
   },
   getters: {
     chartID: (state) => state.chartID,
     chart: (state) => state.chart,
+    color: (state) => state.color,
   },
   mutations: {
     setChartID(state, data) {
@@ -19,6 +21,15 @@ const chart = {
     },
     setChart(state, data) {
       state.chart = data
+    },
+    setColor(state, data) {
+      if (data) {
+        state.color = data
+      } else {
+        const color = (arr) => arr[Math.floor(Math.random() * arr.length)]
+
+        state.color = color(['white', 'black'])
+      }
     },
   },
   actions: {
@@ -46,7 +57,7 @@ const chart = {
           .post(baseURL + '/chart')
           .then((result) => {
             if (result) {
-              this.app.router.push('chart/' + result._id)
+              this.app.router.push('chart/' + result.data._id)
             }
           })
           .catch((err) => {

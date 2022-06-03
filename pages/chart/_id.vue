@@ -1,13 +1,13 @@
 <template>
   <div v-if="chart" id="app" class="container">
-    <div class="d-flex justify-content-between" v-if="userInfo">
+    <div class="d-flex justify-content-between">
       <chat class="chat" />
       <div class="game">
         <game />
       </div>
-      <board class="d-flex align-items-center" />
+      <!-- <board class="d-flex align-items-center" /> -->
     </div>
-    <user-info v-else :users="chart.users" />
+    <!-- <user-info v-else :users="chart.users" /> -->
   </div>
 </template>
 
@@ -21,7 +21,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userInfo: 'user/userInfo',
+      // userInfo: 'user/userInfo',
+      isAuthenticated: 'auth/isAuthenticated',
       chart: 'chart/chart',
     }),
   },

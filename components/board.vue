@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="setName">
     <b-card-group deck>
       <b-card
         :header="setName.otherUser ? setName.otherUser.name : '----'"

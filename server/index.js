@@ -36,18 +36,37 @@ io.on('connection', (socket) => {
   console.log('a user connected')
 
   socket.on('connection', async (userInfo) => {
-    let data = await chart_model.findById(userInfo.chartID)
+    let data = await chart_model
+      .findById(userInfo.chartID)
+      .populate('users.user')
 
-    if (data.users.length <= 1) {
-      await chart_model.findOneAndUpdate(
-        { _id: userInfo.chartID },
-        { $push: { users: userInfo.user } }
-      )
-    } else {
-      await chart_model.findOneAndUpdate(
-        { _id: userInfo.chartID },
-        { $push: { audience: userInfo.user.name } }
-      )
+    const isUserExist = data.users.findIndex((item) => {
+      if (item.user.id === userInfo.user) {
+        return true
+      } else {
+        return false
+      }
+    })
+
+    if (isUserExist !== 0) {
+      if (data.users.length <= 1) {
+        const payload = {
+          user: userInfo.user,
+          color:
+            userInfo.color || data.users[0].color === 'white'
+              ? 'black'
+              : 'white',
+        }
+        await chart_model.findOneAndUpdate(
+          { _id: userInfo.chartID },
+          { $push: { users: payload } }
+        )
+      } else {
+        await chart_model.findOneAndUpdate(
+          { _id: userInfo.chartID },
+          { $push: { audience: userInfo.user } }
+        )
+      }
     }
 
     let newData = await chart_model.findById(userInfo.chartID)

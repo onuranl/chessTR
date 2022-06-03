@@ -1,9 +1,5 @@
 const mongoose = require('mongoose')
 
-function arrayLimit(val) {
-  return val.length <= 2
-}
-
 const ChartSchema = new mongoose.Schema(
   {
     chartHistory: {
@@ -17,12 +13,28 @@ const ChartSchema = new mongoose.Schema(
         fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
       },
     },
-    users: {
-      type: Array,
-      default: [],
-      validate: [arrayLimit, '{PATH} exceeds the limit of 2'],
-    },
-    audience: { type: Array, default: [] },
+    users: [
+      {
+        user: {
+          type: mongoose.Types.ObjectId,
+          ref: 'user',
+          required: true,
+        },
+        color: {
+          type: String,
+          default: 'white',
+          required: true,
+        },
+        _id: false,
+      },
+    ],
+    audience: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'user',
+        required: true,
+      },
+    ],
   },
   { timestamps: true }
 )

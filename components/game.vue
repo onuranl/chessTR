@@ -1,14 +1,6 @@
 <template>
-  <div
-    v-if="chart && chart.chartHistory"
-    class="main"
-    :class="userInfo.color !== chart.chartHistory.turn ? 'disable' : ''"
-  >
-    <chessboard
-      @onMove="onMove"
-      :fen="chart.chartHistory.fen"
-      :orientation="userInfo.color || 'white'"
-    />
+  <div v-if="chart && chart.chartHistory" class="main">
+    <chessboard @onMove="onMove" :fen="chart.chartHistory.fen" />
   </div>
 </template>
 
@@ -31,7 +23,8 @@ export default {
     })
     this.socket.emit('connection', {
       chartID: this.chartID,
-      user: this.userInfo,
+      user: this.user._id,
+      color: this.color || null,
       time: 300000,
     })
     this.started = true
@@ -43,7 +36,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userInfo: 'user/userInfo',
+      // userInfo: 'user/userInfo',
+      user: 'auth/stateUser',
+      color: 'chart/color',
       chart: 'chart/chart',
       chartID: 'chart/chartID',
     }),
