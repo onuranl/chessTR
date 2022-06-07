@@ -1,7 +1,179 @@
 <template>
-  <div>chat</div>
+  <div class="d-flex flex-column align-items-between">
+    <div v-if="chat" class="chat">
+      <div
+        v-for="(messageInfo, index) in chat"
+        :key="index"
+        :class="
+          messagesIsMine(messageInfo) ? 'mine messages' : 'yours messages'
+        "
+      >
+        <div
+          class="message"
+          :class="
+            (!messagesIsMine(messageInfo) && messagesIsMine(chat[index + 1])) ||
+            (messagesIsMine(messageInfo) && !messagesIsMine(chat[index + 1])) ||
+            index + 1 === chat.length
+              ? 'last'
+              : ''
+          "
+        >
+          {{ messageInfo.message }}
+        </div>
+      </div>
+    </div>
+    <input v-model="message" class="mt-2" type="text" />
+    <button class="mt-4" @click="sendMessage">send</button>
+  </div>
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+
+export default {
+  data() {
+    return {
+      message: '',
+      chat: null,
+    }
+  },
+  mounted() {
+    this.socket = this.$nuxtSocket({
+      channel: '/',
+    })
+    this.socket.on('chat', async (msg) => {
+      if (msg) {
+        this.chat = msg
+      }
+    })
+    this.getChat()
+  },
+  computed: {
+    ...mapGetters({
+      stateUser: 'auth/stateUser',
+      chart: 'chart/chart',
+      users: 'chart/users',
+      chartID: 'chart/chartID',
+    }),
+  },
+  methods: {
+    async sendMessage() {
+      let result = {
+        chartID: this.chartID,
+        authorID: this.stateUser.id,
+        message: this.message,
+        created: new Date(),
+      }
+
+      this.socket.emit('message', result)
+      this.message = ''
+    },
+    getChat() {
+      if (this.chat === null) {
+        this.chat = this.chart.chat
+      }
+    },
+    messagesIsMine(message) {
+      if (message) {
+        return message.authorID === this.stateUser.id ? true : false
+      } else {
+        return null
+      }
+    },
+  },
+}
 </script>
+
+<style scoped>
+.chat {
+  width: 300px;
+  height: 570px;
+  border: solid 1px #eee;
+  display: flex;
+  flex-direction: column;
+  padding: 4px 10px;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  border-radius: 20px;
+  padding: 8px 15px;
+  margin-top: 3px;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.yours {
+  align-items: flex-start;
+}
+
+.yours .message {
+  margin-right: 25%;
+  background-color: #eee;
+  position: relative;
+}
+
+.yours .message.last:before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  left: -7px;
+  height: 20px;
+  width: 20px;
+  background: #eee;
+  border-bottom-right-radius: 15px;
+}
+.yours .message.last:after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: -10px;
+  width: 10px;
+  height: 20px;
+  background: white;
+  border-bottom-right-radius: 10px;
+}
+
+.mine {
+  align-items: flex-end;
+}
+
+.mine .message {
+  color: white;
+  margin-left: 25%;
+  background: linear-gradient(to bottom, #00d0ea 0%, #0085d1 100%);
+  background-attachment: fixed;
+  position: relative;
+}
+
+.mine .message.last:before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  right: -8px;
+  height: 20px;
+  width: 20px;
+  background: linear-gradient(to bottom, #00d0ea 0%, #0085d1 100%);
+  background-attachment: fixed;
+  border-bottom-left-radius: 15px;
+}
+
+.mine .message.last:after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  right: -10px;
+  width: 10px;
+  height: 20px;
+  background: white;
+  border-bottom-left-radius: 10px;
+}
+</style>

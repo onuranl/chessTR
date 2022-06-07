@@ -31,7 +31,6 @@ const auth = {
     },
     async register({ dispatch }, form) {
       const result = await axios.post(baseURL + '/auth/register', form)
-      console.log({ result })
       if (result && result.status === 200) {
         dispatch('logIn', form)
       }

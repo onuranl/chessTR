@@ -1,11 +1,11 @@
 <template>
   <div v-if="chart" id="app" class="container">
     <div class="d-flex justify-content-between">
-      <chat class="chat" />
+      <chat class="chat-board" />
       <div class="game">
         <game />
       </div>
-      <!-- <board class="d-flex align-items-center" /> -->
+      <board class="d-flex align-items-center" />
     </div>
     <!-- <user-info v-else :users="chart.users" /> -->
   </div>
@@ -21,9 +21,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      // userInfo: 'user/userInfo',
-      isAuthenticated: 'auth/isAuthenticated',
       chart: 'chart/chart',
+      users: 'chart/users',
     }),
   },
   methods: {
@@ -44,5 +43,14 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
   height: 100%;
+}
+
+.chat-board {
+  height: 630px;
+  margin-right: 15px;
+}
+
+.game {
+  margin-right: 25px;
 }
 </style>

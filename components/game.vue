@@ -1,14 +1,23 @@
 <template>
-  <div v-if="chart && chart.chartHistory" class="main">
-    <chessboard @onMove="onMove" :fen="chart.chartHistory.fen" />
+  <div
+    v-if="chart.chartHistory && users.currentUser"
+    class="main"
+    :class="
+      users.currentUser.color !== chart.chartHistory.turn ? 'disable' : ''
+    "
+  >
+    <chessboard
+      @onMove="onMove"
+      :fen="chart.chartHistory.fen"
+      :orientation="users.currentUser.color || 'white'"
+    />
   </div>
 </template>
-
 <script>
 import { chessboard } from 'vue-chessboard'
 import 'vue-chessboard/dist/vue-chessboard.css'
 
-import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: { chessboard },
@@ -31,21 +40,27 @@ export default {
     this.socket.on('broadcast', async (msg) => {
       if (msg) {
         this.setChart(msg)
+        if (this.users && (!this.users.currentUser || !this.users.otherUser)) {
+          this.getChart()
+        }
       }
     })
   },
   computed: {
     ...mapGetters({
-      // userInfo: 'user/userInfo',
       user: 'auth/stateUser',
       color: 'chart/color',
       chart: 'chart/chart',
+      users: 'chart/users',
       chartID: 'chart/chartID',
     }),
   },
   methods: {
     ...mapMutations({
       setChart: 'chart/setChart',
+    }),
+    ...mapActions({
+      getChart: 'chart/getChart',
     }),
     onMove(data) {
       if (this.started) {

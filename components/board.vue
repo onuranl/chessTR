@@ -1,10 +1,10 @@
 <template>
-  <div v-if="setName">
+  <div v-if="users">
     <b-card-group deck>
       <b-card
-        :header="setName.otherUser ? setName.otherUser.name : '----'"
+        :header="users.otherUser ? users.otherUser.email : '----'"
         header-tag="header"
-        :footer="setName.currentUser ? setName.currentUser.name : '----'"
+        :footer="users.currentUser ? users.currentUser.email : '----'"
         footer-tag="footer"
         title="Title"
       >
@@ -12,6 +12,9 @@
         <b-button href="#" variant="primary">Go somewhere</b-button>
       </b-card>
     </b-card-group>
+    <div>
+      <p>{{ formattedElapsedTime }}</p>
+    </div>
   </div>
 </template>
 
@@ -27,23 +30,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      userInfo: 'user/userInfo',
+      stateUser: 'auth/stateUser',
       chart: 'chart/chart',
+      users: 'chart/users',
       chartID: 'chart/chartID',
     }),
-    setName() {
-      if (this.userInfo && this.chart.users) {
-        let color = this.userInfo.color ? this.userInfo.color : 'white'
-        let current = this.chart.users.findIndex((element) => {
-          return element.color === color
-        })
-        let other = current === 1 ? 0 : 1
-        return {
-          currentUser: this.chart.users[current],
-          otherUser: this.chart.users[other],
-        }
-      }
-    },
     formattedElapsedTime() {
       const date = new Date(null)
       date.setSeconds(this.elapsedTime / 1000)
