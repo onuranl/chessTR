@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
   console.log('a user connected')
 
   socket.on('connection', async (userInfo) => {
-    let data = await chart_model
+    const data = await chart_model
       .findById(userInfo.chartID)
       .populate('users.user')
 
@@ -69,18 +69,34 @@ io.on('connection', (socket) => {
       }
     }
 
-    let newData = await chart_model.findById(userInfo.chartID)
+    const newData = await chart_model
+      .findById(userInfo.chartID)
+      .populate('users.user', 'email')
 
     io.emit('broadcast', newData)
   })
+
   socket.on('disconnect', () => {
     console.log('user disconnected')
   })
 
   socket.on('moveOn', async (msg) => {
     await chart_model.findOneAndUpdate({ _id: msg._id }, msg)
-    let newData = await chart_model.findById(msg._id)
+    const newData = await chart_model.findById(msg._id)
     io.emit('broadcast', newData)
+  })
+
+  socket.on('message', async (msg) => {
+    await chart_model.findOneAndUpdate(
+      { _id: msg.chartID },
+      { $push: { chat: msg } }
+    )
+
+    const newData = await chart_model
+      .findById(msg.chartID)
+      .populate('users.user', 'email')
+
+    io.emit('chat', newData.chat)
   })
 })
 

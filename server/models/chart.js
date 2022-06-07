@@ -1,5 +1,17 @@
 const mongoose = require('mongoose')
 
+const MessageSchema = new mongoose.Schema(
+  {
+    type: String,
+    authorID: {
+      type: mongoose.Types.ObjectId,
+      ref: 'user',
+    },
+    message: String,
+  },
+  { timestamps: true }
+)
+
 const ChartSchema = new mongoose.Schema(
   {
     chartHistory: {
@@ -25,8 +37,8 @@ const ChartSchema = new mongoose.Schema(
           default: 'white',
           required: true,
         },
-        _id: false,
       },
+      { _id: false },
     ],
     audience: [
       {
@@ -35,6 +47,7 @@ const ChartSchema = new mongoose.Schema(
         required: true,
       },
     ],
+    chat: [MessageSchema],
   },
   { timestamps: true }
 )
