@@ -33,17 +33,16 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      message: '',
+      socket: null,
       chat: null,
+      message: '',
     }
   },
   mounted() {
-    this.socket = this.$nuxtSocket({
-      channel: '/',
-    })
+    this.socket = this.$parent.socket
     this.socket.on('chat', async (msg) => {
       if (msg) {
-        this.chat = msg
+        this.chat = msg.chat
       }
     })
     this.getChat()
@@ -59,8 +58,6 @@ export default {
   methods: {
     async sendMessage() {
       let result = {
-        chartID: this.chartID,
-        authorID: this.stateUser.id,
         message: this.message,
         created: new Date(),
       }
@@ -92,6 +89,7 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 4px 10px;
+  overflow: auto;
 }
 
 .messages {

@@ -16,11 +16,12 @@ async function update(id, chart) {
   return await chart_model.findOneAndUpdate({ _id: id }, chart)
 }
 
-async function sendMessage(chartID, message) {
-  let result = await chart_model.findOneAndUpdate(
-    { _id: chartID },
-    { $push: { chat: message } }
-  )
+async function updateTime(id, data) {
+  var chart = await getByID(id)
+  chart.users.map((userInfo) => {
+    userInfo.time = data[userInfo.user.id]
+  })
+  return await update(id, chart)
 }
 
-module.exports = { get, getByID, create, update, sendMessage }
+module.exports = { get, getByID, create, update, updateTime }

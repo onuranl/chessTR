@@ -56,6 +56,11 @@ const routes = [
         handler: chart_controller.update,
         method: 'put',
       },
+      {
+        path: '/update-time/:id',
+        handler: chart_controller.updateTime,
+        method: 'put',
+      },
     ],
   },
 ]

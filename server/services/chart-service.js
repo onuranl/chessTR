@@ -16,8 +16,8 @@ async function update(id, chart) {
   return await chart_repository.update(id, chart)
 }
 
-async function message(chartID, message) {
-  return await chart_repository.sendMessage(chartID, message)
+async function updateTime(id, data) {
+  return await chart_repository.updateTime(id, data)
 }
 
-module.exports = { get, getByID, create, update, message }
+module.exports = { get, getByID, create, update, updateTime }

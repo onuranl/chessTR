@@ -50,7 +50,7 @@ async function update(req, res) {
   }
 
   try {
-    const result = await chart_service.update(req.params.id, payload)
+    await chart_service.update(req.params.id, payload)
 
     return res.status(200).json('Successfully updated')
   } catch (error) {
@@ -60,31 +60,21 @@ async function update(req, res) {
   }
 }
 
-async function message(req, res) {
-  const { authorID, message } = req.body
-
-  const payload = {
-    authorID,
-    message,
-  }
-
+async function updateTime(req, res) {
   try {
-    const message = await chart_service.message(req.params.id, payload)
-    return res.status(200).json({
-      message,
-      message: 'İşlem başarıyla gerçekleşti.',
-    })
+    await chart_service.updateTime(req.params.id, req.body)
+
+    return res.status(200).json('Successfully updated time')
   } catch (error) {
     return res.status(400).json({
-      error: error.message || 'Bir hata meydana geldi.',
+      error: error.message || 'Bir hata meydana geldi',
     })
   }
 }
-
 module.exports = {
   get,
   getByID,
   create,
   update,
-  message,
+  updateTime,
 }

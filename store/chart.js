@@ -16,6 +16,7 @@ const chart = {
     chart: (state) => state.chart,
     users: (state) => state.users,
     color: (state) => state.color,
+    hasTheMatchStarted: (state) => state.chart.chartHistory.history.length >= 2,
   },
   mutations: {
     setChartID(state, data) {
@@ -31,12 +32,16 @@ const chart = {
         state.chart.users.map((element) => {
           element.user.id === stateUser.id
             ? (currentUser = {
+                id: element.user.id,
                 email: element.user.email,
                 color: element.color,
+                time: element.time,
               })
             : (otherUser = {
+                id: element.user.id,
                 email: element.user.email,
                 color: element.color,
+                time: element.time,
               })
         })
       }
@@ -63,7 +68,7 @@ const chart = {
           .then((result) => {
             if (result) {
               commit('setChart', result.data)
-              this.app.store.commit('chart/setUsers')
+              commit('setUsers')
             } else {
               console.log('there is no chart for this id')
             }

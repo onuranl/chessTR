@@ -31,17 +31,27 @@ app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
 
-//FIXED IT
+const onlineUsers = {}
+
 io.on('connection', (socket) => {
-  console.log('a user connected')
+  var chartID = null
+  var user = null
 
   socket.on('connection', async (userInfo) => {
-    const data = await chart_model
-      .findById(userInfo.chartID)
-      .populate('users.user')
+    user = userInfo.user
+    chartID = userInfo.chartID
+
+    console.log('a user ' + user + ' connected')
+
+    socket.join(chartID)
+
+    onlineUsers[socket.id] = user
+    io.sockets.in(chartID).emit('onlineUsers', onlineUsers)
+
+    const data = await chart_model.findById(chartID).populate('users.user')
 
     const isUserExist = data.users.findIndex((item) => {
-      if (item.user.id === userInfo.user) {
+      if (item.user.id === user) {
         return true
       } else {
         return false
@@ -50,53 +60,86 @@ io.on('connection', (socket) => {
 
     if (isUserExist !== 0) {
       if (data.users.length <= 1) {
-        const payload = {
-          user: userInfo.user,
-          color:
-            userInfo.color || data.users[0].color === 'white'
-              ? 'black'
-              : 'white',
+        const userColor = userInfo.color
+        var color
+
+        if (userColor) {
+          color = userColor
+        } else {
+          data.users.length && data.users[0].color === 'white'
+            ? (color = 'black')
+            : (color = 'white')
         }
+
+        const payload = {
+          user: user,
+          item: userInfo.time,
+          color: color,
+        }
+
         await chart_model.findOneAndUpdate(
-          { _id: userInfo.chartID },
+          { _id: chartID },
           { $push: { users: payload } }
         )
       } else {
         await chart_model.findOneAndUpdate(
-          { _id: userInfo.chartID },
-          { $push: { audience: userInfo.user } }
+          { _id: chartID },
+          { $push: { audience: user } }
         )
       }
     }
 
     const newData = await chart_model
-      .findById(userInfo.chartID)
+      .findById(chartID)
       .populate('users.user', 'email')
 
-    io.emit('broadcast', newData)
+    io.sockets.in(chartID).emit('broadcast', newData)
   })
 
   socket.on('disconnect', () => {
-    console.log('user disconnected')
+    console.log('user ' + onlineUsers[socket.id] + ' disconnected')
+
+    delete onlineUsers[socket.id]
+    io.sockets.in(chartID).emit('onlineUsers', onlineUsers)
   })
 
   socket.on('moveOn', async (msg) => {
-    await chart_model.findOneAndUpdate({ _id: msg._id }, msg)
-    const newData = await chart_model.findById(msg._id)
-    io.emit('broadcast', newData)
+    const oldData = await chart_model.findById(chartID)
+
+    if (oldData && oldData.chartHistory.history) {
+      msg.chartHistory.history = [
+        ...oldData.chartHistory.history,
+        ...msg.chartHistory.history,
+      ]
+    }
+
+    await chart_model.findOneAndUpdate({ _id: chartID }, msg)
+    const newData = await chart_model.findById(chartID)
+
+    io.sockets.in(chartID).emit('broadcast', newData)
+  })
+
+  socket.on('time', async (data) => {
+    io.sockets.in(chartID).emit('timeBroadcast', data)
+  })
+
+  socket.on('getTime', async (user) => {
+    io.sockets.in(chartID).emit('setTime', user)
   })
 
   socket.on('message', async (msg) => {
+    msg.authorID = user
+
     await chart_model.findOneAndUpdate(
-      { _id: msg.chartID },
+      { _id: chartID },
       { $push: { chat: msg } }
     )
 
     const newData = await chart_model
-      .findById(msg.chartID)
+      .findById(chartID)
       .populate('users.user', 'email')
 
-    io.emit('chat', newData.chat)
+    io.sockets.in(chartID).emit('chat', newData)
   })
 })
 

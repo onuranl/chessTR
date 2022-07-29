@@ -13,6 +13,7 @@
     />
   </div>
 </template>
+
 <script>
 import { chessboard } from 'vue-chessboard'
 import 'vue-chessboard/dist/vue-chessboard.css'
@@ -23,13 +24,12 @@ export default {
   components: { chessboard },
   data() {
     return {
+      socket: null,
       started: false,
     }
   },
   mounted() {
-    this.socket = this.$nuxtSocket({
-      channel: '/',
-    })
+    this.socket = this.$parent.socket
     this.socket.emit('connection', {
       chartID: this.chartID,
       user: this.user._id,
@@ -63,10 +63,10 @@ export default {
       getChart: 'chart/getChart',
     }),
     onMove(data) {
-      if (this.started) {
+      if (this.started && data.history.length) {
         const payload = {
-          _id: this.chartID,
           chartHistory: data,
+          user: this.user._id,
         }
         this.socket.emit('moveOn', payload)
       }

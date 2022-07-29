@@ -37,6 +37,11 @@ const ChartSchema = new mongoose.Schema(
           default: 'white',
           required: true,
         },
+        time: {
+          type: Number,
+          default: 300000,
+          required: true
+        }
       },
       { _id: false },
     ],
