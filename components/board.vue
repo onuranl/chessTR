@@ -19,7 +19,10 @@
           </div>
         </template>
         <div class="d-flex flex-column align-items-between">
-          {{ chart.chartHistory.history }}
+          <span>
+            {{ chart.chartHistory.history }}
+          </span>
+          <span v-if="!chart.chartHistory.turn"> the game is over </span>
         </div>
         <template #footer>
           <div class="d-flex align-items-center">
