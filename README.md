@@ -1,5 +1,9 @@
 # chess
 
+simply multiplayer chess game
+
+playable now but ui side gonna be added
+
 ## Build Setup
 
 ```bash
