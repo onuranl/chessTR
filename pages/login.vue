@@ -1,40 +1,54 @@
 <template>
-  <section class="section">
-    <div class="columns">
-      <div class="column is-4 is-offset-4">
-        <div class="field">
-          <label class="label">Email</label>
-          <div class="control">
-            <input class="input" type="email" v-model="form.email" />
-          </div>
-        </div>
-        <div class="field">
-          <label class="label">Password</label>
-          <div class="control">
-            <input class="input" type="password" v-model="form.password" />
-          </div>
-        </div>
-        <div class="field is-grouped">
-          <div class="control">
-            <button @click="submit" class="button is-link">Submit</button>
-          </div>
-          <nuxt-link to="/register">
-            <button>
-              <p>register ?</p>
-            </button>
-          </nuxt-link>
-        </div>
+  <div class="center">
+    <vs-dialog v-model="active" not-close prevent-close>
+      <template #header>
+        <h4 class="not-margin">Welcome to <b>ChessTR</b></h4>
+      </template>
+
+      <div class="login-form">
+        <vs-input class="mb-2" v-model="form.email" placeholder="Email">
+          <template #icon>
+            <mail-icon size="1x" class="custom-class"></mail-icon>
+          </template>
+        </vs-input>
+        <vs-input
+          type="password"
+          v-model="form.password"
+          placeholder="Password"
+        >
+          <template #icon>
+            <lock-icon size="1x" class="custom-class"></lock-icon>
+          </template>
+        </vs-input>
+        <!-- <vs-checkbox class="mt-3" v-model="remember">Remember me</vs-checkbox> -->
       </div>
-    </div>
-  </section>
+
+      <template #footer>
+        <vs-button @click="submit" block> Sign In </vs-button>
+        <div class="d-flex justify-content-center mt-3">
+          <div style="font-size: 0.7rem">
+            New Here? <nuxt-link to="/register">Create New Account</nuxt-link>
+          </div>
+        </div>
+      </template>
+    </vs-dialog>
+  </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+
+import { LockIcon, MailIcon } from 'vue-feather-icons'
+
 export default {
   name: 'login',
+  components: {
+    LockIcon,
+    MailIcon,
+  },
   data() {
     return {
+      active: true,
       form: {
         email: 'onuro99cent@gmail.com',
         password: 'sqtrbe123',
@@ -56,3 +70,20 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+.login-form {
+  .vs-input {
+    width: 100%;
+    &-content {
+      width: 100%;
+    }
+    &__label {
+      margin: 0px;
+    }
+  }
+  .vs-checkbox-label {
+    margin: 0px;
+  }
+}
+</style>
