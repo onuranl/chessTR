@@ -2,7 +2,7 @@ export default function ({ app, store, redirect, route }) {
   const token = app.$cookies.get('authToken')
   const isAuthPage = route.name === 'login' || route.name === 'register'
 
-  if (token === null) {
+  if (token === null || token === undefined) {
     if (isAuthPage) {
       return
     } else {

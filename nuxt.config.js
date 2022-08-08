@@ -39,7 +39,7 @@ export default {
   ],
 
   router: {
-    middleware: ['auth', 'theme'],
+    middleware: ['auth'],
   },
 
   io: {

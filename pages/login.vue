@@ -55,26 +55,32 @@ export default {
       },
     }
   },
-  mounted(){
-    this.$vs.setTheme({
-      primary:'rgb(24, 25, 28)' // my new color
-    })
-  },
   methods: {
     ...mapActions({ logIn: 'auth/logIn' }),
-    openLoading() {
-      setTimeout(() => {}, 3000)
-    },
     async submit() {
+      const loading = this.$vs.loading()
       try {
-        this.$vs.loading()
-        await this.logIn(this.form)
-        setInterval(() => {
-          location.reload()
-        }, 1000)
+        this.logIn(this.form).then((response) => {
+          if (response && response.status === 200) {
+            setInterval(() => {
+              location.reload()
+            }, 1000)
+          } else {
+            this.openNotification('top-center', 'danger', response.data.error)
+          }
+        })
       } catch (error) {
-        console.log({ error })
+        this.openNotification('top-center', 'danger', error)
       }
+      loading.close()
+    },
+    openNotification(position = null, color, text) {
+      this.$vs.notification({
+        color,
+        position,
+        title: 'Hata',
+        text: text,
+      })
     },
   },
 }
