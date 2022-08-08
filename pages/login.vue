@@ -57,8 +57,12 @@ export default {
   },
   methods: {
     ...mapActions({ logIn: 'auth/logIn' }),
+    openLoading() {
+      setTimeout(() => {}, 3000)
+    },
     async submit() {
       try {
+        this.$vs.loading()
         await this.logIn(this.form)
         setInterval(() => {
           location.reload()

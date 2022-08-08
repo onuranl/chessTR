@@ -59,6 +59,7 @@ export default {
     ...mapActions({ register: 'auth/register' }),
     async submit() {
       try {
+        this.$vs.loading()
         await this.register(this.form)
         setInterval(() => {
           location.reload()
