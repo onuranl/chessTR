@@ -17,7 +17,7 @@ const auth = {
     },
     logOut(state) {
       state.user = null
-      localStorage.removeItem('authToken', null)
+      this.app.$cookies.set('authToken', null)
       this.app.router.push('/login')
     },
   },
@@ -50,7 +50,7 @@ const auth = {
           } else {
             commit('logOut')
           }
-          localStorage.setItem('authToken', token)
+          this.app.$cookies.set('authToken', token)
         } catch (error) {
           console.log({ error })
           commit('logOut')

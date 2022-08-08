@@ -2,7 +2,7 @@
   <div class="center">
     <vs-dialog v-model="active" not-close prevent-close>
       <template #header>
-        <h4 class="not-margin">Welcome to <b>ChessTR</b></h4>
+        <h5>Welcome to <b>ChessTR</b></h5>
       </template>
 
       <div class="login-form">
@@ -54,6 +54,11 @@ export default {
         password: 'sqtrbe123',
       },
     }
+  },
+  mounted(){
+    this.$vs.setTheme({
+      primary:'rgb(24, 25, 28)' // my new color
+    })
   },
   methods: {
     ...mapActions({ logIn: 'auth/logIn' }),

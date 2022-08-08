@@ -15,7 +15,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['~/assets/scss/index.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['~/plugins/vuesax'],
@@ -35,10 +35,11 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     'nuxt-socket-io',
+    'cookie-universal-nuxt',
   ],
 
   router: {
-    middleware: ['auth'],
+    middleware: ['auth', 'theme'],
   },
 
   io: {

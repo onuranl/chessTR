@@ -2,7 +2,7 @@
   <div class="center">
     <vs-dialog v-model="active" not-close prevent-close>
       <template #header>
-        <h4>Welcome to <b>ChessTR</b></h4>
+        <h5>Welcome to <b>ChessTR</b></h5>
       </template>
 
       <div class="register-form">
