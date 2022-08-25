@@ -1,32 +1,25 @@
 <template>
   <div>
-    <div>
-      <button
-        @click="
-          setColor(color)
-          createChart()
-        "
-      >
-        create room
-      </button>
-      <b-form-group label="Color">
-        <b-form-radio
-          v-model="color"
-          :aria-describedby="ariaDescribedby"
-          name="some-radios"
-          value="black"
-          >Black</b-form-radio
+    <div class="content">
+      <div class="pools">
+        <div
+          class="pool rounded border border-secondary text-center text-white cursor-pointer"
+          v-for="(pool, index) in pools"
+          :key="index"
         >
-        <b-form-radio
-          v-model="color"
-          :aria-describedby="ariaDescribedby"
-          name="some-radios"
-          value="white"
-          >White</b-form-radio
-        >
-      </b-form-group>
+          <div class="clock">{{ pool.clock }}</div>
+          <div class="perf">
+            {{ pool.perf.charAt(0).toUpperCase() + pool.perf.slice(1) }}
+          </div>
+        </div>
+      </div>
     </div>
-    <button @click="logOut">logOut</button>
+    <!-- <div class="content pools">
+      <div>
+        <div class="clock">1+0</div>
+        <div class="perf">bullet</div>
+      </div>
+    </div> -->
   </div>
 </template>
 
@@ -37,11 +30,79 @@ export default {
   data() {
     return {
       color: null,
+      pools: [
+        {
+          clock: '1+0',
+          perf: 'bullet',
+        },
+        {
+          clock: '2+1',
+          perf: 'bullet',
+        },
+        {
+          clock: '3+0',
+          perf: 'blitz',
+        },
+        {
+          clock: '3+2',
+          perf: 'blitz',
+        },
+        {
+          clock: '5+0',
+          perf: 'blitz',
+        },
+        {
+          clock: '5+3',
+          perf: 'bullet',
+        },
+        {
+          clock: '10+0',
+          perf: 'rapid',
+        },
+        {
+          clock: '10+5',
+          perf: 'rapid',
+        },
+        {
+          clock: '15+10',
+          perf: 'rapid',
+        },
+        {
+          clock: '30+0',
+          perf: 'classical',
+        },
+        {
+          clock: '30+20',
+          perf: 'classical',
+        },
+      ],
     }
   },
   methods: {
-    ...mapMutations({ logOut: 'auth/logOut', setColor: 'chart/setColor' }),
+    ...mapMutations({ setColor: 'chart/setColor' }),
     ...mapActions({ createChart: 'chart/createChart' }),
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.content {
+  width: 600px;
+}
+
+.pools {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 10px;
+  row-gap: 10px;
+  padding: 20px;
+}
+
+.pool {
+  padding: 20px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+</style>

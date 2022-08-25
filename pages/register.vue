@@ -1,38 +1,37 @@
 <template>
-  <div class="center">
-    <vs-dialog v-model="active" not-close prevent-close>
-      <template #header>
-        <h5>Welcome to <b>ChessTR</b></h5>
-      </template>
+  <vs-dialog v-model="active" not-close prevent-close>
+    <template #header>
+      <h5>Welcome to <b>ChessTR</b></h5>
+    </template>
 
-      <div class="register-form">
-        <vs-input class="mb-2" v-model="form.email" placeholder="Email">
-          <template #icon>
-            <mail-icon size="1x" class="custom-class"></mail-icon>
-          </template>
-        </vs-input>
-        <vs-input
-          type="password"
-          v-model="form.password"
-          placeholder="Password"
-        >
-          <template #icon>
-            <lock-icon size="1x" class="custom-class"></lock-icon>
-          </template>
-        </vs-input>
-        <!-- <vs-checkbox class="mt-3" v-model="remember">Remember me</vs-checkbox> -->
-      </div>
+    <div class="register-form">
+      <vs-input class="mb-2" v-model="form.email" placeholder="Email">
+        <template #icon>
+          <mail-icon size="1x" class="custom-class"></mail-icon>
+        </template>
+      </vs-input>
+      <vs-input
+        type="password"
+        v-model="form.password"
+        placeholder="Password"
+        :progress="getProgress"
+      >
+        <template #icon>
+          <lock-icon size="1x" class="custom-class"></lock-icon>
+        </template>
+      </vs-input>
+      <!-- <vs-checkbox class="mt-3" v-model="remember">Remember me</vs-checkbox> -->
+    </div>
 
-      <template #footer>
-        <vs-button @click="submit" block> Create Account </vs-button>
-        <div class="d-flex justify-content-center mt-3">
-          <div style="font-size: 0.7rem">
-            You are here ? <nuxt-link to="/login">Login</nuxt-link>
-          </div>
+    <template #footer>
+      <vs-button @click="submit" block> Create Account </vs-button>
+      <div class="d-flex justify-content-center mt-3">
+        <div style="font-size: 0.7rem">
+          You are here ? <nuxt-link to="/login">Login</nuxt-link>
         </div>
-      </template>
-    </vs-dialog>
-  </div>
+      </div>
+    </template>
+  </vs-dialog>
 </template>
 
 <script>
@@ -54,6 +53,43 @@ export default {
         password: '',
       },
     }
+  },
+  computed: {
+    getProgress() {
+      let progress = 0
+
+      // at least one number
+
+      if (/\d/.test(this.form.password)) {
+        progress += 20
+      }
+
+      // at least one capital letter
+
+      if (/(.*[A-Z].*)/.test(this.form.password)) {
+        progress += 20
+      }
+
+      // at menons a lowercase
+
+      if (/(.*[a-z].*)/.test(this.form.password)) {
+        progress += 20
+      }
+
+      // more than 5 digits
+
+      if (this.form.password.length >= 6) {
+        progress += 20
+      }
+
+      // at least one special character
+
+      if (/[^A-Za-z0-9]/.test(this.form.password)) {
+        progress += 20
+      }
+
+      return progress
+    },
   },
   methods: {
     ...mapActions({ register: 'auth/register' }),

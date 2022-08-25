@@ -31,11 +31,15 @@ app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
 
+// const connectedUsers = {}
 const onlineUsers = {}
 
 io.on('connection', (socket) => {
   var chartID = null
   var user = null
+
+  // connectedUsers[socket.id] = user
+  // io.sockets.in(chartID).emit('connectedUsers', connectedUsers)
 
   socket.on('connection', async (userInfo) => {
     user = userInfo.user

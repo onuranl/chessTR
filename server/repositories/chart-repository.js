@@ -9,7 +9,15 @@ async function getByID(id) {
 }
 
 async function create(chart) {
-  return await chart_model.create(chart)
+  var createdChart = await chart_model.create(chart)
+
+  if (chart.isPublic) {
+    createdChart.public = true
+    await update(createdChart._id, createdChart)
+    return await getByID(createdChart._id)
+  } else {
+    return createdChart
+  }
 }
 
 async function update(id, chart) {

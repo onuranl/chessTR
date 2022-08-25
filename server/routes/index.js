@@ -52,6 +52,11 @@ const routes = [
         method: 'post',
       },
       {
+        path: '/public',
+        handler: chart_controller.create,
+        method: 'post',
+      },
+      {
         path: '/:id',
         handler: chart_controller.update,
         method: 'put',

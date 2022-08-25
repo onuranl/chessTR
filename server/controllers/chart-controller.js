@@ -25,10 +25,13 @@ async function getByID(req, res) {
 }
 
 async function create(req, res) {
+  const isPublic = req.route.path.indexOf('public') !== -1
+
   const { chartHistory } = req.body
 
   const payload = {
     chartHistory,
+    isPublic,
   }
 
   try {

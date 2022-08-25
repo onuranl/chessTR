@@ -1,5 +1,5 @@
 <template>
-  <div v-if="socket && chart" id="app" class="container">
+  <div v-if="chart" id="app" class="container">
     <div class="d-flex justify-content-between">
       <chat class="chat-board" />
       <div class="game">
@@ -31,27 +31,17 @@ export default {
     this.getChart()
   },
   mounted() {
-    this.socket = this.$nuxtSocket({
-      channel: '/',
-    })
-    this.socket.on('onlineUsers', async (data) => {
-      if (data) {
-        const onlineUsers = Object.values(data)
-        this.setOnlineUsers(onlineUsers)
-      }
-    })
+    this.socket = this.$parent.$parent.socket
   },
   computed: {
     ...mapGetters({
       chart: 'chart/chart',
-      onlineUsers: 'user/onlineUsers',
       isOtherUserOnline: 'user/isOtherUserOnline',
     }),
   },
   methods: {
     ...mapMutations({
       setChartID: 'chart/setChartID',
-      setOnlineUsers: 'user/setOnlineUsers',
     }),
     ...mapActions({ getChart: 'chart/getChart' }),
   },

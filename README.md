@@ -4,8 +4,11 @@ simply multiplayer chess game
 
 playable now but ui side gonna be added
 
-dark-light theme *
+dark-light theme \*
 
+fixed time when gane is over \*
+
+kullanıcının uygulamaya girmesi ile oyuna girmesi farklı şeyler, socketin baglantı yerini degiştirdigimiz defaultun veya boardın destroyed fonksiyonuna yeni bir disconnect socketi gelmesi lazım
 
 ## Build Setup
 
@@ -47,7 +50,6 @@ More information about the usage of this directory in [the documentation](https:
 Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
 
 More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
 
 ### `pages`
 

@@ -16,6 +16,7 @@ const ChartSchema = new mongoose.Schema(
   {
     chartHistory: {
       type: Object,
+      required: false,
       default: {
         legal_white: 20,
         checks_white: 0,
@@ -40,8 +41,8 @@ const ChartSchema = new mongoose.Schema(
         time: {
           type: Number,
           default: 300000,
-          required: true
-        }
+          required: true,
+        },
       },
       { _id: false },
     ],
@@ -53,6 +54,11 @@ const ChartSchema = new mongoose.Schema(
       },
     ],
     chat: [MessageSchema],
+    public: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   { timestamps: true }
 )

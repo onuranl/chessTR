@@ -50,6 +50,8 @@ export default {
   width: 70px;
   height: 40px;
   z-index: 99001;
-  position: relative;
+  position: absolute;
+  bottom: 0;
+  left: 10px;
 }
 </style>
