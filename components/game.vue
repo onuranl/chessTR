@@ -11,6 +11,7 @@
       :fen="chart.chartHistory.fen"
       :orientation="users.currentUser.color || 'white'"
     />
+    <button @click="quitFromGame">quit</button>
   </div>
 </template>
 
@@ -30,7 +31,7 @@ export default {
   },
   mounted() {
     this.socket = this.$parent.socket
-    this.socket.emit('connection', {
+    this.socket.emit('join', {
       chartID: this.chartID,
       user: this.user._id,
       color: this.color || null,
@@ -45,6 +46,9 @@ export default {
         }
       }
     })
+  },
+  beforeDestroy() {
+    this.quitFromGame()
   },
   computed: {
     ...mapGetters({
@@ -62,6 +66,9 @@ export default {
     ...mapActions({
       getChart: 'chart/getChart',
     }),
+    quitFromGame() {
+      this.socket.emit('quit')
+    },
     onMove(data) {
       if (this.started && data.history.length) {
         const payload = {

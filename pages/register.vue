@@ -41,6 +41,7 @@ import { LockIcon, MailIcon } from 'vue-feather-icons'
 
 export default {
   name: 'register',
+  layout: 'auth',
   components: {
     LockIcon,
     MailIcon,

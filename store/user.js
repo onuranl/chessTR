@@ -1,11 +1,13 @@
 const user = {
   state: {
     userInfo: null,
+    connectedUsers: null,
     onlineUsers: null,
     isOtherUserOnline: null,
   },
   getters: {
     userInfo: (state) => state.userInfo,
+    connectedUsers: (state) => state.connectedUsers,
     onlineUsers: (state) => state.onlineUsers,
     isOtherUserOnline(state) {
       const users = window.$nuxt.$store.getters['chart/users']
@@ -27,6 +29,9 @@ const user = {
     },
     setOnlineUsers(state, data) {
       state.onlineUsers = data
+    },
+    setConnectedUsers(state, data) {
+      state.connectedUsers = data
     },
   },
 }

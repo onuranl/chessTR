@@ -32,16 +32,24 @@ export default {
   },
   mounted() {
     this.socket = this.$parent.$parent.socket
+    this.socket.on('onlineUsers', async (data) => {
+      if (data) {
+        const onlineUsers = Object.values(data)
+        this.setOnlineUsers(onlineUsers)
+      }
+    })
   },
   computed: {
     ...mapGetters({
       chart: 'chart/chart',
+      onlineUsers: 'user/onlineUsers',
       isOtherUserOnline: 'user/isOtherUserOnline',
     }),
   },
   methods: {
     ...mapMutations({
       setChartID: 'chart/setChartID',
+      setOnlineUsers: 'user/setOnlineUsers',
     }),
     ...mapActions({ getChart: 'chart/getChart' }),
   },

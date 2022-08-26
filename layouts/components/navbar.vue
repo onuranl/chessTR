@@ -52,7 +52,7 @@ import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   data: () => ({
-    active: 'index',
+    active: 'create',
     clientWidth: document.body.clientWidth,
     isMobile: document.body.clientWidth < 480,
   }),

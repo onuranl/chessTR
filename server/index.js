@@ -31,21 +31,23 @@ app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
 
-// const connectedUsers = {}
+const connectedUsers = []
 const onlineUsers = {}
 
 io.on('connection', (socket) => {
   var chartID = null
   var user = null
 
-  // connectedUsers[socket.id] = user
-  // io.sockets.in(chartID).emit('connectedUsers', connectedUsers)
+  socket.on('connection', async (user) => {
+    connectedUsers.push(socket.id)
+    io.emit('connectedUsers', connectedUsers)
+  })
 
-  socket.on('connection', async (userInfo) => {
+  socket.on('join', async (userInfo) => {
     user = userInfo.user
     chartID = userInfo.chartID
 
-    console.log('a user ' + user + ' connected')
+    console.log('a user ' + user + ' joined the game')
 
     socket.join(chartID)
 
@@ -100,11 +102,22 @@ io.on('connection', (socket) => {
     io.sockets.in(chartID).emit('broadcast', newData)
   })
 
-  socket.on('disconnect', () => {
-    console.log('user ' + onlineUsers[socket.id] + ' disconnected')
+  socket.on('quit', () => {
+    console.log('user ' + onlineUsers[socket.id] + ' quit from game')
 
     delete onlineUsers[socket.id]
     io.sockets.in(chartID).emit('onlineUsers', onlineUsers)
+  })
+
+  socket.on('disconnect', () => {
+    console.log('user ' + socket.id + ' disconnected')
+
+    const index = connectedUsers.indexOf(socket.id)
+    if (index > -1) {
+      connectedUsers.splice(index, 1)
+    }
+
+    io.emit('connectedUsers', connectedUsers)
   })
 
   socket.on('moveOn', async (msg) => {

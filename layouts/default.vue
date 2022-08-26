@@ -1,14 +1,14 @@
 <template>
   <div>
-    <NavBar v-if="!isAuthPage" />
+    <NavBar />
     <Theme />
     <Nuxt
       v-if="socket"
       class="d-flex justify-content-center align-items-center"
     />
-    <!-- <div class="online_users" v-if="onlineUsers">
-      Online Users: {{ onlineUsers }}
-    </div> -->
+    <div class="connected_users" v-if="connectedUsers">
+      Online Users: {{ connectedUsers.length }}
+    </div>
   </div>
 </template>
 
@@ -32,37 +32,28 @@ export default {
     this.socket = this.$nuxtSocket({
       channel: '/',
     })
-    this.socket.on('onlineUsers', async (data) => {
-      console.log('triggered')
+    this.socket.emit('connection')
+    this.socket.on('connectedUsers', async (data) => {
       if (data) {
-        const onlineUsers = Object.values(data)
-        this.setOnlineUsers(onlineUsers)
+        this.setConnectedUsers(data)
       }
     })
   },
   computed: {
     ...mapGetters({
-      onlineUsers: 'user/onlineUsers',
+      connectedUsers: 'user/connectedUsers',
     }),
-    isAuthPage() {
-      const name = this.$route.name
-      if (name === 'login' || name === 'register') {
-        return true
-      } else {
-        return false
-      }
-    },
   },
   methods: {
     ...mapMutations({
-      setOnlineUsers: 'user/setOnlineUsers',
+      setConnectedUsers: 'user/setConnectedUsers',
     }),
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.online_users {
+.connected_users {
   position: absolute;
   right: 10px;
   bottom: 10px;

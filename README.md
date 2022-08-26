@@ -8,7 +8,7 @@ dark-light theme \*
 
 fixed time when gane is over \*
 
-kullanıcının uygulamaya girmesi ile oyuna girmesi farklı şeyler, socketin baglantı yerini degiştirdigimiz defaultun veya boardın destroyed fonksiyonuna yeni bir disconnect socketi gelmesi lazım
+kullanıcının uygulamaya girmesi ile oyuna girmesi farklı şeyler, socketin baglantı yerini degiştirdigimiz defaultun veya boardın destroyed fonksiyonuna yeni bir disconnect socketi gelmesi lazım \*
 
 ## Build Setup
 
