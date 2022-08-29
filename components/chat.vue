@@ -39,7 +39,7 @@ export default {
     }
   },
   mounted() {
-    this.socket = this.$parent.socket
+    this.socket = this.$parent.$parent.$parent.socket
     this.socket.on('chat', async (msg) => {
       if (msg) {
         this.chat = msg.chat

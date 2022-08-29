@@ -10,6 +10,10 @@ fixed time when gane is over \*
 
 kullanıcının uygulamaya girmesi ile oyuna girmesi farklı şeyler, socketin baglantı yerini degiştirdigimiz defaultun veya boardın destroyed fonksiyonuna yeni bir disconnect socketi gelmesi lazım \*
 
+will solve play with friend after the created \*/
+
+features that will added - remove chart - remove invite section in \_id compoennt when other player joined the game
+
 ## Build Setup
 
 ```bash

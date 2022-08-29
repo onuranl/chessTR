@@ -14,12 +14,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="content pools">
-      <div>
-        <div class="clock">1+0</div>
-        <div class="perf">bullet</div>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -100,9 +94,5 @@ export default {
 
 .pool {
   padding: 20px;
-}
-
-.cursor-pointer {
-  cursor: pointer;
 }
 </style>

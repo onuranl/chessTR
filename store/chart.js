@@ -80,10 +80,12 @@ const chart = {
         console.log({ error })
       }
     },
-    async createChart() {
+    async createChart({ context }, mod) {
+      const endpoint = mod === 'public' ? '/chart/public' : '/chart'
+
       try {
         await axios
-          .post(baseURL + '/chart')
+          .post(baseURL + endpoint)
           .then((result) => {
             if (result) {
               this.app.router.push('chart/' + result.data._id)

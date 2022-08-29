@@ -1,7 +1,13 @@
 const chart_model = require('../models/chart')
 
-async function get() {
-  return await chart_model.find({})
+async function get(isPublic) {
+  if (isPublic) {
+    return await chart_model
+      .find({ public: true, users: { $size: 1 } })
+      .populate('users.user', 'email')
+  } else {
+    return await chart_model.find({})
+  }
 }
 
 async function getByID(id) {

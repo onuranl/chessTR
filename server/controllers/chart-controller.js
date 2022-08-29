@@ -1,8 +1,10 @@
 const chart_service = require('../services/chart-service')
 
 async function get(req, res) {
+  const isPublic = req.route.path.indexOf('public') !== -1
+
   try {
-    const result = await chart_service.get()
+    const result = await chart_service.get(isPublic)
 
     return res.status(200).json(result)
   } catch (error) {

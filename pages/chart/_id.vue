@@ -1,5 +1,5 @@
 <template>
-  <div v-if="chart" id="app" class="container">
+  <div v-if="!inviteSection && chart" id="app" class="container">
     <div class="d-flex justify-content-between">
       <chat class="chat-board" />
       <div class="game">
@@ -12,23 +12,67 @@
     </div>
     <!-- <user-info v-else :users="chart.users" /> -->
   </div>
-  <div v-else class="loading-page">
-    <p>Loading...</p>
+  <div v-else>
+    <div class="invite text-secondary">
+      <h3>Challange to game</h3>
+      <div class="invite-main my-4">
+        <p>To invite someone to play, give this URL:</p>
+        <div class="d-flex align-items-center my-3">
+          <vs-input state="success" v-model="url" readonly />
+          <vs-button
+            class="mb-0"
+            icon
+            active
+            :disabled="copied"
+            @click="copyUrl"
+          >
+            <copy-icon v-if="!copied" size="1.5x" class="cursor-pointer" />
+            <check-icon v-else size="1.5x" class="cursor-pointer"></check-icon>
+          </vs-button>
+        </div>
+        <p>The first person to come to this URL will play with you.</p>
+      </div>
+      <div class="d-flex justify-content-center align-items-center">
+        <vs-button danger border class="text-white" active>
+          <x-icon size="1.5x" class="mr-1"></x-icon> CANCEL
+        </vs-button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { XIcon, CopyIcon, CheckIcon } from 'vue-feather-icons'
+
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
+  components: {
+    XIcon,
+    CopyIcon,
+    CheckIcon,
+  },
   data() {
     return {
       socket: null,
+      inviteSection: false,
+      url: window.location.origin + this.$route.path,
+      copied: false,
     }
   },
   created() {
+    const loading = this.$vs.loading()
     this.setChartID(this.$route.params.id)
-    this.getChart()
+    this.getChart().then(() => {
+      if (this.chart) {
+        this.publicController()
+        loading.close()
+      } else {
+        loading.close()
+        this.openNotification('top-right', 'danger')
+        this.$router.push('/')
+      }
+    })
   },
   mounted() {
     this.socket = this.$parent.$parent.socket
@@ -42,6 +86,7 @@ export default {
   computed: {
     ...mapGetters({
       chart: 'chart/chart',
+      chartID: 'chart/chartID',
       onlineUsers: 'user/onlineUsers',
       isOtherUserOnline: 'user/isOtherUserOnline',
     }),
@@ -52,6 +97,34 @@ export default {
       setOnlineUsers: 'user/setOnlineUsers',
     }),
     ...mapActions({ getChart: 'chart/getChart' }),
+    publicController() {
+      console.log('chart', this.chart)
+      console.log('public', !this.chart.public)
+      console.log('users', this.chart.users.length === 1)
+      if (
+        this.chart &&
+        !this.chart.public &&
+        (!this.chart.users.length || this.chart.users.length === 1)
+      ) {
+        this.inviteSection = true
+      } else {
+        this.inviteSection = false
+      }
+    },
+    copyUrl() {
+      navigator.clipboard.writeText(this.url)
+
+      this.copied = true
+    },
+    openNotification(position = null, color) {
+      this.$vs.notification({
+        progress: 'auto',
+        color,
+        position,
+        title: 'Wrong id',
+        text: `There is no chart for this id (${this.chartID})`,
+      })
+    },
   },
 }
 </script>
@@ -75,16 +148,20 @@ export default {
   margin-right: 25px;
 }
 
-.loading-page {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  padding-top: 200px;
-  font-size: 30px;
-  font-family: sans-serif;
+.invite {
+  background: #262421;
+  box-shadow: 0 2px 2px 0rgba (0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  border-radius: 3px;
+  padding: 36px 48px;
+  &-main {
+    padding: 20px;
+    background: #302e2c;
+    border-radius: 3px;
+  }
+}
+
+p {
+  margin: 0px;
 }
 </style>

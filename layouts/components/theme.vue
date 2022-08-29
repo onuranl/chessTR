@@ -29,7 +29,10 @@ export default {
       immediate: true,
       handler(newVal, oldVal) {
         if (newVal) {
-          if (oldVal !== undefined) {
+          if (
+            oldVal !== undefined &&
+            localStorage.getItem('vsTheme') !== null
+          ) {
             this.$vs.toggleTheme()
           } else {
             document.body.setAttribute('vs-theme', 'dark')

@@ -58,7 +58,7 @@ export default {
     }
   },
   mounted() {
-    this.socket = this.$parent.socket
+    this.socket = this.$parent.$parent.$parent.socket
     if (this.hasTheMatchStarted) {
       if (this.isOtherUserOnline) {
         this.getTimeByOtherUser()

@@ -11,7 +11,6 @@
       :fen="chart.chartHistory.fen"
       :orientation="users.currentUser.color || 'white'"
     />
-    <button @click="quitFromGame">quit</button>
   </div>
 </template>
 
@@ -30,7 +29,7 @@ export default {
     }
   },
   mounted() {
-    this.socket = this.$parent.socket
+    this.socket = this.$parent.$parent.$parent.socket
     this.socket.emit('join', {
       chartID: this.chartID,
       user: this.user._id,

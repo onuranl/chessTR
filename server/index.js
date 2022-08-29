@@ -38,7 +38,9 @@ io.on('connection', (socket) => {
   var chartID = null
   var user = null
 
-  socket.on('connection', async (user) => {
+  socket.on('connection', () => {
+    console.log('a user ' + socket.id + ' connected')
+
     connectedUsers.push(socket.id)
     io.emit('connectedUsers', connectedUsers)
   })
@@ -47,7 +49,7 @@ io.on('connection', (socket) => {
     user = userInfo.user
     chartID = userInfo.chartID
 
-    console.log('a user ' + user + ' joined the game')
+    console.log('user ' + user + ' joined the game')
 
     socket.join(chartID)
 
@@ -107,6 +109,8 @@ io.on('connection', (socket) => {
 
     delete onlineUsers[socket.id]
     io.sockets.in(chartID).emit('onlineUsers', onlineUsers)
+
+    chartID = null
   })
 
   socket.on('disconnect', () => {
@@ -118,6 +122,15 @@ io.on('connection', (socket) => {
     }
 
     io.emit('connectedUsers', connectedUsers)
+
+    if (chartID) {
+      console.log('user ' + onlineUsers[socket.id] + ' quit from game')
+
+      delete onlineUsers[socket.id]
+      io.sockets.in(chartID).emit('onlineUsers', onlineUsers)
+
+      chartID = null
+    }
   })
 
   socket.on('moveOn', async (msg) => {

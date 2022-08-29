@@ -42,6 +42,11 @@ const routes = [
         method: 'get',
       },
       {
+        path: '/public',
+        handler: chart_controller.get,
+        method: 'get',
+      },
+      {
         path: '/:id',
         handler: chart_controller.getByID,
         method: 'get',
