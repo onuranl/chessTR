@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!inviteSection && chart" id="app" class="container">
+  <div v-if="chart && !inviteSection" id="app" class="container">
     <div class="d-flex justify-content-between">
       <chat class="chat-board" />
       <div class="game">
@@ -12,7 +12,7 @@
     </div>
     <!-- <user-info v-else :users="chart.users" /> -->
   </div>
-  <div v-else>
+  <div v-else-if="inviteSection">
     <div class="invite text-secondary">
       <h3>Challange to game</h3>
       <div class="invite-main my-4">
@@ -60,7 +60,7 @@ export default {
       copied: false,
     }
   },
-  created() {
+  fetch() {
     const loading = this.$vs.loading()
     this.setChartID(this.$route.params.id)
     this.getChart().then(() => {
@@ -98,9 +98,6 @@ export default {
     }),
     ...mapActions({ getChart: 'chart/getChart' }),
     publicController() {
-      console.log('chart', this.chart)
-      console.log('public', !this.chart.public)
-      console.log('users', this.chart.users.length === 1)
       if (
         this.chart &&
         !this.chart.public &&

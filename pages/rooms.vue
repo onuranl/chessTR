@@ -54,8 +54,10 @@ export default {
     page: 1,
     max: 5,
   }),
-  async asyncData({ $axios }) {
+  async asyncData({ $axios, app }) {
+    const loading = app.router.app.$vs.loading()
     const rooms = await $axios.$get('/chart/public')
+    loading.close()
     return { rooms }
   },
   methods: {
