@@ -1,5 +1,9 @@
 <template>
-  <div v-if="chart && !inviteSection" id="app" class="container">
+  <div
+    v-if="chart && (!inviteSection || !inviteSectionControl)"
+    id="app"
+    class="container"
+  >
     <div class="d-flex justify-content-between">
       <chat class="chat-board" />
       <div class="game">
@@ -33,7 +37,7 @@
         <p>The first person to come to this URL will play with you.</p>
       </div>
       <div class="d-flex justify-content-center align-items-center">
-        <vs-button danger border class="text-white" active>
+        <vs-button @click="deleteChart" danger border class="text-white" active>
           <x-icon size="1.5x" class="mr-1"></x-icon> CANCEL
         </vs-button>
       </div>
@@ -55,31 +59,24 @@ export default {
   data() {
     return {
       socket: null,
-      inviteSection: false,
       url: window.location.origin + this.$route.path,
       copied: false,
+      inviteSectionControl: true,
     }
   },
   fetch() {
-    const loading = this.$vs.loading()
     this.setChartID(this.$route.params.id)
-    this.getChart().then(() => {
-      if (this.chart) {
-        this.publicController()
-        loading.close()
-      } else {
-        loading.close()
-        this.openNotification('top-right', 'danger')
-        this.$router.push('/')
-      }
-    })
+    this.getChart()
   },
   mounted() {
     this.socket = this.$parent.$parent.socket
+    this.socket.emit('joinAttempt', this.chartID)
     this.socket.on('onlineUsers', async (data) => {
       if (data) {
         const onlineUsers = Object.values(data)
         this.setOnlineUsers(onlineUsers)
+      } else {
+        this.inviteSectionControl = false
       }
     })
   },
@@ -87,6 +84,8 @@ export default {
     ...mapGetters({
       chart: 'chart/chart',
       chartID: 'chart/chartID',
+      inviteSection: 'chart/inviteSection',
+      users: 'chart/users',
       onlineUsers: 'user/onlineUsers',
       isOtherUserOnline: 'user/isOtherUserOnline',
     }),
@@ -96,31 +95,14 @@ export default {
       setChartID: 'chart/setChartID',
       setOnlineUsers: 'user/setOnlineUsers',
     }),
-    ...mapActions({ getChart: 'chart/getChart' }),
-    publicController() {
-      if (
-        this.chart &&
-        !this.chart.public &&
-        (!this.chart.users.length || this.chart.users.length === 1)
-      ) {
-        this.inviteSection = true
-      } else {
-        this.inviteSection = false
-      }
-    },
+    ...mapActions({
+      getChart: 'chart/getChart',
+      deleteChart: 'chart/deleteChart',
+    }),
     copyUrl() {
       navigator.clipboard.writeText(this.url)
 
       this.copied = true
-    },
-    openNotification(position = null, color) {
-      this.$vs.notification({
-        progress: 'auto',
-        color,
-        position,
-        title: 'Wrong id',
-        text: `There is no chart for this id (${this.chartID})`,
-      })
     },
   },
 }

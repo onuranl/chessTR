@@ -45,13 +45,30 @@ io.on('connection', (socket) => {
     io.emit('connectedUsers', connectedUsers)
   })
 
+  socket.on('joinAttempt', async (id) => {
+    chartID = id
+
+    socket.join(chartID)
+
+    const data = await chart_model.findById(chartID)
+    const sockets = await io.of('/').in(chartID).allSockets()
+
+    var socketNumber = 0
+
+    for (client of sockets) {
+      socketNumber++
+    }
+
+    if (socketNumber === 2 && data.users.length !== 2) {
+      io.sockets.in(chartID).emit('onlineUsers')
+    }
+  })
+
   socket.on('join', async (userInfo) => {
     user = userInfo.user
     chartID = userInfo.chartID
 
     console.log('user ' + user + ' joined the game')
-
-    socket.join(chartID)
 
     onlineUsers[socket.id] = user
     io.sockets.in(chartID).emit('onlineUsers', onlineUsers)

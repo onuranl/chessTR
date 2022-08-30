@@ -30,6 +30,10 @@ async function update(id, chart) {
   return await chart_model.findOneAndUpdate({ _id: id }, chart)
 }
 
+async function remove(id) {
+  return await chart_model.deleteOne({ _id: id })
+}
+
 async function updateTime(id, data) {
   var chart = await getByID(id)
   chart.users.map((userInfo) => {
@@ -38,4 +42,4 @@ async function updateTime(id, data) {
   return await update(id, chart)
 }
 
-module.exports = { get, getByID, create, update, updateTime }
+module.exports = { get, getByID, create, update, remove, updateTime }

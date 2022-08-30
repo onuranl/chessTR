@@ -3,20 +3,28 @@ import config from '../nuxt.config.js'
 
 const baseURL = config ? config.axios.baseURL : ''
 
+var notiPayload = {
+  color: null,
+  title: null,
+  text: null,
+}
+
 const chart = {
-  state: {
+  state: () => ({
     chartID: null,
     chart: null,
     users: null,
     started: false,
     color: null,
-  },
+    inviteSection: null,
+  }),
   getters: {
     chartID: (state) => state.chartID,
     chart: (state) => state.chart,
     users: (state) => state.users,
     color: (state) => state.color,
     hasTheMatchStarted: (state) => state.chart.chartHistory.history.length >= 2,
+    inviteSection: (state) => state.inviteSection,
   },
   mutations: {
     setChartID(state, data) {
@@ -59,9 +67,17 @@ const chart = {
         state.color = color(['white', 'black'])
       }
     },
+    setInviteSection(state, data) {
+      if (state.chart && !state.chart.public && !state.users.otherUser) {
+        state.inviteSection = true
+      } else {
+        state.inviteSection = false
+      }
+    },
   },
   actions: {
     async getChart({ commit, state }) {
+      const loading = this.app.router.app.$vs.loading()
       try {
         await axios
           .get(baseURL + '/chart/' + state.chartID)
@@ -69,16 +85,20 @@ const chart = {
             if (result) {
               commit('setChart', result.data)
               commit('setUsers')
-            } else {
-              console.log('there is no chart for this id')
+              commit('setInviteSection')
             }
           })
           .catch((err) => {
-            console.log({ err })
+            notiPayload.text = err.response.data.error
+            window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+            this.app.router.push('/')
           })
       } catch (error) {
-        console.log({ error })
+        notiPayload.text = error
+        window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+        this.app.router.push('/')
       }
+      loading.close()
     },
     async createChart({ context }, mod) {
       const endpoint = mod === 'public' ? '/chart/public' : '/chart'
@@ -92,10 +112,38 @@ const chart = {
             }
           })
           .catch((err) => {
-            console.log({ err })
+            notiPayload.text = err.response.data.error
+            window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+            this.app.router.push('/')
           })
       } catch (error) {
-        console.log({ error })
+        notiPayload.text = error
+        window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+        this.app.router.push('/')
+      }
+    },
+    async deleteChart({ state }) {
+      try {
+        await axios
+          .delete(baseURL + '/chart/' + state.chartID)
+          .then((result) => {
+            if (result.status === 200) {
+              notiPayload.color = 'success'
+              notiPayload.title = 'Canceled'
+              notiPayload.text = result.data
+              window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+              this.app.router.push('/')
+            }
+          })
+          .catch((err) => {
+            notiPayload.text = err.response.data.error
+            window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+            this.app.router.push('/')
+          })
+      } catch (error) {
+        notiPayload.text = error
+        window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+        this.app.router.push('/')
       }
     },
   },

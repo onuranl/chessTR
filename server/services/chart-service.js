@@ -16,8 +16,12 @@ async function update(id, chart) {
   return await chart_repository.update(id, chart)
 }
 
+async function remove(id) {
+  return await chart_repository.remove(id)
+}
+
 async function updateTime(id, data) {
   return await chart_repository.updateTime(id, data)
 }
 
-module.exports = { get, getByID, create, update, updateTime }
+module.exports = { get, getByID, create, update, remove, updateTime }

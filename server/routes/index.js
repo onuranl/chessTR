@@ -67,6 +67,11 @@ const routes = [
         method: 'put',
       },
       {
+        path: '/:id',
+        handler: chart_controller.remove,
+        method: 'delete',
+      },
+      {
         path: '/update-time/:id',
         handler: chart_controller.updateTime,
         method: 'put',

@@ -4,9 +4,9 @@ import config from '../nuxt.config.js'
 const baseURL = config ? config.axios.baseURL : ''
 
 const auth = {
-  state: {
+  state: () => ({
     user: null,
-  },
+  }),
   getters: {
     isAuthenticated: (state) => !!state.user,
     stateUser: (state) => state.user,
@@ -52,7 +52,10 @@ const auth = {
           }
           this.app.$cookies.set('authToken', token)
         } catch (error) {
-          console.log({ error })
+          const notiPayload = {
+            text: error,
+          }
+          window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
           commit('logOut')
         }
       }

@@ -1,10 +1,10 @@
 const user = {
-  state: {
+  state: () => ({
     userInfo: null,
     connectedUsers: null,
     onlineUsers: null,
     isOtherUserOnline: null,
-  },
+  }),
   getters: {
     userInfo: (state) => state.userInfo,
     connectedUsers: (state) => state.connectedUsers,
