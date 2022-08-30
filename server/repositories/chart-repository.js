@@ -1,9 +1,9 @@
 const chart_model = require('../models/chart')
 
-async function get(isPublic) {
-  if (isPublic) {
+async function get(public) {
+  if (public) {
     return await chart_model
-      .find({ public: true, users: { $size: 1 } })
+      .find({ private: false, users: { $size: 1 } })
       .populate('users.user', 'email')
   } else {
     return await chart_model.find({})
@@ -17,8 +17,12 @@ async function getByID(id) {
 async function create(chart) {
   var createdChart = await chart_model.create(chart)
 
-  if (chart.isPublic) {
-    createdChart.public = true
+  if (chart.private) {
+    createdChart.private = true
+    await update(createdChart._id, createdChart)
+    return await getByID(createdChart._id)
+  } else if (chart.ai) {
+    createdChart.ai = true
     await update(createdChart._id, createdChart)
     return await getByID(createdChart._id)
   } else {

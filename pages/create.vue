@@ -87,7 +87,7 @@ export default {
       mods: [
         { name: 'Create a game', value: 'public' },
         { name: 'Play with a friend', value: 'private' },
-        { name: 'Play with the computer', value: 'offline' },
+        { name: 'Play with the computer', value: 'ai' },
       ],
       colors: ['black', 'random', 'white'],
     }

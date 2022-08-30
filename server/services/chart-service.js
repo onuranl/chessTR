@@ -1,7 +1,7 @@
 const chart_repository = require('../repositories/chart-repository')
 
-async function get(isPublic) {
-  return await chart_repository.get(isPublic)
+async function get(public) {
+  return await chart_repository.get(public)
 }
 
 async function getByID(id) {

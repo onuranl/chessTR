@@ -1,10 +1,10 @@
 const chart_service = require('../services/chart-service')
 
 async function get(req, res) {
-  const isPublic = req.route.path.indexOf('public') !== -1
+  const public = req.route.path.indexOf('public') !== -1
 
   try {
-    const result = await chart_service.get(isPublic)
+    const result = await chart_service.get(public)
 
     return res.status(200).json(result)
   } catch (error) {
@@ -34,13 +34,15 @@ async function getByID(req, res) {
 }
 
 async function create(req, res) {
-  const isPublic = req.route.path.indexOf('public') !== -1
+  const private = req.route.path.indexOf('private') !== -1
+  const ai = req.route.path.indexOf('ai') !== -1
 
   const { chartHistory } = req.body
 
   const payload = {
     chartHistory,
-    isPublic,
+    private,
+    ai,
   }
 
   try {
@@ -55,14 +57,8 @@ async function create(req, res) {
 }
 
 async function update(req, res) {
-  const { chart } = req.body
-
-  const payload = {
-    chart,
-  }
-
   try {
-    await chart_service.update(req.params.id, payload)
+    await chart_service.update(req.params.id, req.body)
 
     return res.status(200).json('Successfully updated')
   } catch (error) {

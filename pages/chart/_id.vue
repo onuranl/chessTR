@@ -7,7 +7,8 @@
     <div class="d-flex justify-content-between">
       <chat class="chat-board" />
       <div class="game">
-        <game />
+        <game v-if="!chart.ai" />
+        <ai v-else />
       </div>
       <board
         v-if="onlineUsers !== null && isOtherUserOnline !== null"
@@ -50,11 +51,14 @@ import { XIcon, CopyIcon, CheckIcon } from 'vue-feather-icons'
 
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
+import Ai from '~/components/game/ai.vue'
+
 export default {
   components: {
     XIcon,
     CopyIcon,
     CheckIcon,
+    Ai,
   },
   data() {
     return {
@@ -65,8 +69,10 @@ export default {
     }
   },
   fetch() {
+    const loading = this.$vs.loading()
     this.setChartID(this.$route.params.id)
     this.getChart()
+    loading.close()
   },
   mounted() {
     this.socket = this.$parent.$parent.socket

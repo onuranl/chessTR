@@ -54,10 +54,20 @@ const ChartSchema = new mongoose.Schema(
       },
     ],
     chat: [MessageSchema],
-    public: {
+    private: {
       type: Boolean,
       required: false,
       default: false,
+    },
+    ai: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    aiColor: {
+      type: String,
+      required: false,
+      default: null,
     },
   },
   { timestamps: true }

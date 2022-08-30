@@ -59,7 +59,7 @@ const chart = {
       }
     },
     setColor(state, data) {
-      if (data) {
+      if (data !== 'random') {
         state.color = data
       } else {
         const color = (arr) => arr[Math.floor(Math.random() * arr.length)]
@@ -68,7 +68,7 @@ const chart = {
       }
     },
     setInviteSection(state, data) {
-      if (state.chart && !state.chart.public && !state.users.otherUser) {
+      if (state.chart && state.chart.private && !state.users.otherUser) {
         state.inviteSection = true
       } else {
         state.inviteSection = false
@@ -77,7 +77,6 @@ const chart = {
   },
   actions: {
     async getChart({ commit, state }) {
-      const loading = this.app.router.app.$vs.loading()
       try {
         await axios
           .get(baseURL + '/chart/' + state.chartID)
@@ -98,10 +97,14 @@ const chart = {
         window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
         this.app.router.push('/')
       }
-      loading.close()
     },
     async createChart({ context }, mod) {
-      const endpoint = mod === 'public' ? '/chart/public' : '/chart'
+      const endpoint =
+        mod === 'private'
+          ? '/chart/private'
+          : mod === 'ai'
+          ? '/chart/ai'
+          : '/chart'
 
       try {
         await axios
@@ -111,6 +114,22 @@ const chart = {
               this.app.router.push('chart/' + result.data._id)
             }
           })
+          .catch((err) => {
+            notiPayload.text = err.response.data.error
+            window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+            this.app.router.push('/')
+          })
+      } catch (error) {
+        notiPayload.text = error
+        window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+        this.app.router.push('/')
+      }
+    },
+    async updateChart({ state }, chart) {
+      try {
+        await axios
+          .put(baseURL + '/chart/' + state.chartID, chart)
+          .then()
           .catch((err) => {
             notiPayload.text = err.response.data.error
             window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)

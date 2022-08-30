@@ -59,7 +59,7 @@ io.on('connection', (socket) => {
       socketNumber++
     }
 
-    if (socketNumber === 2 && data.users.length !== 2) {
+    if (socketNumber === 2 && data.private && data.users.length !== 2) {
       io.sockets.in(chartID).emit('onlineUsers')
     }
   })
