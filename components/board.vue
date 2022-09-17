@@ -12,9 +12,18 @@
       <b-card>
         <template #header>
           <div class="d-flex align-items-center">
-            <span class="dot" :class="isOtherUserOnline ? 'bg-success' : ''" />
+            <span
+              class="dot"
+              :class="isOtherUserOnline || chart.ai ? 'bg-success' : ''"
+            />
             <div class="ml-2">
-              {{ users.otherUser ? users.otherUser.email : '----' }}
+              {{
+                chart.ai
+                  ? 'Computer'
+                  : users.otherUser
+                  ? users.otherUser.email
+                  : '----'
+              }}
             </div>
           </div>
         </template>
@@ -28,7 +37,13 @@
           <div class="d-flex align-items-center">
             <span class="dot bg-success" />
             <span class="ml-2">
-              {{ users.currentUser ? users.currentUser.email : '----' }}
+              {{
+                chart.ai
+                  ? stateUser.email
+                  : users.currentUser
+                  ? users.currentUser.email
+                  : '----'
+              }}
             </span>
           </div>
         </template>
@@ -58,6 +73,10 @@ export default {
     }
   },
   mounted() {
+    if (this.chart.ai) {
+      this.currentUserElapsedTime = this.chart.aiTime
+      return
+    }
     this.socket = this.$parent.$parent.$parent.socket
     if (this.hasTheMatchStarted) {
       if (this.isOtherUserOnline) {
@@ -82,7 +101,7 @@ export default {
     })
   },
   beforeDestroy() {
-    if (!this.isOtherUserOnline && this.hasTheMatchStarted) {
+    if (!this.isOtherUserOnline && this.hasTheMatchStarted && !this.chart.ai) {
       this.updateTime()
     }
   },
@@ -91,19 +110,29 @@ export default {
       immediate: true,
       deep: true,
       handler(turn) {
-        const currentUserColor = this.users.currentUser
-          ? this.users.currentUser.color
-          : null
-        const otherUserColor = this.users.otherUser
-          ? this.users.otherUser.color
-          : null
-        if (this.chart && this.hasTheMatchStarted) {
-          if (turn === currentUserColor || turn !== otherUserColor) {
+        if (this.chart.ai) {
+          const currentUserColor = this.color || this.chart.aiColor
+
+          if (turn === currentUserColor) {
             this.startCurrentUserTimer()
-            this.stopOtherUserTimer()
           } else {
-            this.startOtherUserTimer()
             this.stopCurrentUserTimer()
+          }
+        } else {
+          const currentUserColor = this.users.currentUser
+            ? this.users.currentUser.color
+            : null
+          const otherUserColor = this.users.otherUser
+            ? this.users.otherUser.color
+            : null
+          if (this.chart && this.hasTheMatchStarted) {
+            if (turn === currentUserColor || turn !== otherUserColor) {
+              this.startCurrentUserTimer()
+              this.stopOtherUserTimer()
+            } else {
+              this.startOtherUserTimer()
+              this.stopCurrentUserTimer()
+            }
           }
         }
       },
@@ -111,6 +140,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      stateUser: 'auth/stateUser',
       chart: 'chart/chart',
       users: 'chart/users',
       chartID: 'chart/chartID',

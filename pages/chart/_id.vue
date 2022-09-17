@@ -11,11 +11,10 @@
         <ai v-else />
       </div>
       <board
-        v-if="onlineUsers !== null && isOtherUserOnline !== null"
+        v-if="(onlineUsers !== null && isOtherUserOnline !== null) || chart.ai"
         ref="boardDetails"
       />
     </div>
-    <!-- <user-info v-else :users="chart.users" /> -->
   </div>
   <div v-else-if="inviteSection">
     <div class="invite text-secondary">
@@ -49,16 +48,16 @@
 <script>
 import { XIcon, CopyIcon, CheckIcon } from 'vue-feather-icons'
 
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import ai from '~/components/game/ai'
 
-import Ai from '~/components/game/ai.vue'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   components: {
     XIcon,
     CopyIcon,
     CheckIcon,
-    Ai,
+    ai,
   },
   data() {
     return {

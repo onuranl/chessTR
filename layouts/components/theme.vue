@@ -21,7 +21,7 @@ export default {
   },
   data() {
     return {
-      dark: localStorage.getItem('vsTheme') === 'dark' ? true : false,
+      dark: localStorage.getItem('vsTheme') === null ? true : localStorage.getItem('vsTheme') === 'dark' ? true : false,
     }
   },
   watch: {

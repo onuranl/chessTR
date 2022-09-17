@@ -23,7 +23,8 @@ const chart = {
     chart: (state) => state.chart,
     users: (state) => state.users,
     color: (state) => state.color,
-    hasTheMatchStarted: (state) => state.chart.chartHistory.history.length >= 2,
+    hasTheMatchStarted: (state) =>
+      state.chart.chartHistory.history?.length >= 2,
     inviteSection: (state) => state.inviteSection,
   },
   mutations: {

@@ -9,15 +9,15 @@
             @click="$refs.sidebar._data.activeSidebar = true"
           ></menu-icon>
         </div>
-        <div v-else class="d-flex">
+        <div v-else class="d-flex align-items-center">
           <div
             class="logo"
             style="background: url(/icon.png) no-repeat center center"
             alt=""
           />
-          <div class="d-flex ml-2">
+          <div class="d-flex align-items-center ml-2">
             <span>chess</span>
-            <span class="h5">TR</span>
+            <span class="h4 mb-0">TR</span>
           </div>
         </div>
       </template>

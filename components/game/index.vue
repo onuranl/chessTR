@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="chart.chartHistory && users.currentUser"
-    class="main"
+    class="d-flex flex-column justify-content-center align-items-center"
     :class="
       users.currentUser.color !== chart.chartHistory.turn ? 'disable' : ''
     "
@@ -82,13 +82,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
 ::v-deep .cg-board-wrap {
   width: 630px;
   height: 630px;

@@ -41,7 +41,7 @@ const ChartSchema = new mongoose.Schema(
         time: {
           type: Number,
           default: 300000,
-          required: true,
+          required: false,
         },
       },
       { _id: false },
@@ -68,6 +68,11 @@ const ChartSchema = new mongoose.Schema(
       type: String,
       required: false,
       default: null,
+    },
+    aiTime: {
+      type: Number,
+      default: 300000,
+      required: false,
     },
   },
   { timestamps: true }

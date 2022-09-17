@@ -12,7 +12,9 @@ kullanıcının uygulamaya girmesi ile oyuna girmesi farklı şeyler, socketin b
 
 will solve play with friend after the created \*/
 
-features that will added --> remove chart - remove invite section in \_id compoennt when other player joined the game
+features that will added --> remove chart - remove invite section in \_id compoennt when other player joined the game \*
+
+will handle time states when chart ai is true and make sure save properly when quit \*
 
 ## Build Setup
 
