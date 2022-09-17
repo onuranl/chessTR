@@ -47,7 +47,7 @@ export default {
         },
         {
           clock: '5+3',
-          perf: 'bullet',
+          perf: 'blitz',
         },
         {
           clock: '10+0',
@@ -94,5 +94,10 @@ export default {
 
 .pool {
   padding: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  &:hover {
+    background: rgb(236, 105, 0);
+  }
 }
 </style>

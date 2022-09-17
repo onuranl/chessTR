@@ -25,7 +25,11 @@ const chart = {
     color: (state) => state.color,
     hasTheMatchStarted: (state) =>
       state.chart.chartHistory.history?.length >= 2,
-    inviteSection: (state) => state.inviteSection,
+    inviteSection: (state) =>
+      state.chart &&
+      state.chart.private &&
+      !state.chart.ai &&
+      !state.users.otherUser,
   },
   mutations: {
     setChartID(state, data) {
@@ -68,13 +72,6 @@ const chart = {
         state.color = color(['white', 'black'])
       }
     },
-    setInviteSection(state, data) {
-      if (state.chart && state.chart.private && !state.users.otherUser) {
-        state.inviteSection = true
-      } else {
-        state.inviteSection = false
-      }
-    },
   },
   actions: {
     async getChart({ commit, state }) {
@@ -85,7 +82,6 @@ const chart = {
             if (result) {
               commit('setChart', result.data)
               commit('setUsers')
-              commit('setInviteSection')
             }
           })
           .catch((err) => {

@@ -23,6 +23,7 @@ async function create(chart) {
     return await getByID(createdChart._id)
   } else if (chart.ai) {
     createdChart.ai = true
+    createdChart.private = true
     await update(createdChart._id, createdChart)
     return await getByID(createdChart._id)
   } else {
