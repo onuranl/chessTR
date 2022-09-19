@@ -1,6 +1,6 @@
 <template>
   <div>
-    <vs-table class="text-white" style="width: 600px">
+    <vs-table class="text-white" style="max-width: 600px">
       <template #thead>
         <vs-tr>
           <vs-th> Email </vs-th>
