@@ -15,13 +15,16 @@
 import { MoonIcon, SunIcon } from 'vue-feather-icons'
 
 export default {
+  name: 'Theme',
   components: {
     MoonIcon,
     SunIcon,
   },
   data() {
     return {
-      dark: localStorage.getItem('vsTheme') === null ? true : localStorage.getItem('vsTheme') === 'dark' ? true : false,
+      dark:
+        localStorage.getItem('vsTheme') === null ||
+        localStorage.getItem('vsTheme') === 'dark',
     }
   },
   watch: {

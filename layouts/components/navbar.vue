@@ -40,7 +40,7 @@
         </div>
       </template>
     </vs-navbar>
-    <SideBar ref="sidebar" />
+    <!-- <SideBar ref="sidebar" /> -->
   </div>
 </template>
 <script>

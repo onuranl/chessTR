@@ -72,7 +72,7 @@ export default {
     },
     messagesIsMine(message) {
       if (message) {
-        return message.authorID === this.stateUser.id ? true : false
+        return message.authorID === this.stateUser.id
       } else {
         return null
       }

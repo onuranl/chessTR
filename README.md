@@ -18,6 +18,8 @@ will handle time states when chart ai is true and make sure save properly when q
 
 matchmaking
 
+will edit sidebar
+
 ## Build Setup
 
 ```bash

@@ -15,7 +15,7 @@
           <lock-icon size="1x" class="custom-class"></lock-icon>
         </template>
       </vs-input>
-      <!-- <vs-checkbox class="mt-3" v-model="remember">Remember me</vs-checkbox> -->
+      <vs-checkbox class="mt-3" v-model="remember">Remember me</vs-checkbox>
     </div>
 
     <template #footer>
@@ -34,6 +34,8 @@ import { mapActions } from 'vuex'
 
 import { LockIcon, MailIcon } from 'vue-feather-icons'
 
+var CryptoJS = require('crypto-js')
+
 export default {
   name: 'login',
   layout: 'auth',
@@ -43,21 +45,49 @@ export default {
   },
   data() {
     return {
+      remember: false,
       active: true,
       form: {
-        email: 'onuro99cent@gmail.com',
-        password: 'sqtrbe123',
+        email: '',
+        password: '',
       },
+    }
+  },
+  created() {
+    if (this.$cookies.get('email') && this.$cookies.get('password')) {
+      const password = this.decrypt(this.$cookies.get('password'))
+
+      this.form.email = this.$cookies.get('email')
+      this.form.password = password
     }
   },
   methods: {
     ...mapActions({ logIn: 'auth/logIn' }),
+    encrypt: (clear) => {
+      var cipher = CryptoJS.AES.encrypt(clear, 'MUSTAFA KEMAL')
+      cipher = cipher.toString()
+      return cipher
+    },
+    decrypt: (cipher) => {
+      var decipher = CryptoJS.AES.decrypt(cipher, 'MUSTAFA KEMAL')
+      decipher = decipher.toString(CryptoJS.enc.Utf8)
+      return decipher
+    },
+    saveUser() {
+      const password = this.encrypt(this.form.password)
+
+      this.$cookies.set('email', this.form.email)
+      this.$cookies.set('password', password)
+    },
     submit() {
       const loading = this.$vs.loading()
 
       this.logIn(this.form)
         .then((response) => {
           if (response && response.status === 200) {
+            if (this.remember) {
+              this.saveUser()
+            }
             setInterval(() => {
               location.reload()
             }, 1000)

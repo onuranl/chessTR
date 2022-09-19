@@ -23,7 +23,6 @@ import { mapMutations, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      color: null,
       pools: [
         {
           clock: '1+0',
