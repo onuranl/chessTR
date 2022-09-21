@@ -16,9 +16,11 @@ features that will added --> remove chart - remove invite section in \_id compoe
 
 will handle time states when chart ai is true and make sure save properly when quit \*
 
-matchmaking
+matchmaking \*
 
 will edit sidebar
+
+serverjs'deki model çagırarak create ve update fonksiyonlarını vs. düzenle
 
 ## Build Setup
 

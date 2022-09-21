@@ -135,7 +135,7 @@
 
 <script>
 export default {
-  name: 'sidebar',
+  name: 'Sidebar',
   data: () => ({
     active: 'home',
     activeSidebar: false,

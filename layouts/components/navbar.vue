@@ -51,6 +51,7 @@ import SideBar from './sidebar.vue'
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
+  name: 'Navbar',
   data: () => ({
     active: 'create',
     clientWidth: document.body.clientWidth,
