@@ -10,7 +10,7 @@ async function createUser(user) {
 
   let userto = new user_model()
 
-  jwt.sign(userto.toJSON(), '123213123LASKDAŞLSKDAD%+%+%', {
+  jwt.sign(userto.toJSON(), process.env.TOKEN_SECRET, {
     expiresIn: 604800,
   })
 
@@ -23,4 +23,16 @@ async function login(user) {
   return foundUser
 }
 
-module.exports = { createUser, login, getUser }
+async function isUsernameTaken(username) {
+  let result = await user_model.findOne({ username: username })
+
+  return result !== null
+}
+
+async function isEmailExits(email) {
+  let result = await user_model.findOne({ email: email })
+
+  return result !== null
+}
+
+module.exports = { createUser, login, getUser, isUsernameTaken, isEmailExits }

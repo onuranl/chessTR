@@ -1,9 +1,10 @@
 const auth_service = require('../services/auth-service')
 
 async function register(req, res) {
-  const { email, password } = req.body
+  const { username, email, password } = req.body
 
   const payload = {
+    username,
     email,
     password,
   }

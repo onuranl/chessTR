@@ -22,6 +22,14 @@ will edit sidebar
 
 serverjs'deki model çagırarak create ve update fonksiyonlarını vs. düzenle
 
+profil page
+
+oyun kurarken süreye göre kurma
+
+arkadaş bölmesi ve arkadaş istegi için socket bildirimi
+
+özel mesaj için yeni bir feature
+
 ## Build Setup
 
 ```bash

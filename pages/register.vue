@@ -5,6 +5,11 @@
     </template>
 
     <div class="register-form">
+      <vs-input class="mb-2" v-model="form.username" placeholder="Username">
+        <template #icon>
+          <user-icon size="1x" class="custom-class"></user-icon>
+        </template>
+      </vs-input>
       <vs-input class="mb-2" v-model="form.email" placeholder="Email">
         <template #icon>
           <mail-icon size="1x" class="custom-class"></mail-icon>
@@ -20,7 +25,6 @@
           <lock-icon size="1x" class="custom-class"></lock-icon>
         </template>
       </vs-input>
-      <!-- <vs-checkbox class="mt-3" v-model="remember">Remember me</vs-checkbox> -->
     </div>
 
     <template #footer>
@@ -37,7 +41,7 @@
 <script>
 import { mapActions } from 'vuex'
 
-import { LockIcon, MailIcon } from 'vue-feather-icons'
+import { LockIcon, MailIcon, UserIcon } from 'vue-feather-icons'
 
 export default {
   name: 'register',
@@ -45,11 +49,13 @@ export default {
   components: {
     LockIcon,
     MailIcon,
+    UserIcon,
   },
   data() {
     return {
       active: true,
       form: {
+        username: '',
         email: '',
         password: '',
       },
@@ -95,15 +101,36 @@ export default {
   methods: {
     ...mapActions({ register: 'auth/register' }),
     async submit() {
-      try {
-        this.$vs.loading()
-        await this.register(this.form)
-        setInterval(() => {
-          location.reload()
-        }, 1000)
-      } catch (error) {
-        console.log({ error })
-      }
+      const loading = this.$vs.loading()
+
+      this.register(this.form)
+        .then((response) => {
+          if (response && response.status === 200) {
+            setInterval(() => {
+              location.reload()
+            }, 1000)
+          } else {
+            loading.close()
+            this.openNotification(
+              'top-center',
+              'danger',
+              'Hata',
+              response.data.error
+            )
+          }
+        })
+        .catch((err) => {
+          console.log({ err })
+          this.openNotification('top-center', 'danger', 'Hata', err)
+        })
+    },
+    openNotification(position = null, color, title, text) {
+      this.$vs.notification({
+        color,
+        position,
+        title,
+        text,
+      })
     },
   },
 }
