@@ -7,4 +7,11 @@ async function getUserByID(id) {
   return user
 }
 
-module.exports = { getUserByID }
+async function getUserByUsername(username) {
+  const user = await user_repository.getUserByUsername(username)
+
+  if (!user) throw new Error('Kullanıcı bulunamadı.')
+  return user
+}
+
+module.exports = { getUserByID, getUserByUsername }

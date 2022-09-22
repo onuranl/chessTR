@@ -34,6 +34,16 @@ const routes = [
     ],
   },
   {
+    path: '/user',
+    children: [
+      {
+        path: '/:slug',
+        handler: user_controller.getUserByUsername,
+        method: 'get',
+      },
+    ],
+  },
+  {
     path: '/chart',
     children: [
       {

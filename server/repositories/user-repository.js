@@ -5,6 +5,10 @@ async function getUser(id) {
   return await user_model.findOne({ _id: id })
 }
 
+async function getUserByUsername(username) {
+  return await user_model.findOne({ username: username })
+}
+
 async function createUser(user) {
   let result = await user_model.create(user)
 
@@ -35,4 +39,11 @@ async function isEmailExits(email) {
   return result !== null
 }
 
-module.exports = { createUser, login, getUser, isUsernameTaken, isEmailExits }
+module.exports = {
+  createUser,
+  login,
+  getUser,
+  getUserByUsername,
+  isUsernameTaken,
+  isEmailExits,
+}
