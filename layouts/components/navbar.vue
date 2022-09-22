@@ -35,9 +35,7 @@
           <vs-button flat>Login</vs-button>
           <vs-button>Get Started</vs-button>
         </div>
-        <div v-else>
-          <vs-button @click="logOut" flat>Logout</vs-button>
-        </div>
+        <userMenu v-else :username="stateUser.username" />
       </template>
     </vs-navbar>
     <!-- <SideBar ref="sidebar" /> -->
@@ -47,8 +45,9 @@
 import { MenuIcon } from 'vue-feather-icons'
 
 import SideBar from './sidebar.vue'
+import userMenu from '../../components/userMenu.vue'
 
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Navbar',
@@ -60,6 +59,7 @@ export default {
   components: {
     MenuIcon,
     SideBar,
+    userMenu,
   },
   created() {
     this.active = this.$route.name
@@ -70,10 +70,10 @@ export default {
   computed: {
     ...mapGetters({
       isAuthenticated: 'auth/isAuthenticated',
+      stateUser: 'auth/stateUser',
     }),
   },
   methods: {
-    ...mapMutations({ logOut: 'auth/logOut' }),
     handleResize() {
       this.clientWidth = document.body.clientWidth
       this.isMobile = document.body.clientWidth < 480
@@ -88,5 +88,9 @@ export default {
   width: 40px;
   background-size: cover !important;
   border-radius: 10px;
+}
+
+.user {
+  cursor: pointer;
 }
 </style>

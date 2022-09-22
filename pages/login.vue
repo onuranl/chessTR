@@ -45,7 +45,10 @@ export default {
   },
   data() {
     return {
-      remember: false,
+      remember:
+        this.$cookies.get('email') && this.$cookies.get('password')
+          ? true
+          : false,
       active: true,
       form: {
         email: '',
@@ -54,7 +57,7 @@ export default {
     }
   },
   created() {
-    if (this.$cookies.get('email') && this.$cookies.get('password')) {
+    if (this.remember) {
       const password = this.decrypt(this.$cookies.get('password'))
 
       this.form.email = this.$cookies.get('email')
