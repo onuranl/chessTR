@@ -30,6 +30,10 @@ arkadaş bölmesi ve arkadaş istegi için socket bildirimi
 
 özel mesaj için yeni bir feature
 
+en/tr lang
+
+profile page => created date, last online data, social medias, win lose draw, email vs.
+
 ## Build Setup
 
 ```bash

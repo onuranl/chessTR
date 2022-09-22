@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 import Vue from 'vue'
 
@@ -81,16 +81,26 @@ export default {
       ],
     }
   },
+  computed: {
+    ...mapGetters({
+      stateUser: 'auth/stateUser',
+    }),
+  },
   methods: {
     ...mapMutations({ logOut: 'auth/logOut' }),
     onClose() {
       this.open = false
     },
     execute(val) {
-      if (val == 'logout') {
-        this.logOut()
-      } else {
-        this.$router.push(val)
+      switch (val) {
+        case 'logout':
+          this.logOut()
+          break
+        case 'profile':
+          this.$router.push(this.stateUser.username)
+          break
+        case 'settings':
+          this.$router.push(val)
       }
       this.onClose()
     },
@@ -104,7 +114,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: self-end;
-  position: absolute;
 }
 
 .userMenu {
@@ -118,5 +127,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 23%);
 }
 </style>
