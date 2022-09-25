@@ -22,7 +22,7 @@ will edit sidebar
 
 serverjs'deki model çagırarak create ve update fonksiyonlarını vs. düzenle
 
-profil page
+profil page \*
 
 oyun kurarken süreye göre kurma
 
@@ -33,6 +33,14 @@ arkadaş bölmesi ve arkadaş istegi için socket bildirimi
 en/tr lang
 
 profile page => created date, last online data, social medias, win lose draw, email vs.
+
+maç bittikten sonra win yada lose a göre kullanıcıların win rate durumunu ve ratingini güncelleme
+
+aktif maçlar sectionu gelebilirs
+
+online userları silme işlemi fonskyion hline getirelibelir
+
+online userlar frontend'de arkadaşlar sectionu gibi yapılabilir
 
 ## Build Setup
 
