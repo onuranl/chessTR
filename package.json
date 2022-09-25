@@ -23,6 +23,7 @@
     "vuesax": "^4.0.1-alpha.25"
   },
   "devDependencies": {
+    "@nuxtjs/moment": "^1.6.1",
     "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.3.2",
     "sass": "^1.50.1",
