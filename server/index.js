@@ -36,15 +36,27 @@ const onlineUsers = {}
 
 const pools = require('./helpers/pools')
 
+const updateLastActive = require('./utilities/updateLastActive')
+
 io.on('connection', (socket) => {
+  var connectedUser = null
+
   var chartID = null
   var user = null
 
-  socket.on('connection', () => {
+  socket.on('connection', (stateUser) => {
     console.log('a user ' + socket.id + ' connected')
 
-    connectedUsers.push(socket.id)
+    const user = {
+      socketID: socket.id,
+      userID: stateUser._id,
+      username: stateUser.username,
+    }
+
+    connectedUsers.push(user)
     io.emit('connectedUsers', connectedUsers)
+
+    connectedUser = stateUser
   })
 
   socket.on('joinAttempt', async (id) => {
@@ -132,10 +144,11 @@ io.on('connection', (socket) => {
     chartID = null
   })
 
-  socket.on('disconnect', () => {
+  socket.on('disconnect', async () => {
     console.log('user ' + socket.id + ' disconnected')
 
-    const index = connectedUsers.indexOf(socket.id)
+    const index = connectedUsers.map((e) => e.socketID).indexOf(socket.id)
+
     if (index > -1) {
       connectedUsers.splice(index, 1)
     }
@@ -150,6 +163,8 @@ io.on('connection', (socket) => {
 
       chartID = null
     }
+
+    await updateLastActive(connectedUser)
   })
 
   socket.on('moveOn', async (msg) => {

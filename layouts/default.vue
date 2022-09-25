@@ -29,18 +29,35 @@ export default {
     }
   },
   mounted() {
-    this.socket = this.$nuxtSocket({
-      channel: '/',
-    })
-    this.socket.emit('connection')
+    if (!this.socket) {
+      this.socket = this.$nuxtSocket({
+        channel: '/',
+      })
+    }
     this.socket.on('connectedUsers', async (data) => {
       if (data) {
         this.setConnectedUsers(data)
       }
     })
   },
+  watch: {
+    stateUser: {
+      immediate: true,
+      handler(newVal, oldVal) {
+        if (!oldVal && newVal) {
+          if (!this.socket) {
+            this.socket = this.$nuxtSocket({
+              channel: '/',
+            })
+          }
+          this.socket.emit('connection', newVal)
+        }
+      },
+    },
+  },
   computed: {
     ...mapGetters({
+      stateUser: 'auth/stateUser',
       connectedUsers: 'user/connectedUsers',
     }),
   },
