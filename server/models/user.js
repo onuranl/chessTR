@@ -7,6 +7,7 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
     rating: { type: Number, required: false, default: 1500 },
+    active: { type: Date, required: false, default: new Date() },
   },
   { timestamps: true }
 )
@@ -35,7 +36,7 @@ UserSchema.pre('save', function (next) {
   }
 })
 
-UserSchema.methods.comparePassword = function (password, next) {
+UserSchema.methods.comparePassword = function (password) {
   let user = this
   return bcrypt.compareSync(password, user.password)
 }

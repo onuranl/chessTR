@@ -120,7 +120,6 @@ export default {
           }
         })
         .catch((err) => {
-          console.log({ err })
           this.openNotification('top-center', 'danger', 'Hata', err)
         })
     },

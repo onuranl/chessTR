@@ -35,13 +35,13 @@ const ChartSchema = new mongoose.Schema(
         },
         color: {
           type: String,
-          default: 'white',
           required: true,
+          default: 'white',
         },
         time: {
           type: Number,
-          default: 300000,
           required: false,
+          default: 300000,
         },
       },
       { _id: false },
@@ -71,8 +71,8 @@ const ChartSchema = new mongoose.Schema(
     },
     aiTime: {
       type: Number,
-      default: 300000,
       required: false,
+      default: 300000,
     },
   },
   { timestamps: true }

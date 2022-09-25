@@ -4,7 +4,7 @@ async function user(req, res) {
   const id = req.userID
   try {
     const result = await user_service.getUserByID(id)
-    if (user) {
+    if (result) {
       return res.json({
         status: true,
         user: result,
@@ -20,7 +20,7 @@ async function user(req, res) {
 async function getUserByUsername(req, res) {
   try {
     const result = await user_service.getUserByUsername(req.params.slug)
-    if (user) {
+    if (result) {
       return res.json({
         status: true,
         user: result,
