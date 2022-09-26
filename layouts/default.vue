@@ -6,8 +6,11 @@
       v-if="socket"
       class="d-flex justify-content-center align-items-center"
     />
-    <div class="connected_users" v-if="connectedUsers">
-      Online Users: {{ connectedUsers.length }}
+    <div class="connected_users">
+      <!-- Online Users: {{ connectedUsers.length }} -->
+      <Chats />
+      <Friends class="mr-2 ml-2" />
+      <Users />
     </div>
   </div>
 </template>
@@ -15,6 +18,9 @@
 <script>
 import Theme from './components/theme.vue'
 import NavBar from './components/navbar.vue'
+import Chats from './components/chats.vue'
+import Friends from './components/friends.vue'
+import Users from './components/users.vue'
 
 import { mapGetters, mapMutations } from 'vuex'
 
@@ -22,6 +28,9 @@ export default {
   components: {
     Theme,
     NavBar,
+    Chats,
+    Friends,
+    Users,
   },
   data() {
     return {
@@ -75,5 +84,7 @@ export default {
   right: 10px;
   bottom: 10px;
   color: white;
+  display: flex;
+  align-items: self-end;
 }
 </style>
