@@ -7,6 +7,10 @@ async function getUserByID(id) {
   return user
 }
 
+async function getAllUsers() {
+  return await user_repository.getAllUsers()
+}
+
 async function getUserByUsername(username) {
   const user = await user_repository.getUserByUsername(username)
 
@@ -14,4 +18,4 @@ async function getUserByUsername(username) {
   return user
 }
 
-module.exports = { getUserByID, getUserByUsername }
+module.exports = { getUserByID, getUserByUsername, getAllUsers }

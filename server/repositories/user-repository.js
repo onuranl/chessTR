@@ -5,6 +5,10 @@ async function getUser(id) {
   return await user_model.findOne({ _id: id })
 }
 
+async function getAllUsers() {
+  return await user_model.find()
+}
+
 async function getUserByUsername(username) {
   return await user_model.findOne({ username: username })
 }
@@ -43,6 +47,7 @@ module.exports = {
   createUser,
   login,
   getUser,
+  getAllUsers,
   getUserByUsername,
   isUsernameTaken,
   isEmailExits,
