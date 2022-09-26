@@ -1,0 +1,74 @@
+<template>
+  <user-list>
+    <template slot="title">
+      <span>users</span>
+    </template>
+    <div
+      class="d-flex align-items-center"
+      v-for="user in connectedUsers"
+      :key="user.userID"
+    >
+      <span class="dot bg-success" style="height: 15px; width: 15px" />
+      <nuxt-link :to="user.username" class="ml-2 text-white">{{
+        user.username
+      }}</nuxt-link>
+    </div>
+    <div
+      class="d-flex align-items-center"
+      v-for="user in exceptOnlineUsers"
+      :key="user._id"
+    >
+      <span class="dot" style="height: 15px; width: 15px" />
+      <nuxt-link :to="user.username" class="ml-2 text-white">{{
+        user.username
+      }}</nuxt-link>
+    </div>
+  </user-list>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+
+export default {
+  name: 'users',
+  data() {
+    return {
+      users: null,
+    }
+  },
+  async created() {
+    try {
+      const response = await this.$axios.get('user/all')
+
+      this.users = response.data.user
+    } catch (error) {
+      this.$vs.notification({
+        progress: 'auto',
+        color: 'danger',
+        position: 'top-right',
+        title: 'error',
+        text: error.response.data.error,
+      })
+    }
+  },
+  computed: {
+    ...mapGetters({
+      connectedUsers: 'user/connectedUsers',
+    }),
+    exceptOnlineUsers() {
+      if (this.connectedUsers && this.users) {
+        const users = JSON.parse(JSON.stringify(this.users))
+
+        this.connectedUsers.map((user) => {
+          const index = users.map((e) => e._id).indexOf(user.userID)
+
+          if (index > -1) {
+            users.splice(index, 1)
+          }
+        })
+        return users
+      }
+    },
+  },
+}
+</script>
