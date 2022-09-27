@@ -1,5 +1,5 @@
 <template>
-  <c-dropup classContent="justify-content-between">
+  <c-dropup classContent="justify-content-between" :closeIcon="true">
     <template slot="title">
       <span>{{ username }} </span>
     </template>

@@ -5,11 +5,14 @@
       :class="{ 'wrapper-header-active': open }"
       @click="open = !open"
     >
-      <div class="mr-3">
-        <chevron-down-icon v-if="open" size="1.5x" />
-        <chevron-up-icon v-else size="1.5x" />
+      <div class="d-flex align-items-center">
+        <div class="mr-3">
+          <chevron-down-icon v-if="open" size="1.5x" />
+          <chevron-up-icon v-else size="1.5x" />
+        </div>
+        <slot name="title" />
       </div>
-      <slot name="title" />
+      <x-icon v-if="closeIcon" size="1.5x" />
     </div>
     <div class="wrapper-content" :class="classContent" v-if="open">
       <slot />
@@ -21,7 +24,7 @@
 import { ChevronUpIcon, ChevronDownIcon, XIcon } from 'vue-feather-icons'
 
 export default {
-  props: ['classContent'],
+  props: ['classContent', 'closeIcon'],
   components: {
     ChevronUpIcon,
     ChevronDownIcon,
@@ -52,6 +55,7 @@ export default {
     background: rgba(var(--vs-gray-2), 1);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     position: absolute;
     border-radius: 15px;
     width: 100%;
