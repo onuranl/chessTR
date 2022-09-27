@@ -1,5 +1,5 @@
 <template>
-  <user-list>
+  <c-dropup>
     <template slot="title">
       <span>users</span>
     </template>
@@ -23,14 +23,17 @@
         user.username
       }}</nuxt-link>
     </div>
-  </user-list>
+  </c-dropup>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 
+import CDropup from '~/components/common/CDropup.vue'
+
 export default {
   name: 'users',
+  components: { CDropup },
   data() {
     return {
       users: null,

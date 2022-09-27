@@ -1,6 +1,6 @@
 <template>
   <div>
-    <private-chat />
+    <private-chat username="qwe" />
   </div>
 </template>
 

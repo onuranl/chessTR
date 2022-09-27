@@ -11,7 +11,7 @@
       </div>
       <slot name="title" />
     </div>
-    <div class="wrapper-content" v-if="open">
+    <div class="wrapper-content" :class="classContent" v-if="open">
       <slot />
     </div>
   </div>
@@ -21,6 +21,7 @@
 import { ChevronUpIcon, ChevronDownIcon, XIcon } from 'vue-feather-icons'
 
 export default {
+  props: ['classContent'],
   components: {
     ChevronUpIcon,
     ChevronDownIcon,
