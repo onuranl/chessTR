@@ -1,11 +1,8 @@
 <template>
-  <div>
+  <div v-if="socket">
     <NavBar />
     <Theme />
-    <Nuxt
-      v-if="socket"
-      class="d-flex justify-content-center align-items-center"
-    />
+    <Nuxt class="d-flex justify-content-center align-items-center" />
     <div class="connected_users">
       <!-- Online Users: {{ connectedUsers.length }} -->
       <Chats />
