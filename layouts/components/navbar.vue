@@ -35,7 +35,10 @@
           <vs-button flat>Login</vs-button>
           <vs-button>Get Started</vs-button>
         </div>
-        <userMenu v-else :username="stateUser.username" />
+        <div v-else class="d-flex align-items-center">
+          <notifications />
+          <userMenu :username="stateUser.username" />
+        </div>
       </template>
     </vs-navbar>
     <!-- <SideBar ref="sidebar" /> -->
