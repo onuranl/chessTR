@@ -1,20 +1,20 @@
 <template>
-  <div class="wrapper" :class="{ 'wrapper-short': !open }">
+  <div class="wrapper" :class="{ 'wrapper-short': !isOpen }">
     <div
       class="wrapper-header"
-      :class="{ 'wrapper-header-active': open }"
-      @click="open = !open"
+      :class="{ 'wrapper-header-active': isOpen }"
+      @click="isOpen = !isOpen"
     >
       <div class="d-flex align-items-center">
         <div class="mr-3">
-          <chevron-down-icon v-if="open" size="1.5x" />
+          <chevron-down-icon v-if="isOpen" size="1.5x" />
           <chevron-up-icon v-else size="1.5x" />
         </div>
         <slot name="title" />
       </div>
-      <x-icon v-if="closeIcon" size="1.5x" />
+      <x-icon v-if="closeIcon" @click="$emit('closeChat')" size="1.5x" />
     </div>
-    <div class="wrapper-content" :class="classContent" v-if="open">
+    <div class="wrapper-content" :class="classContent" v-if="isOpen">
       <slot />
     </div>
   </div>
@@ -24,7 +24,7 @@
 import { ChevronUpIcon, ChevronDownIcon, XIcon } from 'vue-feather-icons'
 
 export default {
-  props: ['classContent', 'closeIcon'],
+  props: ['classContent', 'closeIcon', 'open'],
   components: {
     ChevronUpIcon,
     ChevronDownIcon,
@@ -32,8 +32,7 @@ export default {
   },
   data() {
     return {
-      open: false,
-      message: null,
+      isOpen: this.open,
     }
   },
 }

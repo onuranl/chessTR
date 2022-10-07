@@ -1,12 +1,12 @@
 <template>
-  <div v-if="socket">
+  <div v-if="socket && stateUser">
     <NavBar />
     <Theme />
     <Nuxt class="d-flex justify-content-center align-items-center" />
-    <div class="connected_users">
-      <!-- Online Users: {{ connectedUsers.length }} -->
-      <Chats />
-      <Friends class="mr-2 ml-2" />
+    <div class="bottom_content">
+      <Chats :currentUserID="stateUser._id" />
+      <Messages :currentUserID="stateUser._id" />
+      <Friends />
       <Users />
     </div>
   </div>
@@ -16,6 +16,7 @@
 import Theme from './components/theme.vue'
 import NavBar from './components/navbar.vue'
 import Chats from './components/chats.vue'
+import Messages from './components/messages.vue'
 import Friends from './components/friends.vue'
 import Users from './components/users.vue'
 
@@ -26,6 +27,7 @@ export default {
     Theme,
     NavBar,
     Chats,
+    Messages,
     Friends,
     Users,
   },
@@ -76,12 +78,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.connected_users {
+.bottom_content {
   position: absolute;
   right: 10px;
   bottom: 10px;
   color: white;
   display: flex;
-  align-items: self-end;
+  align-items: flex-end;
+  *:not(:last-child) {
+    margin-right: 15px;
+  }
 }
 </style>

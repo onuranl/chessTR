@@ -247,6 +247,10 @@ io.on('connection', (socket) => {
       }
     })
   })
+
+  socket.on('private message', async (data) => {
+    io.to(data.socketID).emit('private message', data)
+  })
 })
 
 app.use('/', router)

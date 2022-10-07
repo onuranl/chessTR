@@ -15,7 +15,7 @@
           :data="tr"
         >
           <vs-td>
-            {{ tr.users[0].user.email }}
+            {{ tr.users[0].user.username }}
           </vs-td>
           <vs-td> {{ formattedElapsedTime(tr.users[0].time) }} min </vs-td>
           <vs-td class="d-flex justify-content-end">

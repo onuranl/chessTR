@@ -4,7 +4,7 @@ async function get(public) {
   if (public) {
     return await chart_model
       .find({ private: false, users: { $size: 1 } })
-      .populate('users.user', 'email')
+      .populate('users.user', 'username')
   } else {
     return await chart_model.find({})
   }

@@ -5,6 +5,7 @@ const verifyToken = require('../middlewares/verify-token')
 const auth_controller = require('../controllers/auth-controller')
 const user_controller = require('../controllers/user-controller')
 const chart_controller = require('../controllers/chart-controller')
+const chat_controller = require('../controllers/chat-controller')
 
 const routes = [
   {
@@ -94,6 +95,26 @@ const routes = [
       {
         path: '/update-time/:id',
         handler: chart_controller.updateTime,
+        method: 'put',
+      },
+    ],
+  },
+  {
+    path: '/chat',
+    children: [
+      {
+        path: '/user/:id',
+        handler: chat_controller.getByUserID,
+        method: 'get',
+      },
+      {
+        path: '/',
+        handler: chat_controller.create,
+        method: 'post',
+      },
+      {
+        path: '/:id',
+        handler: chat_controller.sendMessage,
         method: 'put',
       },
     ],

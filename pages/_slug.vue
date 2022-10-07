@@ -11,20 +11,23 @@
               />
               <h1 class="text-white">{{ user.username }}</h1>
             </div>
-            <div class="userActions-mobile">
+            <div
+              class="userActions-mobile"
+              :class="{ invisible: stateUser.username === $route.params.slug }"
+            >
               <div class="d-flex h1 margin-top">
                 <vs-button icon color="discord">
-                  <user-plus-icon size="1.5x"></user-plus-icon>
+                  <user-plus-icon size="1.5x" />
                 </vs-button>
-                <vs-button icon color="discord">
-                  <message-circle-icon size="1.5x"></message-circle-icon>
+                <vs-button @click="sendMessage" icon color="discord">
+                  <message-circle-icon size="1.5x" />
                 </vs-button>
               </div>
             </div>
             <div class="socialMedias-mobile">
               <div class="d-flex h1 margin-top">
                 <vs-button href="http://vuesax.com/" blank icon color="twitter">
-                  <twitter-icon size="1.5x"></twitter-icon>
+                  <twitter-icon size="1.5x" />
                 </vs-button>
                 <vs-button
                   href="http://vuesax.com/"
@@ -32,7 +35,7 @@
                   icon
                   color="linkedin"
                 >
-                  <linkedin-icon size="1.5x"></linkedin-icon>
+                  <linkedin-icon size="1.5x" />
                 </vs-button>
                 <vs-button href="http://vuesax.com/" blank icon color="tumblr">
                   <github-icon size="1.5x"></github-icon>
@@ -49,31 +52,34 @@
           <p>
             Active
             <span class="text-white"
-              >{{ $moment(user.Active).fromNow() }}
+              >{{ $moment(user.active).fromNow() }}
             </span>
           </p>
           <div class="socialMedias">
             <div class="d-flex">
               <vs-button href="http://vuesax.com/" blank icon color="twitter">
-                <twitter-icon size="1.5x"></twitter-icon>
+                <twitter-icon size="1.5x" />
               </vs-button>
               <vs-button href="http://vuesax.com/" blank icon color="linkedin">
-                <linkedin-icon size="1.5x"></linkedin-icon>
+                <linkedin-icon size="1.5x" />
               </vs-button>
               <vs-button href="http://vuesax.com/" blank icon color="tumblr">
-                <github-icon size="1.5x"></github-icon>
+                <github-icon size="1.5x" />
               </vs-button>
             </div>
           </div>
         </div>
         <div class="col-lg-6">
-          <div class="userActions">
+          <div
+            class="userActions"
+            :class="{ invisible: stateUser.username === $route.params.slug }"
+          >
             <div class="d-flex h1 margin-top">
               <vs-button icon color="discord">
-                <user-plus-icon size="1.5x"></user-plus-icon>
+                <user-plus-icon size="1.5x" />
               </vs-button>
-              <vs-button icon color="discord">
-                <message-circle-icon size="1.5x"></message-circle-icon>
+              <vs-button @click="sendMessage" icon color="discord">
+                <message-circle-icon size="1.5x" />
               </vs-button>
             </div>
           </div>
@@ -101,7 +107,7 @@ import {
   MessageCircleIcon,
 } from 'vue-feather-icons'
 
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'profile',
@@ -139,12 +145,59 @@ export default {
   },
   computed: {
     ...mapGetters({
+      chats: 'chat/chats',
+      activeChats: 'chat/activeChats',
+      stateUser: 'auth/stateUser',
       connectedUsers: 'user/connectedUsers',
     }),
     isUserOnline() {
       return this.connectedUsers && this.user
         ? this.connectedUsers.map((e) => e.userID).indexOf(this.user._id) > -1
         : false
+    },
+  },
+  methods: {
+    ...mapActions({
+      startChat: 'chat/startChat',
+    }),
+    ...mapMutations({
+      setActiveChatIDs: 'chat/setActiveChatIDs',
+    }),
+    async sendMessage() {
+      const users = [this.stateUser._id, this.user._id]
+      if (this.chats) {
+        for (const chat of this.chats) {
+          const chatUsers = []
+
+          chat.users.map((user) => {
+            chatUsers.push(user._id)
+          })
+
+          const isEqual = this.checkArrays(chatUsers, users)
+
+          if (isEqual) {
+            for (const activeChat of this.activeChats) {
+              const activeChatUsers = []
+
+              activeChat.users.map((user) => {
+                activeChatUsers.push(user._id)
+              })
+
+              if (this.checkArrays(activeChatUsers, users)) return
+            }
+            return this.setActiveChatIDs(chat._id)
+          }
+        }
+      }
+      await this.startChat(users)
+    },
+    checkArrays(arrA, arrB) {
+      if (arrA.length !== arrB.length) return false
+
+      var cA = arrA.slice().sort().join(',')
+      var cB = arrB.slice().sort().join(',')
+
+      return cA === cB
     },
   },
 }
