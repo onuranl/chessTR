@@ -6,6 +6,7 @@ const auth_controller = require('../controllers/auth-controller')
 const user_controller = require('../controllers/user-controller')
 const chart_controller = require('../controllers/chart-controller')
 const chat_controller = require('../controllers/chat-controller')
+const friendship_controller = require('../controllers/friendship-controller')
 
 const routes = [
   {
@@ -115,6 +116,31 @@ const routes = [
       {
         path: '/:id',
         handler: chat_controller.sendMessage,
+        method: 'put',
+      },
+    ],
+  },
+  {
+    path: '/friendship',
+    children: [
+      {
+        path: '/',
+        handler: friendship_controller.getRequests,
+        method: 'get',
+      },
+      {
+        path: '/:id',
+        handler: friendship_controller.getRequest,
+        method: 'get',
+      },
+      {
+        path: '/',
+        handler: friendship_controller.createRequest,
+        method: 'post',
+      },
+      {
+        path: '/:id',
+        handler: friendship_controller.updateRequest,
         method: 'put',
       },
     ],
