@@ -52,10 +52,10 @@ const auth = {
           }
           this.app.$cookies.set('authToken', token)
         } catch (error) {
-          const notiPayload = {
+          const notification = {
             text: error,
           }
-          window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+          commit('vuesax/openNotification', notification, { root: true })
           commit('logOut')
         }
       }

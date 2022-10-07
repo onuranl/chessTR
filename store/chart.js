@@ -3,7 +3,7 @@ import config from '../nuxt.config.js'
 
 const baseURL = config ? config.axios.baseURL : ''
 
-var notiPayload = {
+var notification = {
   color: null,
   title: null,
   text: null,
@@ -38,8 +38,8 @@ const chart = {
     setChart(state, data) {
       state.chart = data
     },
-    setUsers(state) {
-      const stateUser = this.app.store.state.auth.user
+    setUsers(state, rootGetters) {
+      const stateUser = rootGetters['auth/stateUser']
       var currentUser, otherUser
       if (state.chart && state.chart.users && stateUser) {
         state.chart.users.map((element) => {
@@ -76,26 +76,21 @@ const chart = {
   actions: {
     async getChart({ commit, state }) {
       try {
-        await axios
-          .get(baseURL + '/chart/' + state.chartID)
-          .then((result) => {
-            if (result) {
-              commit('setChart', result.data)
-              commit('setUsers')
-            }
-          })
-          .catch((err) => {
-            notiPayload.text = err.response.data.error
-            window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
-            this.app.router.push('/')
-          })
+        const response = await axios.get(baseURL + '/chart/' + state.chartID)
+
+        if (response.status === 200) {
+          commit('setChart', response.data)
+          commit('setUsers')
+        }
       } catch (error) {
-        notiPayload.text = error
-        window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+        notification.text = error
+
+        commit('vuesax/openNotification', notification, { root: true })
+
         this.app.router.push('/')
       }
     },
-    async createChart({ context }, mod) {
+    async createChart({ commit }, mod) {
       const endpoint =
         mod === 'private'
           ? '/chart/private'
@@ -104,61 +99,48 @@ const chart = {
           : '/chart'
 
       try {
-        await axios
-          .post(baseURL + endpoint)
-          .then((result) => {
-            if (result) {
-              this.app.router.push('chart/' + result.data._id)
-            }
-          })
-          .catch((err) => {
-            notiPayload.text = err.response.data.error
-            window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
-            this.app.router.push('/')
-          })
+        const response = await axios.post(baseURL + endpoint)
+
+        if (response) {
+          this.app.router.push('chart/' + response.data._id)
+        }
       } catch (error) {
-        notiPayload.text = error
-        window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+        notification.text = error
+
+        commit('vuesax/openNotification', notification, { root: true })
+
         this.app.router.push('/')
       }
     },
-    async updateChart({ state }, chart) {
+    async updateChart({ state, commit }, chart) {
       try {
-        await axios
-          .put(baseURL + '/chart/' + state.chartID, chart)
-          .then()
-          .catch((err) => {
-            notiPayload.text = err.response.data.error
-            window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
-            this.app.router.push('/')
-          })
+        await axios.put(baseURL + '/chart/' + state.chartID, chart)
       } catch (error) {
-        notiPayload.text = error
-        window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+        notification.text = error
+
+        commit('vuesax/openNotification', notification, { root: true })
+
         this.app.router.push('/')
       }
     },
-    async deleteChart({ state }) {
+    async deleteChart({ state, commit }) {
       try {
-        await axios
-          .delete(baseURL + '/chart/' + state.chartID)
-          .then((result) => {
-            if (result.status === 200) {
-              notiPayload.color = 'success'
-              notiPayload.title = 'Canceled'
-              notiPayload.text = result.data
-              window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
-              this.app.router.push('/')
-            }
-          })
-          .catch((err) => {
-            notiPayload.text = err.response.data.error
-            window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
-            this.app.router.push('/')
-          })
+        const response = await axios.delete(baseURL + '/chart/' + state.chartID)
+
+        if (response.status === 200) {
+          notification.color = 'success'
+          notification.title = 'Canceled'
+          notification.text = response.data
+
+          commit('vuesax/openNotification', notification, { root: true })
+
+          this.app.router.push('/')
+        }
       } catch (error) {
-        notiPayload.text = error
-        window.$nuxt.$store.commit('vuesax/openNotification', notiPayload)
+        notification.text = error
+
+        commit('vuesax/openNotification', notification, { root: true })
+
         this.app.router.push('/')
       }
     },
