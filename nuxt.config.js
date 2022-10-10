@@ -18,7 +18,7 @@ export default {
   css: ['~/assets/scss/index.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/vuesax'],
+  plugins: ['~/plugins/vuesax', '~/plugins/clickOut'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -49,6 +49,11 @@ export default {
         url: 'http://localhost:8000', // This is the default socket with name "dflt" because it's the first entry
       },
     ],
+  },
+
+  moment: {
+    defaultLocale: 'en',
+    locales: ['tr'],
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
