@@ -8,6 +8,12 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     rating: { type: Number, required: false, default: 1500 },
     active: { type: Date, required: false, default: new Date() },
+    friends: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'user',
+      },
+    ],
   },
   { timestamps: true }
 )

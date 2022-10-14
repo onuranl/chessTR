@@ -1,4 +1,5 @@
 const friendship_service = require('../services/friendship-service')
+const user_service = require('../services/user-service')
 
 async function getRequests(req, res) {
   try {
@@ -49,6 +50,10 @@ async function updateRequest(req, res) {
       req.params.id,
       payload
     )
+
+    if ((payload.status = 'accepted')) {
+      await user_service.updateFriends(result)
+    }
 
     return res.status(200).json(result)
   } catch (error) {

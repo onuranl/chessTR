@@ -251,6 +251,13 @@ io.on('connection', (socket) => {
   socket.on('private message', async (data) => {
     io.to(data.socketID).emit('private message', data)
   })
+
+  socket.on('friendship', async (data) => {
+    io.to(data.socketID).emit('friendship', {
+      status: data.status,
+      user: data.user,
+    })
+  })
 })
 
 app.use('/', router)

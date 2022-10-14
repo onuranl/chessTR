@@ -2,7 +2,7 @@ const user_model = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 async function getUser(id) {
-  return await user_model.findOne({ _id: id })
+  return await user_model.findOne({ _id: id }).populate('friends', 'username')
 }
 
 async function getAllUsers() {
@@ -26,9 +26,7 @@ async function createUser(user) {
 }
 
 async function login(user) {
-  let foundUser = await user_model.findOne({ email: user.email })
-
-  return foundUser
+  return await user_model.findOne({ email: user.email })
 }
 
 async function isUsernameTaken(username) {
@@ -43,6 +41,12 @@ async function isEmailExits(email) {
   return result !== null
 }
 
+async function updateFriends(userID, friend) {
+  return await user_model.findByIdAndUpdate(userID.toString(), {
+    $push: { friends: friend.toString() },
+  })
+}
+
 module.exports = {
   createUser,
   login,
@@ -51,4 +55,5 @@ module.exports = {
   getUserByUsername,
   isUsernameTaken,
   isEmailExits,
+  updateFriends,
 }

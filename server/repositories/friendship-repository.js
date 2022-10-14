@@ -15,11 +15,10 @@ async function createRequest(users) {
 }
 
 async function updateRequest(id, status) {
-  const request = await getRequest(id)
-
-  request.status = status
-
-  await request.save()
+  return await friendship_model.findOneAndUpdate(
+    { $or: [{ _id: id }, { from: id }, { to: id }] },
+    status
+  )
 }
 
 module.exports = {

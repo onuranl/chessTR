@@ -18,4 +18,9 @@ async function getUserByUsername(username) {
   return user
 }
 
-module.exports = { getUserByID, getUserByUsername, getAllUsers }
+async function updateFriends(payload) {
+  await user_repository.updateFriends(payload.from, payload.to)
+  await user_repository.updateFriends(payload.to, payload.from)
+}
+
+module.exports = { getUserByID, getUserByUsername, getAllUsers, updateFriends }
