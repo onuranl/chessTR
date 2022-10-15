@@ -4,6 +4,7 @@
     :closeIcon="true"
     :open="open"
     @closeChat="closeChat"
+    @scrollToBottom="scrollToBottom"
   >
     <template slot="title">
       <span>{{ user.username }} </span>

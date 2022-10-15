@@ -35,6 +35,15 @@ export default {
       isOpen: this.open,
     }
   },
+  watch: {
+    isOpen(newVal, oldVal) {
+      if (!oldVal && newVal) {
+        setTimeout(() => {
+          this.$emit('scrollToBottom')
+        }, 100)
+      }
+    },
+  },
 }
 </script>
 
