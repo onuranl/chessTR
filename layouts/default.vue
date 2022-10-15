@@ -1,7 +1,10 @@
 <template>
-  <div v-if="socket && stateUser">
+  <div v-if="socket && stateUser && traslations">
     <NavBar />
-    <Theme />
+    <div class="config">
+      <Translate />
+      <Theme />
+    </div>
     <Nuxt class="d-flex justify-content-center align-items-center" />
     <div class="bottom_content">
       <Chats :currentUserID="stateUser._id" />
@@ -13,19 +16,21 @@
 </template>
 
 <script>
-import Theme from './components/theme.vue'
 import NavBar from './components/navbar.vue'
+import Translate from './components/translate.vue'
+import Theme from './components/theme.vue'
 import Chats from './components/chats.vue'
 import Messages from './components/messages.vue'
 import Friends from './components/friends.vue'
 import Users from './components/users.vue'
 
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   components: {
-    Theme,
     NavBar,
+    Translate,
+    Theme,
     Chats,
     Messages,
     Friends,
@@ -35,6 +40,9 @@ export default {
     return {
       socket: null,
     }
+  },
+  created() {
+    this.getTranslations()
   },
   mounted() {
     if (!this.socket) {
@@ -65,6 +73,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      traslations: 'lang/traslations',
       stateUser: 'auth/stateUser',
       connectedUsers: 'user/connectedUsers',
     }),
@@ -73,15 +82,32 @@ export default {
     ...mapMutations({
       setConnectedUsers: 'user/setConnectedUsers',
     }),
+    ...mapActions({
+      getTranslations: 'lang/getTranslations',
+    }),
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.config {
+  z-index: 99001;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  background: #1e2023;
+  border: 0;
+  border-radius: 0 20px 0 0;
+  outline: none;
+  padding: 15px;
+  padding-bottom: 0px;
+}
+
 .bottom_content {
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  right: 15px;
+  bottom: 15px;
   color: white;
   display: flex;
   align-items: flex-end;

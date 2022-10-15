@@ -53,11 +53,8 @@ export default {
 
 <style lang="scss" scoped>
 .theme {
+  margin-left: 15px;
   width: 70px;
   height: 40px;
-  z-index: 99001;
-  position: absolute;
-  bottom: 0;
-  left: 10px;
 }
 </style>
