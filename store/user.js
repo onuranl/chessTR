@@ -22,6 +22,9 @@ const user = {
       }
       return result
     },
+    isUserMyFriend: () => (friends, userID) => {
+      return friends.some((friend) => friend._id === userID)
+    },
   },
   mutations: {
     setUserInfo(state, data) {

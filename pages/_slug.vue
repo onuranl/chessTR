@@ -16,7 +16,12 @@
               :class="{ invisible: stateUser.username === $route.params.slug }"
             >
               <div class="d-flex h1 margin-top">
-                <vs-button icon color="discord">
+                <vs-button
+                  v-if="!isUserMyFriend(stateUser.friends, user._id)"
+                  @click="sendRequest(user._id)"
+                  icon
+                  color="discord"
+                >
                   <user-plus-icon size="1.5x" />
                 </vs-button>
                 <vs-button @click="sendMessage" icon color="discord">
@@ -52,7 +57,7 @@
           <p>
             Active
             <span class="text-white"
-              >{{ $moment(user.active).fromNow() }}
+              >{{ $moment(user.active).locale('tr').fromNow() }}
             </span>
           </p>
           <div class="socialMedias">
@@ -75,7 +80,12 @@
             :class="{ invisible: stateUser.username === $route.params.slug }"
           >
             <div class="d-flex h1 margin-top">
-              <vs-button icon color="discord">
+              <vs-button
+                v-if="!isUserMyFriend(stateUser.friends, user._id)"
+                @click="sendRequest(user._id)"
+                icon
+                color="discord"
+              >
                 <user-plus-icon size="1.5x" />
               </vs-button>
               <vs-button @click="sendMessage" icon color="discord">
@@ -118,6 +128,11 @@ export default {
     UserPlusIcon,
     MessageCircleIcon,
   },
+  data() {
+    return {
+      socket: null,
+    }
+  },
   async asyncData({ $axios, app, route }) {
     const loading = app.router.app.$vs.loading()
 
@@ -143,12 +158,16 @@ export default {
       app.router.push('/')
     }
   },
+  mounted() {
+    this.socket = this.$parent.$parent.socket
+  },
   computed: {
     ...mapGetters({
+      stateUser: 'auth/stateUser',
       chats: 'chat/chats',
       activeChats: 'chat/activeChats',
-      stateUser: 'auth/stateUser',
       connectedUsers: 'user/connectedUsers',
+      isUserMyFriend: 'user/isUserMyFriend',
     }),
     isUserOnline() {
       return this.connectedUsers && this.user
@@ -159,6 +178,8 @@ export default {
   methods: {
     ...mapActions({
       startChat: 'chat/startChat',
+      getFriendshipRequests: 'request/getFriendshipRequests',
+      sendFriendshipRequest: 'request/sendFriendshipRequest',
     }),
     ...mapMutations({
       setActiveChatIDs: 'chat/setActiveChatIDs',
@@ -190,6 +211,26 @@ export default {
         }
       }
       await this.startChat(users)
+    },
+    async sendRequest(userID) {
+      const request = await this.sendFriendshipRequest(userID)
+
+      if (request.status === 200 && this.targetSocketID(request.data.to)) {
+        this.socket.emit('friendship', {
+          socketID: this.targetSocketID(request.data.to),
+        })
+      }
+    },
+    targetSocketID(to) {
+      var id = false
+      if (this.connectedUsers) {
+        this.connectedUsers.map((user) => {
+          if (user.userID === to) {
+            id = user.socketID
+          }
+        })
+      }
+      return id
     },
     checkArrays(arrA, arrB) {
       if (arrA.length !== arrB.length) return false
