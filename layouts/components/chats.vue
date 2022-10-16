@@ -16,7 +16,6 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'chats',
-  props: ['currentUserID'],
   data() {
     return {
       open: false,
@@ -35,9 +34,13 @@ export default {
   },
   computed: {
     ...mapGetters({
+      stateUser: 'auth/stateUser',
       activeChats: 'chat/activeChats',
       activeChatIDs: 'chat/activeChatIDs',
     }),
+    currentUserID() {
+      return this.stateUser._id
+    },
   },
   methods: {
     ...mapMutations({

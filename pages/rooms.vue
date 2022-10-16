@@ -3,9 +3,12 @@
     <vs-table class="text-white" style="max-width: 600px">
       <template #thead>
         <vs-tr>
-          <vs-th> Email </vs-th>
-          <vs-th> Time </vs-th>
-          <vs-th> </vs-th>
+          <vs-th> {{ traslations.Rooms.Player }} </vs-th>
+          <vs-th sort @click="rooms = $vs.sortData($event, rooms, 'rating')">
+            {{ traslations.Rooms.Rating }}
+          </vs-th>
+          <vs-th> {{ traslations.Rooms.Time }} </vs-th>
+          <vs-th />
         </vs-tr>
       </template>
       <template #tbody>
@@ -17,6 +20,9 @@
           <vs-td>
             {{ tr.users[0].user.username }}
           </vs-td>
+          <vs-td>
+            {{ tr.users[0].user.rating }}
+          </vs-td>
           <vs-td> {{ formattedElapsedTime(tr.users[0].time) }} min </vs-td>
           <vs-td class="d-flex justify-content-end">
             <vs-button
@@ -25,7 +31,7 @@
               animation-type="vertical"
               @click="$router.push('/chart/' + tr._id)"
             >
-              Join
+              {{ traslations.Rooms.Join }}
               <template #animate>
                 <arrow-right-icon
                   size="1.5x"
@@ -39,12 +45,15 @@
       <template #footer>
         <vs-pagination v-model="page" :length="$vs.getLength(rooms, max)" />
       </template>
+      <template #notFound> {{ traslations.Rooms.NotFound }} </template>
     </vs-table>
   </div>
 </template>
 
 <script>
 import { ArrowRightIcon } from 'vue-feather-icons'
+
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -59,6 +68,11 @@ export default {
     const rooms = await $axios.$get('/chart/public')
     loading.close()
     return { rooms }
+  },
+  computed: {
+    ...mapGetters({
+      traslations: 'lang/traslations',
+    }),
   },
   methods: {
     formattedElapsedTime(elapsedTime) {

@@ -1,41 +1,54 @@
 <template>
   <div>
     <div class="content">
-      <vs-button
-        block
-        v-for="mod in mods"
-        :key="mod.value"
-        @click="openModal(mod)"
-      >
-        {{ mod.name }}
+      <vs-button block v-for="mod in mods" :key="mod" @click="openModal(mod)">
+        {{ traslations.CreateRoom[firstLetterUpperCase(mod)] }}
       </vs-button>
     </div>
-    <vs-dialog width="420px" center v-model="active">
+    <vs-dialog width="420px" center v-model="active" v-if="mod">
       <template #header>
-        <h4 class="text-center">{{ mod.name }}</h4>
+        <h4
+          class="text-center"
+          v-html="traslations.CreateRoom[firstLetterUpperCase(mod)]"
+        />
       </template>
 
       <template>
         <div class="d-flex justify-content-center align-items-center">
-          <p class="m-0 mr-3 text-secondary">Time Control</p>
+          <p
+            class="m-0 mr-3 text-secondary"
+            v-html="traslations.CreateRoom.TimeControl"
+          />
           <vs-select placeholder="Select" v-model="value">
-            <vs-option label="Real time" value="real"> Real time </vs-option>
-            <vs-option label="Unlimited" value="unlimited">
-              Unlimited
-            </vs-option>
+            <vs-option
+              value="real"
+              :label="traslations.CreateRoom.RealTime"
+              v-html="traslations.CreateRoom.RealTime"
+            />
+            <vs-option
+              value="unlimited"
+              :label="traslations.CreateRoom.Unlimited"
+              v-html="traslations.CreateRoom.Unlimited"
+            />
           </vs-select>
         </div>
         <div class="mt-3" v-if="value === 'real'">
           <div class="text-center">
             <p class="mb-0">
-              <span class="text-secondary">Minutes per side:</span>
+              <span
+                class="text-secondary"
+                v-html="traslations.CreateRoom.MinutesPerSide"
+              />
               {{ minutes }}
             </p>
             <input type="range" min="1" max="30" step="1" v-model="minutes" />
           </div>
           <div class="mt-2 text-center">
             <p class="mb-0">
-              <span class="text-secondary">Increment in seconds:</span>
+              <span
+                class="text-secondary"
+                v-html="traslations.CreateRoom.IncrementInSeconds"
+              />
               {{ increment }}
             </p>
             <input type="range" min="0" max="20" step="1" v-model="increment" />
@@ -61,8 +74,8 @@
               <template #tooltip>
                 {{
                   color === 'random'
-                    ? 'Random side'
-                    : color.charAt(0).toUpperCase() + color.slice(1)
+                    ? traslations.CreateRoom.RandomSide
+                    : traslations.CreateRoom[firstLetterUpperCase(color)]
                 }}
               </template>
             </vs-tooltip>
@@ -74,7 +87,9 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
+
+import firstLetterUpperCase from '../utilities/firstLetterUpperCase'
 
 export default {
   data() {
@@ -84,15 +99,15 @@ export default {
       value: 'unlimited',
       minutes: 5,
       increment: 0,
-      mods: [
-        { name: 'Create a game', value: 'public' },
-        { name: 'Play with a friend', value: 'private' },
-        { name: 'Play with the computer', value: 'ai' },
-      ],
+      mods: ['public', 'private', 'ai'],
       colors: ['black', 'random', 'white'],
     }
   },
+  computed: {
+    ...mapGetters({ traslations: 'lang/traslations' }),
+  },
   methods: {
+    firstLetterUpperCase,
     ...mapMutations({ setColor: 'chart/setColor' }),
     ...mapActions({ createChart: 'chart/createChart' }),
     openModal(mod) {

@@ -7,29 +7,37 @@
             size="1.5x"
             class="custom-class"
             @click="$refs.sidebar._data.activeSidebar = true"
-          ></menu-icon>
+          />
         </div>
-        <div v-else class="d-flex align-items-center">
+        <nuxt-link to="/">
           <div
             class="logo"
             style="background: url(/icon.png) no-repeat center center"
-            alt=""
+            type="button"
           />
-          <div class="d-flex align-items-center ml-2">
-            <span>chess</span>
-            <span class="h4 mb-0">TR</span>
-          </div>
-        </div>
+        </nuxt-link>
       </template>
-      <vs-navbar-item :active="active == 'index'" id="index" to="/">
-        Home
-      </vs-navbar-item>
-      <vs-navbar-item :active="active == 'create'" id="create" to="/create">
-        Create Room
-      </vs-navbar-item>
-      <vs-navbar-item :active="active == 'rooms'" id="rooms" to="/rooms">
-        War Rooms
-      </vs-navbar-item>
+      <vs-navbar-item
+        :active="active == 'index'"
+        class="index"
+        id="index"
+        to="/"
+        v-html="traslations.Navbar.Home"
+      />
+      <vs-navbar-item
+        :active="active == 'create'"
+        id="create"
+        class="create"
+        to="/create"
+        v-html="traslations.Navbar.CreateRoom"
+      />
+      <vs-navbar-item
+        :active="active == 'rooms'"
+        id="rooms"
+        class="rooms"
+        to="/rooms"
+        v-html="traslations.Navbar.WarRooms"
+      />
       <template #right>
         <div class="d-flex" v-if="!isAuthenticated">
           <vs-button flat>Login</vs-button>
@@ -70,8 +78,19 @@ export default {
   mounted() {
     window.addEventListener('resize', this.handleResize)
   },
+  watch: {
+    lang() {
+      const path = this.$route.name
+
+      const mainPages = ['index', 'create', 'rooms']
+
+      mainPages.includes(path) ? this.reDesingTab() : null
+    },
+  },
   computed: {
     ...mapGetters({
+      lang: 'lang/lang',
+      traslations: 'lang/traslations',
       isAuthenticated: 'auth/isAuthenticated',
       stateUser: 'auth/stateUser',
     }),
@@ -80,6 +99,9 @@ export default {
     handleResize() {
       this.clientWidth = document.body.clientWidth
       this.isMobile = document.body.clientWidth < 480
+    },
+    reDesingTab() {
+      document.getElementsByClassName(this.$route.name)[0].click()
     },
   },
 }

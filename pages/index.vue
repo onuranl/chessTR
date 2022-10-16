@@ -9,10 +9,8 @@
           @click="selectPool(index)"
         >
           <div :class="{ active: pool.state }">
-            <div class="clock">{{ pool.clock }}</div>
-            <div class="perf">
-              {{ pool.perf.charAt(0).toUpperCase() + pool.perf.slice(1) }}
-            </div>
+            <div class="clock" v-html="pool.clock" />
+            <div class="perf" v-html="firstLetterUpperCase(pool.perf)" />
             <c-loader v-if="pool.state" />
           </div>
         </div>
@@ -26,68 +24,16 @@ import { mapMutations, mapActions } from 'vuex'
 
 import CLoader from '~/components/common/CLoader.vue'
 
+import pools from '../helpers/pools'
+
+import firstLetterUpperCase from '../utilities/firstLetterUpperCase'
+
 export default {
   components: { CLoader },
   data() {
     return {
       socket: null,
-      pools: [
-        {
-          clock: '1+0',
-          perf: 'bullet',
-          state: false,
-        },
-        {
-          clock: '2+1',
-          perf: 'bullet',
-          state: false,
-        },
-        {
-          clock: '3+0',
-          perf: 'blitz',
-          state: false,
-        },
-        {
-          clock: '3+2',
-          perf: 'blitz',
-          state: false,
-        },
-        {
-          clock: '5+0',
-          perf: 'blitz',
-          state: false,
-        },
-        {
-          clock: '5+3',
-          perf: 'blitz',
-          state: false,
-        },
-        {
-          clock: '10+0',
-          perf: 'rapid',
-          state: false,
-        },
-        {
-          clock: '10+5',
-          perf: 'rapid',
-          state: false,
-        },
-        {
-          clock: '15+10',
-          perf: 'rapid',
-          state: false,
-        },
-        {
-          clock: '30+0',
-          perf: 'classical',
-          state: false,
-        },
-        {
-          clock: '30+20',
-          perf: 'classical',
-          state: false,
-        },
-      ],
+      pools,
     }
   },
   mounted() {
@@ -108,6 +54,7 @@ export default {
     },
   },
   methods: {
+    firstLetterUpperCase,
     ...mapMutations({ setColor: 'chart/setColor' }),
     ...mapActions({ createChart: 'chart/createChart' }),
     selectPool(index) {

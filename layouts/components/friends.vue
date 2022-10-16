@@ -1,7 +1,7 @@
 <template>
   <c-dropup>
     <template slot="title">
-      <span>friends</span>
+      <span v-html="traslations.Default.Friends.toLowerCase()" />
     </template>
 
     <div
@@ -38,6 +38,7 @@ export default {
   components: { CDropup },
   computed: {
     ...mapGetters({
+      traslations: 'lang/traslations',
       stateUser: 'auth/stateUser',
       connectedUsers: 'user/connectedUsers',
     }),

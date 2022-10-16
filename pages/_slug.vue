@@ -9,7 +9,7 @@
                 class="dot mr-2 mt-1"
                 :class="{ 'bg-success': isUserOnline }"
               />
-              <h1 class="text-white">{{ user.username }}</h1>
+              <h1 class="text-white" v-html="user.username" />
             </div>
             <div
               class="userActions-mobile"
@@ -49,15 +49,15 @@
             </div>
           </div>
           <p>
-            Member since
+            {{ traslations.Profile.MemberSince }}
             <span class="text-white">{{
-              $moment(user.createdAt).format('ll')
+              $moment(user.createdAt).locale(lang).format('ll')
             }}</span>
           </p>
           <p>
-            Active
+            {{ traslations.Profile.Active }}
             <span class="text-white"
-              >{{ $moment(user.active).locale('tr').fromNow() }}
+              >{{ $moment(user.active).locale(lang).fromNow() }}
             </span>
           </p>
           <div class="socialMedias">
@@ -94,13 +94,26 @@
             </div>
           </div>
           <p>
-            Rating <span class="text-white">{{ user.rating }}</span>
+            {{ traslations.Profile.Rating }}
+            <span class="text-white" v-html="user.rating" />
           </p>
-          <p>Total Match <span class="text-white">1231</span></p>
+          <p>
+            {{ traslations.Profile.TotalMatch }}
+            <span class="text-white" v-html="31" />
+          </p>
           <div class="d-flex justify-content-between">
-            <p>Win <span class="text-success ml-2">3</span></p>
-            <p>Draw <span class="text-primary ml-2">3</span></p>
-            <p>Lose <span class="text-danger ml-2">3</span></p>
+            <p>
+              {{ traslations.Profile.Win }}
+              <span class="text-success ml-2" v-html="31" />
+            </p>
+            <p>
+              {{ traslations.Profile.Draw }}
+              <span class="text-primary ml-2" v-html="31" />
+            </p>
+            <p>
+              {{ traslations.Profile.Lose }}
+              <span class="text-danger ml-2" v-html="31" />
+            </p>
           </div>
         </div>
       </div>
@@ -163,6 +176,8 @@ export default {
   },
   computed: {
     ...mapGetters({
+      lang: 'lang/lang',
+      traslations: 'lang/traslations',
       stateUser: 'auth/stateUser',
       chats: 'chat/chats',
       activeChats: 'chat/activeChats',

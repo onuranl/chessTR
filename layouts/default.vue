@@ -7,8 +7,8 @@
     </div>
     <Nuxt class="d-flex justify-content-center align-items-center" />
     <div class="bottom_content">
-      <Chats :currentUserID="stateUser._id" />
-      <Messages :currentUserID="stateUser._id" />
+      <Chats />
+      <Messages />
       <Friends />
       <Users />
     </div>

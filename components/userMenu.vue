@@ -19,7 +19,7 @@
         :shadow="option.dark"
         :flat="option.flat"
         @click="execute(option.val)"
-        >{{ option.name }}
+        >{{ traslations.UserMenu[option.name] }}
       </vs-button>
     </div>
   </div>
@@ -54,6 +54,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      traslations: 'lang/traslations',
       stateUser: 'auth/stateUser',
     }),
   },

@@ -1,14 +1,25 @@
 <template>
   <c-alert :classContent="classContent" :status="request.status">
     <template slot="title">
-      Arkadaşlık isteği
-      <small> ( {{ request.status }} ) </small>
+      {{ traslations.Notification.FriendshipRequest }}
+      <small
+        v-html="
+          '( ' +
+          traslations.Notification[firstLetterUpperCase(request.status)] +
+          ' )'
+        "
+      />
     </template>
     <div class="d-flex" v-if="isRequestToMe">
-      <span class="mr-2">
-        {{ request.from.username }} tarafından
-        {{ $moment(request.createdAt).locale('tr').fromNow() }} gönderildi
-      </span>
+      <span
+        class="mr-2"
+        v-html="
+          traslations.Notification.Sent(
+            request.from.username,
+            $moment(request.createdAt).locale(lang).fromNow()
+          )
+        "
+      />
       <div class="d-flex" v-if="request.status === 'pending'">
         <vs-button
           icon
@@ -34,10 +45,15 @@
         </vs-button>
       </div>
     </div>
-    <div v-else>
-      {{ request.to.username }} kullanıcısına
-      {{ $moment(request.createdAt).locale('tr').fromNow() }} gönderdin
-    </div>
+    <div
+      v-else
+      v-html="
+        traslations.Notification.YouSent(
+          request.from.username,
+          $moment(request.createdAt).locale(lang).fromNow()
+        )
+      "
+    />
   </c-alert>
 </template>
 
@@ -47,6 +63,8 @@ import CAlert from './common/CAlert.vue'
 import { XIcon, CheckIcon } from 'vue-feather-icons'
 
 import { mapGetters, mapActions } from 'vuex'
+
+import firstLetterUpperCase from '../utilities/firstLetterUpperCase'
 
 export default {
   components: { CAlert, XIcon, CheckIcon },
@@ -61,6 +79,8 @@ export default {
   },
   computed: {
     ...mapGetters({
+      lang: 'lang/lang',
+      traslations: 'lang/traslations',
       connectedUsers: 'user/connectedUsers',
       stateUser: 'auth/stateUser',
     }),
@@ -69,6 +89,7 @@ export default {
     },
   },
   methods: {
+    firstLetterUpperCase,
     ...mapActions({
       updateFriendshipRequest: 'request/updateFriendshipRequest',
     }),

@@ -1,8 +1,9 @@
 <template>
   <c-dropup>
     <template slot="title">
-      <span>users</span>
+      <span v-html="traslations.Default.Users.toLowerCase()" />
     </template>
+
     <div
       class="d-flex align-items-center"
       v-for="user in connectedUsers"
@@ -13,6 +14,7 @@
         user.username
       }}</nuxt-link>
     </div>
+
     <div
       class="d-flex align-items-center"
       v-for="user in exceptOnlineUsers"
@@ -56,6 +58,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      traslations: 'lang/traslations',
       connectedUsers: 'user/connectedUsers',
     }),
     exceptOnlineUsers() {

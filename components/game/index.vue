@@ -2,9 +2,7 @@
   <div
     v-if="chart.chartHistory && users.currentUser"
     class="d-flex flex-column justify-content-center align-items-center"
-    :class="
-      users.currentUser.color !== chart.chartHistory.turn ? 'disable' : ''
-    "
+    :class="{ disable: users.currentUser.color !== chart.chartHistory.turn }"
   >
     <chessboard
       @onMove="onMove"

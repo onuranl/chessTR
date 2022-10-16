@@ -22,7 +22,11 @@
           :classContent="index + 1 == friendshipRequests.length ? ' mb-0' : ''"
         />
       </div>
-      <div v-else class="w-100 text-center">Bildirimin yok</div>
+      <div
+        v-else
+        class="w-100 text-center"
+        v-html="traslations.Notification.NotFound"
+      />
     </div>
     <span class="badge" v-if="pendingRequest" v-html="pendingRequest.length" />
   </div>
@@ -62,6 +66,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      traslations: 'lang/traslations',
       stateUser: 'auth/stateUser',
       friendshipRequests: 'request/friendshipRequests',
     }),

@@ -1,7 +1,7 @@
 <template>
   <c-dropup>
     <template slot="title">
-      <span>messages</span>
+      <span v-html="traslations.Default.Messages.toLowerCase()" />
     </template>
     <div v-for="chat in chats" :key="chat._id">
       <div
@@ -11,8 +11,8 @@
         class="cursor-pointer"
         @click="setActiveChatIDs(chat._id)"
       >
-        <small>{{ to(chat.users).username }} </small>
-        <p>{{ chat.messages[chat.messages.length - 1].message }}</p>
+        <small v-html="to(chat.users).username" />
+        <p v-html="chat.messages[chat.messages.length - 1].message" />
       </div>
     </div>
   </c-dropup>
@@ -25,10 +25,11 @@ import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'messages',
-  props: ['currentUserID'],
   components: { CDropup },
   computed: {
     ...mapGetters({
+      traslations: 'lang/traslations',
+      stateUser: 'auth/stateUser',
       activeChatIDs: 'chat/activeChatIDs',
       chats: 'chat/chats',
     }),
@@ -39,7 +40,7 @@ export default {
     }),
     to(users) {
       const user = users.find((user) => {
-        return user.id !== this.currentUserID
+        return user.id !== this.stateUser._id
       })
       return user
     },
