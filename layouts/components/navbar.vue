@@ -9,35 +9,44 @@
             @click="$refs.sidebar._data.activeSidebar = true"
           />
         </div>
-        <nuxt-link to="/">
-          <div
-            class="logo"
-            style="background: url(/icon.png) no-repeat center center"
-            type="button"
-          />
-        </nuxt-link>
+        <div
+          class="logo"
+          style="background: url(/icon.png) no-repeat center center"
+          type="button"
+          @click="reDesingTab('index')"
+        />
       </template>
-      <vs-navbar-item
-        :active="active == 'index'"
-        class="index"
-        id="index"
-        to="/"
-        v-html="traslations.Navbar.Home"
-      />
-      <vs-navbar-item
-        :active="active == 'create'"
-        id="create"
-        class="create"
-        to="/create"
-        v-html="traslations.Navbar.CreateRoom"
-      />
-      <vs-navbar-item
-        :active="active == 'rooms'"
-        id="rooms"
-        class="rooms"
-        to="/rooms"
-        v-html="traslations.Navbar.WarRooms"
-      />
+      <template class="center">
+        <vs-navbar-item
+          ref="index"
+          :active="active == 'index'"
+          class="index"
+          id="index"
+          to="/"
+          v-html="traslations.Navbar.Home"
+        />
+        <vs-navbar-item
+          :active="active == 'create'"
+          id="create"
+          class="create"
+          to="/create"
+          v-html="traslations.Navbar.CreateRoom"
+        />
+        <vs-navbar-item
+          :active="active == 'rooms'"
+          id="rooms"
+          class="rooms"
+          to="/rooms"
+          v-html="traslations.Navbar.WarRooms"
+        />
+        <vs-navbar-item
+          :active="active == 'chart-actives'"
+          id="chart-actives"
+          class="chart-actives"
+          to="/chart/actives"
+          v-html="traslations.Navbar.ActiveMatches"
+        />
+      </template>
       <template #right>
         <div class="d-flex" v-if="!isAuthenticated">
           <vs-button flat>Login</vs-button>
@@ -82,9 +91,9 @@ export default {
     lang() {
       const path = this.$route.name
 
-      const mainPages = ['index', 'create', 'rooms']
+      const mainPages = ['index', 'create', 'rooms', 'chart-actives']
 
-      mainPages.includes(path) ? this.reDesingTab() : null
+      mainPages.includes(path) ? this.reDesingTab(path) : null
     },
   },
   computed: {
@@ -100,8 +109,8 @@ export default {
       this.clientWidth = document.body.clientWidth
       this.isMobile = document.body.clientWidth < 480
     },
-    reDesingTab() {
-      document.getElementsByClassName(this.$route.name)[0].click()
+    reDesingTab(path) {
+      document.getElementsByClassName(path)[0].click()
     },
   },
 }
