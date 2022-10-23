@@ -4,8 +4,8 @@
       <bell-icon size="1x" />
     </vs-button>
     <div
-      class="notifications"
       v-if="open"
+      class="notifications"
       v-closableNoti="{
         exclude: ['button'],
         handler: 'onClose',
@@ -13,7 +13,8 @@
     >
       <div
         v-if="friendshipRequests && friendshipRequests.length > 0"
-        class="w-100 pr-1 overflow-auto"
+        class="w-100 overflow-auto"
+        :class="{ 'pr-1': friendshipRequests.length > 3 }"
       >
         <friend-request
           v-for="(request, index) in friendshipRequests"
