@@ -10,6 +10,7 @@
           />
         </div>
         <div
+          v-else
           class="logo"
           style="background: url(/icon.png) no-repeat center center"
           type="button"
@@ -116,15 +117,24 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@media only screen and (min-width: 718px) {
+  .vs-navbar-content {
+    .vs-navbar {
+      &__left {
+        width: 300px;
+      }
+      &__right {
+        width: 300px;
+      }
+    }
+  }
+}
+
 .logo {
   height: 40px;
   width: 40px;
   background-size: cover !important;
   border-radius: 10px;
-}
-
-.user {
-  cursor: pointer;
 }
 </style>
