@@ -5,6 +5,14 @@ async function getUser(id) {
   return await user_model.findOne({ _id: id }).populate('friends', 'username')
 }
 
+async function updateUser(user) {
+  try {
+    return await user_model.findByIdAndUpdate(user._id, user, { new: true })
+  } catch (error) {
+    console.log({ error })
+  }
+}
+
 async function getAllUsers() {
   return await user_model.find()
 }
@@ -51,6 +59,7 @@ module.exports = {
   createUser,
   login,
   getUser,
+  updateUser,
   getAllUsers,
   getUserByUsername,
   isUsernameTaken,

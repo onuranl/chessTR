@@ -12,8 +12,13 @@ const UserSchema = new mongoose.Schema(
       {
         type: mongoose.Types.ObjectId,
         ref: 'user',
+        unique: true,
       },
     ],
+    links: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 )

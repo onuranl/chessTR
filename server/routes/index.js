@@ -48,6 +48,11 @@ const routes = [
         handler: user_controller.getUserByUsername,
         method: 'get',
       },
+      {
+        path: '/',
+        handler: user_controller.updateUser,
+        method: 'put',
+      },
     ],
   },
   {

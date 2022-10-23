@@ -17,6 +17,22 @@ async function user(req, res) {
   }
 }
 
+async function updateUser(req, res) {
+  try {
+    const result = await user_service.updateUser(req.body)
+    if (result) {
+      return res.json({
+        status: true,
+        user: result,
+      })
+    }
+  } catch (error) {
+    return res.status(404).json({
+      error: error.message,
+    })
+  }
+}
+
 async function getAllUsers(req, res) {
   try {
     const result = await user_service.getAllUsers()
@@ -49,4 +65,4 @@ async function getUserByUsername(req, res) {
   }
 }
 
-module.exports = { user, getUserByUsername, getAllUsers }
+module.exports = { user, updateUser, getUserByUsername, getAllUsers }

@@ -7,6 +7,17 @@ async function getUserByID(id) {
   return user
 }
 
+async function updateUser(user) {
+  try {
+    const { _id, username, email, links } = user
+    const payload = { _id, username, email, links }
+
+    return await user_repository.updateUser(payload)
+  } catch (error) {
+    console.log({ error })
+  }
+}
+
 async function getAllUsers() {
   return await user_repository.getAllUsers()
 }
@@ -23,4 +34,10 @@ async function updateFriends(payload) {
   await user_repository.updateFriends(payload.to, payload.from)
 }
 
-module.exports = { getUserByID, getUserByUsername, getAllUsers, updateFriends }
+module.exports = {
+  getUserByID,
+  updateUser,
+  getUserByUsername,
+  getAllUsers,
+  updateFriends,
+}
