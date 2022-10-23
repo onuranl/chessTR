@@ -82,7 +82,8 @@ ul {
   text-align: center;
 }
 .activeTab {
-  border-bottom: 2px solid #0093c9;
-  color: black;
+  border-bottom: 2px solid white;
+  opacity: 1;
+  color: white;
 }
 </style>

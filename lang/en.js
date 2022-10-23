@@ -17,6 +17,7 @@ const en = {
     Home: 'Home',
     CreateRoom: 'Create Room',
     WarRooms: 'War Rooms',
+    ActiveMatches: 'Active Matches',
   },
   CreateRoom: {
     Public: 'Create a game',

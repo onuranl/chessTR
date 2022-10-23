@@ -1,10 +1,71 @@
 <template>
   <div>
-    <div class="settings text-secondary">
+    <div v-if="user" class="settings text-secondary">
       <c-tabs :activeTab="activeTab" @changeActiveTab="changeActiveTab">
-        <c-tab :id="1" title="Kullanıcı Ayarları"> social medias </c-tab>
-        <c-tab :id="2" title="Araç Tercihlerim"> email </c-tab>
-        <c-tab :id="3" title="Harita Tercihlerim"> genel bilgiler </c-tab>
+        <c-tab :id="1" title="Kullanıcı Bilgileri">
+          <div class="row">
+            <div class="col-lg-8">
+              <vs-input
+                dark
+                type="text"
+                v-model="user.username"
+                label="Username"
+              />
+              <vs-input
+                dark
+                class="mt-5"
+                type="email"
+                v-model="user.email"
+                label="Email"
+              />
+            </div>
+            <div class="col-lg-4 save-button">
+              <vs-button
+                icon
+                relief
+                success
+                animation-type="rotate"
+                @click="updateUser(user)"
+              >
+                <save-icon size="1.5x" class="custom-class" />
+
+                <template #animate>
+                  <save-icon size="1.5x" class="custom-class" />
+                </template>
+              </vs-button>
+            </div>
+          </div>
+        </c-tab>
+        <c-tab :id="2" title="Bağlantılar">
+          <div class="row">
+            <div class="col-lg-8">
+              <vs-input
+                v-for="index in 3"
+                :key="index"
+                :class="{ 'mt-5': index !== 1 }"
+                dark
+                type="url"
+                v-model="user.links[index - 1]"
+                :label="firstLetterUpperCase(medias[index - 1])"
+              />
+            </div>
+            <div class="col-lg-4 save-button">
+              <vs-button
+                icon
+                relief
+                success
+                animation-type="rotate"
+                @click="updateUser(user)"
+              >
+                <save-icon size="1.5x" />
+
+                <template #animate>
+                  <save-icon size="1.5x" class="custom-class" />
+                </template>
+              </vs-button>
+            </div>
+          </div>
+        </c-tab>
       </c-tabs>
     </div>
   </div>
@@ -14,18 +75,39 @@
 import CTab from '@/components/common/CTab.vue'
 import CTabs from '@/components/common/CTabs.vue'
 
+import { SaveIcon } from 'vue-feather-icons'
+
+import firstLetterUpperCase from '../utilities/firstLetterUpperCase'
+
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'settings',
   components: {
     CTab,
     CTabs,
+    SaveIcon,
   },
   data() {
     return {
       activeTab: 1,
+      medias: ['twitter', 'linkedin', 'github'],
+      user: null,
     }
   },
+  fetch() {
+    this.user = JSON.parse(JSON.stringify(this.stateUser))
+  },
+  computed: {
+    ...mapGetters({
+      stateUser: 'auth/stateUser',
+    }),
+  },
   methods: {
+    firstLetterUpperCase,
+    ...mapActions({
+      updateUser: 'user/updateUser',
+    }),
     changeActiveTab(id) {
       this.activeTab = id
     },
@@ -42,5 +124,11 @@ export default {
   padding: 36px;
   margin: 0px 30px;
   width: 550px;
+}
+
+.save-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

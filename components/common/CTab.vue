@@ -1,5 +1,5 @@
 <template>
-  <div v-show="$parent.activeTab === id"><slot></slot></div>
+  <div v-show="$parent.activeTab === id"><slot /></div>
 </template>
 
 <script>

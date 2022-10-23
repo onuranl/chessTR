@@ -1,3 +1,8 @@
+import axios from 'axios'
+import config from '../nuxt.config.js'
+
+const baseURL = config ? config.axios.baseURL : ''
+
 const user = {
   state: () => ({
     userInfo: null,
@@ -35,6 +40,26 @@ const user = {
     },
     setConnectedUsers(state, data) {
       state.connectedUsers = data
+    },
+  },
+  actions: {
+    async updateUser({ commit }, user) {
+      try {
+        const response = await axios.put(baseURL + '/user', user)
+
+        if (response.status === 200) {
+          const notification = {
+            color: 'success',
+            title: 'Başarılı',
+            text: 'Bilgiler başarıyla güncellendi.',
+          }
+
+          commit('auth/setUser', response.data.user, { root: true })
+          commit('vuesax/openNotification', notification, { root: true })
+        }
+      } catch (error) {
+        commit('vuesax/openNotification', { text: error }, { root: true })
+      }
     },
   },
 }
