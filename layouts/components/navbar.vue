@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <vs-navbar class="position-relative mb-3" center-collapsed v-model="active">
+  <div class="content">
+    <vs-navbar
+      class="position-relative mb-3"
+      center-collapsed
+      fixed
+      v-model="active"
+    >
       <template #left>
         <div v-if="clientWidth < 690">
           <menu-icon
@@ -116,6 +121,12 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.content {
+  min-height: 44px;
+}
+</style>
 
 <style lang="scss">
 @media only screen and (min-width: 718px) {
