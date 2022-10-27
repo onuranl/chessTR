@@ -33,6 +33,25 @@ async function getByID(req, res) {
   }
 }
 
+async function getByUserID(req, res) {
+  try {
+    const result = await chart_service.getByUserID(req.params.id)
+
+    if (result === null) {
+      return res.status(400).json({
+        status: false,
+        error: `There is no chart for this user (${req.params.id})`,
+      })
+    } else {
+      return res.status(200).json(result)
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error: error.message || 'Bir hata meydana geldi',
+    })
+  }
+}
+
 async function create(req, res) {
   const private = req.route.path.indexOf('private') !== -1
   const ai = req.route.path.indexOf('ai') !== -1
@@ -94,6 +113,7 @@ async function updateTime(req, res) {
 module.exports = {
   get,
   getByID,
+  getByUserID,
   create,
   update,
   remove,

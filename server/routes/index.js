@@ -74,6 +74,11 @@ const routes = [
         method: 'get',
       },
       {
+        path: '/user/:id',
+        handler: chart_controller.getByUserID,
+        method: 'get',
+      },
+      {
         path: '/',
         handler: chart_controller.create,
         method: 'post',

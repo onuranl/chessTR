@@ -39,6 +39,9 @@ const en = {
     Join: 'Join',
     NotFound: 'No matching records found',
   },
+  ActiveMatches: {
+    NoOpponent: 'no opponent',
+  },
   UserMenu: {
     Profile: 'Profile',
     Settings: 'Settings',

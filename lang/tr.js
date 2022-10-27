@@ -39,6 +39,9 @@ const tr = {
     Join: 'Katıl',
     NotFound: 'Hiçbir eşleşen kayıt bulunamadı',
   },
+  ActiveMatches: {
+    NoOpponent: 'rakip yok',
+  },
   UserMenu: {
     Profile: 'Profil',
     Settings: 'Ayarlar',

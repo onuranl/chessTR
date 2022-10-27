@@ -8,6 +8,10 @@ async function getByID(id) {
   return await chart_repository.getByID(id)
 }
 
+async function getByUserID(id) {
+  return await chart_repository.getByUserID(id)
+}
+
 async function create(chart) {
   return await chart_repository.create(chart)
 }
@@ -24,4 +28,12 @@ async function updateTime(id, data) {
   return await chart_repository.updateTime(id, data)
 }
 
-module.exports = { get, getByID, create, update, remove, updateTime }
+module.exports = {
+  get,
+  getByID,
+  getByUserID,
+  create,
+  update,
+  remove,
+  updateTime,
+}

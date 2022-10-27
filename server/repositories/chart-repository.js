@@ -14,6 +14,12 @@ async function getByID(id) {
   return await chart_model.findById({ _id: id }).populate('users.user', 'email')
 }
 
+async function getByUserID(id) {
+  return await chart_model
+    .find({ 'users.user': id })
+    .populate('users.user', 'username')
+}
+
 async function create(chart) {
   var createdChart = await chart_model.create(chart)
 
@@ -47,4 +53,12 @@ async function updateTime(id, data) {
   return await update(id, chart)
 }
 
-module.exports = { get, getByID, create, update, remove, updateTime }
+module.exports = {
+  get,
+  getByID,
+  getByUserID,
+  create,
+  update,
+  remove,
+  updateTime,
+}
