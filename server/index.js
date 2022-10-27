@@ -89,13 +89,7 @@ io.on('connection', (socket) => {
 
     const data = await chart_model.findById(chartID).populate('users.user')
 
-    const isUserExist = data.users.findIndex((item) => {
-      if (item.user.id === user) {
-        return true
-      } else {
-        return false
-      }
-    })
+    const isUserExist = data.users.findIndex((item) => item.user.id === user)
 
     if (isUserExist !== 0) {
       if (data.users.length <= 1) {
