@@ -14,7 +14,7 @@ const user = {
     userInfo: (state) => state.userInfo,
     connectedUsers: (state) => state.connectedUsers,
     onlineUsers: (state) => state.onlineUsers,
-    isOtherUserOnline(state, rootGetters) {
+    isOtherUserOnline(state, getters, rootState, rootGetters) {
       const users = rootGetters['chart/users']
       const otherUserId = users.otherUser ? users.otherUser.id : null
       var result = false
