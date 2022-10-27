@@ -92,7 +92,7 @@ export default {
 <style lang="scss" scoped>
 .config {
   z-index: 99001;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   display: flex;
@@ -105,7 +105,7 @@ export default {
 }
 
 .bottom_content {
-  position: absolute;
+  position: fixed;
   right: 15px;
   bottom: 15px;
   color: white;
