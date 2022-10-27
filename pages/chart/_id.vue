@@ -36,10 +36,10 @@ export default {
       inviteSectionControl: true,
     }
   },
-  fetch() {
+  async fetch() {
     const loading = this.$vs.loading()
     this.setChartID(this.$route.params.id)
-    this.getChart()
+    await this.getChart()
     loading.close()
   },
   mounted() {

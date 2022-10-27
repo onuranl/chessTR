@@ -39,7 +39,7 @@ export default {
       if (msg) {
         this.setChart(msg)
         if (this.users && (!this.users.currentUser || !this.users.otherUser)) {
-          this.getChart()
+          await this.getChart()
         }
       }
     })
