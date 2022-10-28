@@ -7,12 +7,12 @@
     <div class="login-form">
       <vs-input class="mb-2" v-model="form.email" placeholder="Email">
         <template #icon>
-          <mail-icon size="1x" class="custom-class"></mail-icon>
+          <mail-icon size="1x" />
         </template>
       </vs-input>
       <vs-input type="password" v-model="form.password" placeholder="Password">
         <template #icon>
-          <lock-icon size="1x" class="custom-class"></lock-icon>
+          <lock-icon size="1x" />
         </template>
       </vs-input>
       <vs-checkbox class="mt-3" v-model="remember">Remember me</vs-checkbox>

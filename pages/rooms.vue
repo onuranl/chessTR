@@ -33,10 +33,7 @@
             >
               {{ traslations.Rooms.Join }}
               <template #animate>
-                <arrow-right-icon
-                  size="1.5x"
-                  class="custom-class"
-                ></arrow-right-icon>
+                <arrow-right-icon size="1.5x" />
               </template>
             </vs-button>
           </vs-td>

@@ -10,7 +10,6 @@
         <div v-if="clientWidth < 1068">
           <menu-icon
             size="1.5x"
-            class="custom-class"
             @click="$refs.sidebar._data.activeSidebar = true"
           />
         </div>

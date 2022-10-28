@@ -2,10 +2,10 @@
   <div class="theme">
     <vs-switch dark v-model="dark">
       <template #off>
-        <moon-icon size="1.5x" class="custom-class"></moon-icon>
+        <moon-icon size="1.5x"></moon-icon>
       </template>
       <template #on>
-        <sun-icon size="1.5x" class="custom-class"></sun-icon>
+        <sun-icon size="1.5x"></sun-icon>
       </template>
     </vs-switch>
   </div>

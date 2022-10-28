@@ -27,10 +27,10 @@
                 animation-type="rotate"
                 @click="updateUser(user)"
               >
-                <save-icon size="1.5x" class="custom-class" />
+                <save-icon size="1.5x" />
 
                 <template #animate>
-                  <save-icon size="1.5x" class="custom-class" />
+                  <save-icon size="1.5x" />
                 </template>
               </vs-button>
             </div>
@@ -60,7 +60,7 @@
                 <save-icon size="1.5x" />
 
                 <template #animate>
-                  <save-icon size="1.5x" class="custom-class" />
+                  <save-icon size="1.5x" />
                 </template>
               </vs-button>
             </div>

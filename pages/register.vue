@@ -7,12 +7,12 @@
     <div class="register-form">
       <vs-input class="mb-2" v-model="form.username" placeholder="Username">
         <template #icon>
-          <user-icon size="1x" class="custom-class"></user-icon>
+          <user-icon size="1x" />
         </template>
       </vs-input>
       <vs-input class="mb-2" v-model="form.email" placeholder="Email">
         <template #icon>
-          <mail-icon size="1x" class="custom-class"></mail-icon>
+          <mail-icon size="1x" />
         </template>
       </vs-input>
       <vs-input
@@ -22,7 +22,7 @@
         :progress="getProgress"
       >
         <template #icon>
-          <lock-icon size="1x" class="custom-class"></lock-icon>
+          <lock-icon size="1x" />
         </template>
       </vs-input>
     </div>
