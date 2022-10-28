@@ -154,6 +154,8 @@ export default {
 
       const response = await $axios.$get(`user/${username}`)
 
+      loading.close()
+
       return { user: response.user }
     } catch (error) {
       app.router.app.$vs.notification({
@@ -166,8 +168,6 @@ export default {
 
       app.router.push('/')
     }
-
-    loading.close()
   },
   mounted() {
     this.socket = this.$parent.$parent.socket
