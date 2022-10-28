@@ -31,6 +31,8 @@
 <script>
 import { mapGetters } from 'vuex'
 
+import deepClone from '../utilities/deepClone'
+
 import CDropup from '~/components/common/CDropup.vue'
 
 export default {
@@ -63,7 +65,7 @@ export default {
     }),
     exceptOnlineUsers() {
       if (this.connectedUsers && this.users) {
-        const users = JSON.parse(JSON.stringify(this.users))
+        const users = deepClone(this.users)
 
         this.connectedUsers.map((user) => {
           const index = users.map((e) => e._id).indexOf(user.userID)

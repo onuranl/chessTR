@@ -12,6 +12,8 @@
 <script>
 import { chessboard } from 'vue-chessboard'
 
+import deepClone from '../utilities/deepClone'
+
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -68,7 +70,7 @@ export default {
       let randomMove = moves[Math.floor(Math.random() * moves.length)]
       this.$refs.ai.game.move(randomMove)
 
-      var chart = JSON.parse(JSON.stringify(this.chart))
+      const chart = deepClone(this.chart)
 
       chart.chartHistory.fen = this.$refs.ai.game.fen()
       chart.chartHistory.turn = this.$refs.ai.toColor()
@@ -76,12 +78,14 @@ export default {
       this.setChart(chart)
     },
     onMove(data) {
-      var chart = JSON.parse(JSON.stringify(this.chart))
+      const chart = deepClone(this.chart)
+
       chart.chartHistory = data
+
       this.setChart(chart)
     },
     async saveChart() {
-      var chart = JSON.parse(JSON.stringify(this.chart))
+      const chart = deepClone(this.chart)
 
       if (!chart.aiColor && this.color) {
         chart.aiColor = this.color

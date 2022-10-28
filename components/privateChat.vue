@@ -35,6 +35,8 @@ import { ChevronUpIcon, ChevronDownIcon, XIcon } from 'vue-feather-icons'
 
 import CDropup from '~/components/common/CDropup.vue'
 
+import deepClone from '../utilities/deepClone'
+
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
@@ -48,7 +50,7 @@ export default {
   data() {
     return {
       message: null,
-      messages: JSON.parse(JSON.stringify(this.chatMessages)),
+      messages: deepClone(this.chatMessages),
     }
   },
   mounted() {
@@ -130,7 +132,7 @@ export default {
       element ? (element.scrollTop = element.scrollHeight) : null
     },
     closeChat() {
-      const activeChatIDs = JSON.parse(JSON.stringify(this.activeChatIDs))
+      const activeChatIDs = deepClone(this.activeChatIDs)
 
       activeChatIDs.map((chatID, index) => {
         chatID === this.chatID ? activeChatIDs.splice(index, 1) : null

@@ -78,6 +78,7 @@ import CTabs from '@/components/common/CTabs.vue'
 import { SaveIcon } from 'vue-feather-icons'
 
 import firstLetterUpperCase from '../utilities/firstLetterUpperCase'
+import deepClone from '../utilities/deepClone'
 
 import { mapGetters, mapActions } from 'vuex'
 
@@ -96,7 +97,7 @@ export default {
     }
   },
   fetch() {
-    this.user = JSON.parse(JSON.stringify(this.stateUser))
+    this.user = deepClone(this.stateUser)
   },
   computed: {
     ...mapGetters({
