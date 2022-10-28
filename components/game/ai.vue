@@ -12,7 +12,7 @@
 <script>
 import { chessboard } from 'vue-chessboard'
 
-import deepClone from '../utilities/deepClone'
+import deepClone from '../../utilities/deepClone'
 
 import { mapGetters, mapMutations } from 'vuex'
 

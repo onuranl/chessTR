@@ -31,7 +31,7 @@
 <script>
 import { mapGetters } from 'vuex'
 
-import deepClone from '../utilities/deepClone'
+import deepClone from '../../utilities/deepClone'
 
 import CDropup from '~/components/common/CDropup.vue'
 
