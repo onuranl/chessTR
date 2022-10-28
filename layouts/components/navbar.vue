@@ -7,7 +7,7 @@
       v-model="active"
     >
       <template #left>
-        <div v-if="clientWidth < 690">
+        <div v-if="clientWidth < 1068">
           <menu-icon
             size="1.5x"
             class="custom-class"
@@ -64,7 +64,7 @@
         </div>
       </template>
     </vs-navbar>
-    <!-- <SideBar ref="sidebar" /> -->
+    <SideBar ref="sidebar" />
   </div>
 </template>
 <script>
@@ -78,7 +78,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'Navbar',
   data: () => ({
-    active: 'create',
+    active: 'index',
     clientWidth: document.body.clientWidth,
     isMobile: document.body.clientWidth < 480,
   }),
@@ -140,12 +140,5 @@ export default {
       }
     }
   }
-}
-
-.logo {
-  height: 40px;
-  width: 40px;
-  background-size: cover !important;
-  border-radius: 10px;
 }
 </style>
