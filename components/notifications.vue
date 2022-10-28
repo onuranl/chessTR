@@ -98,6 +98,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: center;
 }
 
 .notifications {
@@ -122,5 +123,6 @@ export default {
   background: red;
   color: white;
   z-index: 2;
+  top: 0;
 }
 </style>

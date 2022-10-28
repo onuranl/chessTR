@@ -5,7 +5,7 @@
       <Translate />
       <Theme />
     </div>
-    <Nuxt class="d-flex justify-content-center align-items-center" />
+    <Nuxt class="d-flex justify-content-center align-items-center mt-4" />
     <div class="bottom_content">
       <Chats />
       <Messages />

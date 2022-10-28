@@ -81,6 +81,7 @@ export default {
   column-gap: 10px;
   row-gap: 10px;
   padding: 20px;
+  padding-top: 0px;
 }
 
 .pool {

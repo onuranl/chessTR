@@ -80,6 +80,7 @@ export default {
   column-gap: 20px;
   row-gap: 10px;
   padding: 20px;
+  padding-top: 0px;
 }
 
 .disable {
