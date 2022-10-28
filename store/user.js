@@ -5,13 +5,11 @@ const baseURL = config ? config.axios.baseURL : ''
 
 const user = {
   state: () => ({
-    userInfo: null,
     connectedUsers: null,
     onlineUsers: null,
     isOtherUserOnline: null,
   }),
   getters: {
-    userInfo: (state) => state.userInfo,
     connectedUsers: (state) => state.connectedUsers,
     onlineUsers: (state) => state.onlineUsers,
     isOtherUserOnline(state, getters, rootState, rootGetters) {
@@ -32,9 +30,6 @@ const user = {
     },
   },
   mutations: {
-    setUserInfo(state, data) {
-      state.userInfo = data
-    },
     setOnlineUsers(state, data) {
       state.onlineUsers = data
     },
