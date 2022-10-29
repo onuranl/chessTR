@@ -48,7 +48,7 @@
 <script>
 import { LockIcon, MailIcon } from 'vue-feather-icons'
 
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 var CryptoJS = require('crypto-js')
 
@@ -61,10 +61,7 @@ export default {
   },
   data() {
     return {
-      remember:
-        this.$cookies.get('email') && this.$cookies.get('password')
-          ? true
-          : false,
+      remember: this.$cookies.get('email') ? true : false,
       active: true,
       form: {
         email: '',
@@ -86,6 +83,7 @@ export default {
     }),
   },
   methods: {
+    ...mapMutations({ openNotification: 'vuesax/openNotification' }),
     ...mapActions({ logIn: 'auth/logIn' }),
     encrypt: (clear) => {
       var cipher = CryptoJS.AES.encrypt(clear, 'MUSTAFA KEMAL')
@@ -112,31 +110,18 @@ export default {
             if (this.remember) {
               this.saveUser()
             }
-            setInterval(() => {
+            setTimeout(() => {
               location.reload()
             }, 1000)
           } else {
             loading.close()
-            this.openNotification(
-              'top-center',
-              'danger',
-              'Hata',
-              response.data.error
-            )
+            this.openNotification({ text: response.data.error })
           }
         })
         .catch((err) => {
           loading.close()
-          this.openNotification('top-center', 'danger', 'Hata', err)
+          this.openNotification({ text: err })
         })
-    },
-    openNotification(position = null, color, title, text) {
-      this.$vs.notification({
-        color,
-        position,
-        title,
-        text,
-      })
     },
   },
 }

@@ -52,7 +52,7 @@
 <script>
 import { LockIcon, MailIcon, UserIcon } from 'vue-feather-icons'
 
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'register',
@@ -113,37 +113,25 @@ export default {
     },
   },
   methods: {
+    ...mapMutations({ openNotification: 'vuesax/openNotification' }),
     ...mapActions({ register: 'auth/register' }),
-    async submit() {
+    submit() {
       const loading = this.$vs.loading()
 
       this.register(this.form)
         .then((response) => {
           if (response && response.status === 200) {
-            setInterval(() => {
+            setTimeout(() => {
               location.reload()
             }, 1000)
           } else {
             loading.close()
-            this.openNotification(
-              'top-center',
-              'danger',
-              'Hata',
-              response.data.error
-            )
+            this.openNotification({ text: response.data.error })
           }
         })
         .catch((err) => {
-          this.openNotification('top-center', 'danger', 'Hata', err)
+          this.openNotification({ text: err })
         })
-    },
-    openNotification(position = null, color, title, text) {
-      this.$vs.notification({
-        color,
-        position,
-        title,
-        text,
-      })
     },
   },
 }
