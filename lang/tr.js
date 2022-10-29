@@ -56,6 +56,12 @@ const tr = {
     Draw: 'Beraberlik',
     Lose: 'Mağlubiyet',
   },
+  Settings: {
+    UserInformation: 'Kullanıcı Bilgileri',
+    Links: 'Bağlantılar',
+    Username: 'Kullanıcı ismi',
+    Email: 'E-posta',
+  },
 }
 
 module.exports = tr

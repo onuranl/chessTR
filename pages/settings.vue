@@ -2,21 +2,21 @@
   <div>
     <div v-if="user" class="settings text-secondary">
       <c-tabs :activeTab="activeTab" @changeActiveTab="changeActiveTab">
-        <c-tab :id="1" title="Kullanıcı Bilgileri">
+        <c-tab :id="1" :title="traslations.Settings.UserInformation">
           <div class="row">
             <div class="col-lg-8">
               <vs-input
                 dark
                 type="text"
                 v-model="user.username"
-                label="Username"
+                :label="traslations.Settings.Username"
               />
               <vs-input
                 dark
                 class="mt-5"
                 type="email"
                 v-model="user.email"
-                label="Email"
+                :label="traslations.Settings.Email"
               />
             </div>
             <div class="col-lg-4 save-button">
@@ -36,16 +36,16 @@
             </div>
           </div>
         </c-tab>
-        <c-tab :id="2" title="Bağlantılar">
+        <c-tab :id="2" :title="traslations.Settings.Links">
           <div class="row">
             <div class="col-lg-8">
               <vs-input
-                v-for="index in 3"
-                :key="index"
-                :class="{ 'mt-5': index !== 1 }"
                 dark
                 type="url"
+                v-for="index in 3"
                 v-model="user.links[index - 1]"
+                :key="index"
+                :class="{ 'mt-5': index !== 1 }"
                 :label="firstLetterUpperCase(medias[index - 1])"
               />
             </div>
@@ -101,6 +101,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      traslations: 'lang/traslations',
       stateUser: 'auth/stateUser',
     }),
   },

@@ -56,6 +56,12 @@ const en = {
     Draw: 'Draw',
     Lose: 'Lose',
   },
+  Settings: {
+    UserInformation: 'User information',
+    Links: 'Links',
+    Username: 'Username',
+    Email: 'Email',
+  },
 }
 
 module.exports = en
