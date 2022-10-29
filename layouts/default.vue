@@ -106,6 +106,7 @@ export default {
 
 .bottom_content {
   position: fixed;
+  z-index: 2;
   right: 15px;
   bottom: 15px;
   color: white;
