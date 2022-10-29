@@ -1,4 +1,20 @@
 const tr = {
+  Auth: {
+    Welcome: "<b>ChessTR'ye</b> hoş geldin",
+    Username: 'Kullanıcı ismi',
+    Email: 'E-posta',
+    Password: 'Şifre',
+    LoginLabel: 'Giriş yap',
+    Login: {
+      RememberMe: 'Beni hatırla',
+      NewHere: 'Yeni misin ?',
+      CreateNewAccount: 'Yeni hesap oluştur',
+    },
+    Register: {
+      CreateAccount: 'Hesap oluştur',
+      YouAreHere: 'Üye misin ?',
+    },
+  },
   Default: {
     Messages: 'Mesajlar',
     Friends: 'Arkadaşlar',

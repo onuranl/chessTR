@@ -1,28 +1,44 @@
 <template>
   <vs-dialog v-model="active" not-close prevent-close>
     <template #header>
-      <h5>Welcome to <b>ChessTR</b></h5>
+      <h5 v-html="traslations.Auth.Welcome" />
     </template>
 
     <div class="login-form">
-      <vs-input class="mb-2" v-model="form.email" placeholder="Email">
+      <vs-input
+        class="mb-2"
+        v-model="form.email"
+        :placeholder="traslations.Auth.Email"
+      >
         <template #icon>
           <mail-icon size="1x" />
         </template>
       </vs-input>
-      <vs-input type="password" v-model="form.password" placeholder="Password">
+      <vs-input
+        type="password"
+        v-model="form.password"
+        :placeholder="traslations.Auth.Password"
+      >
         <template #icon>
           <lock-icon size="1x" />
         </template>
       </vs-input>
-      <vs-checkbox class="mt-3" v-model="remember">Remember me</vs-checkbox>
+      <vs-checkbox class="mt-3" v-model="remember"
+        >{{ traslations.Auth.Login.RememberMe }}
+      </vs-checkbox>
     </div>
 
     <template #footer>
-      <vs-button @click="submit" block> Sign In </vs-button>
+      <vs-button @click="submit" block>
+        {{ traslations.Auth.LoginLabel }}
+      </vs-button>
       <div class="d-flex justify-content-center mt-3">
         <div style="font-size: 0.7rem">
-          New Here? <nuxt-link to="/register">Create New Account</nuxt-link>
+          {{ traslations.Auth.Login.NewHere }}
+          <nuxt-link
+            to="/register"
+            v-html="traslations.Auth.Login.CreateNewAccount"
+          />
         </div>
       </div>
     </template>
@@ -30,9 +46,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-
 import { LockIcon, MailIcon } from 'vue-feather-icons'
+
+import { mapGetters, mapActions } from 'vuex'
 
 var CryptoJS = require('crypto-js')
 
@@ -63,6 +79,11 @@ export default {
       this.form.email = this.$cookies.get('email')
       this.form.password = password
     }
+  },
+  computed: {
+    ...mapGetters({
+      traslations: 'lang/traslations',
+    }),
   },
   methods: {
     ...mapActions({ logIn: 'auth/logIn' }),

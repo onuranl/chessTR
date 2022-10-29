@@ -1,16 +1,24 @@
 <template>
   <vs-dialog v-model="active" not-close prevent-close>
     <template #header>
-      <h5>Welcome to <b>ChessTR</b></h5>
+      <h5 v-html="traslations.Auth.Welcome" />
     </template>
 
     <div class="register-form">
-      <vs-input class="mb-2" v-model="form.username" placeholder="Username">
+      <vs-input
+        class="mb-2"
+        v-model="form.username"
+        :placeholder="traslations.Auth.Username"
+      >
         <template #icon>
           <user-icon size="1x" />
         </template>
       </vs-input>
-      <vs-input class="mb-2" v-model="form.email" placeholder="Email">
+      <vs-input
+        class="mb-2"
+        v-model="form.email"
+        :placeholder="traslations.Auth.Email"
+      >
         <template #icon>
           <mail-icon size="1x" />
         </template>
@@ -18,7 +26,7 @@
       <vs-input
         type="password"
         v-model="form.password"
-        placeholder="Password"
+        :placeholder="traslations.Auth.Password"
         :progress="getProgress"
       >
         <template #icon>
@@ -28,10 +36,13 @@
     </div>
 
     <template #footer>
-      <vs-button @click="submit" block> Create Account </vs-button>
+      <vs-button @click="submit" block>
+        {{ traslations.Auth.Register.CreateAccount }}
+      </vs-button>
       <div class="d-flex justify-content-center mt-3">
         <div style="font-size: 0.7rem">
-          You are here ? <nuxt-link to="/login">Login</nuxt-link>
+          {{ traslations.Auth.Register.YouAreHere }}
+          <nuxt-link to="/login" v-html="traslations.Auth.LoginLabel" />
         </div>
       </div>
     </template>
@@ -39,9 +50,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-
 import { LockIcon, MailIcon, UserIcon } from 'vue-feather-icons'
+
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'register',
@@ -62,6 +73,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      traslations: 'lang/traslations',
+    }),
     getProgress() {
       let progress = 0
 

@@ -1,4 +1,20 @@
 const en = {
+  Auth: {
+    Welcome: 'Welcome to <b>ChessTR</b>',
+    Username: 'Username',
+    Email: 'Email',
+    Password: 'Password',
+    LoginLabel: 'Login',
+    Login: {
+      RememberMe: 'Remember me',
+      NewHere: 'New here ?',
+      CreateNewAccount: 'Create New Account',
+    },
+    Register: {
+      CreateAccount: 'Create Account',
+      YouAreHere: 'You are here ?',
+    },
+  },
   Default: {
     Messages: 'Messages',
     Friends: 'Friends',

@@ -4,7 +4,7 @@
       <Translate />
       <Theme />
     </div>
-    <Nuxt />
+    <Nuxt v-if="traslations" />
   </div>
 </template>
 
@@ -12,9 +12,24 @@
 import Translate from './components/translate.vue'
 import Theme from './components/theme.vue'
 
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'auth',
   components: { Translate, Theme },
+  created() {
+    this.getTranslations()
+  },
+  computed: {
+    ...mapGetters({
+      traslations: 'lang/traslations',
+    }),
+  },
+  methods: {
+    ...mapActions({
+      getTranslations: 'lang/getTranslations',
+    }),
+  },
 }
 </script>
 
