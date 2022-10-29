@@ -13,7 +13,7 @@ const router = require('./routes/index')
 
 // Providers
 require('./providers/database')
-global.socket = require('./providers/socket')(server)
+require('./providers/socket')(server)
 
 // Middlewares
 app.use(cors())
