@@ -10,6 +10,8 @@ const user = {
     isOtherUserOnline: null,
   }),
   getters: {
+    currentUserID: (state, getters, rootState, rootGetters) =>
+      rootGetters['auth/stateUser']?.id,
     connectedUsers: (state) => state.connectedUsers,
     onlineUsers: (state) => state.onlineUsers,
     isOtherUserOnline(state, getters, rootState, rootGetters) {

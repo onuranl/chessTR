@@ -34,13 +34,10 @@ export default {
   },
   computed: {
     ...mapGetters({
-      stateUser: 'auth/stateUser',
+      currentUserID: 'user/currentUserID',
       activeChats: 'chat/activeChats',
       activeChatIDs: 'chat/activeChatIDs',
     }),
-    currentUserID() {
-      return this.stateUser._id
-    },
   },
   methods: {
     ...mapMutations({
@@ -50,10 +47,7 @@ export default {
       getChats: 'chat/getChats',
     }),
     to(users) {
-      const user = users.find((user) => {
-        return user.id !== this.currentUserID
-      })
-      return user
+      return users.find((user) => user.id !== this.currentUserID)
     },
   },
 }

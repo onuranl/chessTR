@@ -65,10 +65,8 @@ export default {
   computed: {
     ...mapGetters({
       traslations: 'lang/traslations',
+      currentUserID: 'user/currentUserID',
     }),
-    currentUserID() {
-      return this.$store.getters['auth/stateUser']?.id
-    },
   },
 }
 </script>
