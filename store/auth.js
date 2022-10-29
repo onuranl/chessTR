@@ -1,7 +1,7 @@
 import axios from 'axios'
-import config from '../nuxt.config.js'
+import setBaseURL from '../utilities/setBaseURL'
 
-const baseURL = config ? config.axios.baseURL : ''
+const baseURL = setBaseURL('auth')
 
 const auth = {
   state: () => ({
@@ -23,14 +23,14 @@ const auth = {
   },
   actions: {
     async logIn({ dispatch }, user) {
-      const result = await axios.post(baseURL + '/auth/login', user)
+      const result = await axios.post(baseURL + '/login', user)
       if (result && result.status === 200) {
         dispatch('setToken', result.data.user.token)
       }
       return result
     },
     async register({ dispatch }, form) {
-      const result = await axios.post(baseURL + '/auth/register', form)
+      const result = await axios.post(baseURL + '/register', form)
       if (result && result.status === 200) {
         dispatch('logIn', form)
       }
@@ -39,7 +39,7 @@ const auth = {
     async setToken({ commit }, token) {
       if (token) {
         try {
-          const result = await axios.get(baseURL + '/auth/user', {
+          const result = await axios.get(baseURL + '/user', {
             headers: {
               'Content-Type': 'application/json',
               Authorization: token,

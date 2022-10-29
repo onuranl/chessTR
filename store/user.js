@@ -1,7 +1,7 @@
 import axios from 'axios'
-import config from '../nuxt.config.js'
+import setBaseURL from '../utilities/setBaseURL'
 
-const baseURL = config ? config.axios.baseURL : ''
+const baseURL = setBaseURL('user')
 
 const user = {
   state: () => ({
@@ -40,7 +40,7 @@ const user = {
   actions: {
     async updateUser({ commit }, user) {
       try {
-        const response = await axios.put(baseURL + '/user', user)
+        const response = await axios.put(baseURL, user)
 
         if (response.status === 200) {
           const notification = {

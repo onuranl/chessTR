@@ -1,7 +1,7 @@
 import axios from 'axios'
-import config from '../nuxt.config.js'
+import setBaseURL from '../utilities/setBaseURL'
 
-const baseURL = config ? config.axios.baseURL : ''
+const baseURL = setBaseURL('friendship')
 
 const request = {
   state: () => ({
@@ -20,7 +20,7 @@ const request = {
       try {
         const userID = rootGetters['auth/stateUser']._id
 
-        const response = await axios.get(baseURL + '/friendship/' + userID)
+        const response = await axios.get(baseURL + '/' + userID)
 
         if (response.status === 200) {
           commit('setFriendshipRequests', response.data.reverse())
@@ -36,7 +36,7 @@ const request = {
           to,
         }
 
-        const response = await axios.post(baseURL + '/friendship', payload)
+        const response = await axios.post(baseURL, payload)
 
         if (response.status === 200) {
           const notification = {
@@ -60,10 +60,7 @@ const request = {
           status: request.status,
         }
 
-        const response = await axios.put(
-          baseURL + '/friendship/' + request.id,
-          payload
-        )
+        const response = await axios.put(baseURL + '/' + request.id, payload)
 
         if (response.status === 200) {
           dispatch('getFriendshipRequests')

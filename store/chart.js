@@ -1,7 +1,7 @@
 import axios from 'axios'
-import config from '../nuxt.config.js'
+import setBaseURL from '../utilities/setBaseURL'
 
-const baseURL = config ? config.axios.baseURL : ''
+const baseURL = setBaseURL('chart')
 
 var notification = {
   color: null,
@@ -62,33 +62,6 @@ const chart = {
     setChart(state, data) {
       state.chart = data
     },
-    // setUsers({ state, rootGetters }) {
-    //   console.log({ rootGetters })
-    //   const stateUser = rootGetters['auth/stateUser']
-    //   console.log({ stateUser })
-    //   var currentUser, otherUser
-    //   if (state.chart && state.chart.users && stateUser) {
-    //     state.chart.users.map((element) => {
-    //       element.user.id === stateUser.id
-    //         ? (currentUser = {
-    //             id: element.user.id,
-    //             email: element.user.email,
-    //             color: element.color,
-    //             time: element.time,
-    //           })
-    //         : (otherUser = {
-    //             id: element.user.id,
-    //             email: element.user.email,
-    //             color: element.color,
-    //             time: element.time,
-    //           })
-    //     })
-    //   }
-    //   state.users = {
-    //     currentUser,
-    //     otherUser,
-    //   }
-    // },
     setColor(state, data) {
       if (data !== 'random') {
         state.color = data
@@ -102,11 +75,10 @@ const chart = {
   actions: {
     async getChart({ commit, state }) {
       try {
-        const response = await axios.get(baseURL + '/chart/' + state.chartID)
+        const response = await axios.get(baseURL + '/' + state.chartID)
 
         if (response.status === 200) {
           commit('setChart', response.data)
-          // commit('setUsers')
         }
       } catch (error) {
         notification.text = error
@@ -117,17 +89,10 @@ const chart = {
       }
     },
     async createChart({ commit }, mod) {
-      const endpoint =
-        mod === 'private'
-          ? '/chart/private'
-          : mod === 'ai'
-          ? '/chart/ai'
-          : '/chart'
+      const endpoint = mod ? '/' + mod : ''
 
       try {
         const response = await axios.post(baseURL + endpoint)
-
-        console.log({ response })
 
         if (response) {
           this.app.router.push('chart/' + response.data._id)
@@ -142,7 +107,7 @@ const chart = {
     },
     async updateChart({ state, commit }, chart) {
       try {
-        await axios.put(baseURL + '/chart/' + state.chartID, chart)
+        await axios.put(baseURL + '/' + state.chartID, chart)
       } catch (error) {
         notification.text = error
 
@@ -153,7 +118,7 @@ const chart = {
     },
     async deleteChart({ state, commit }) {
       try {
-        const response = await axios.delete(baseURL + '/chart/' + state.chartID)
+        const response = await axios.delete(baseURL + '/' + state.chartID)
 
         if (response.status === 200) {
           notification.color = 'success'

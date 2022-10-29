@@ -1,8 +1,7 @@
 import axios from 'axios'
-import config from '../nuxt.config.js'
+import setBaseURL from '../utilities/setBaseURL'
 
-const baseURL = config ? config.axios.baseURL : ''
-
+const baseURL = setBaseURL('chat')
 const chat = {
   state: () => ({
     chats: null,
@@ -40,7 +39,7 @@ const chat = {
   actions: {
     async getChats({ commit }, userID) {
       try {
-        const chats = await axios.get(baseURL + '/chat/user/' + userID)
+        const chats = await axios.get(baseURL + '/user/' + userID)
 
         commit('setChats', chats.data)
       } catch (error) {
@@ -52,7 +51,7 @@ const chat = {
         const payload = {
           users,
         }
-        const chat = await axios.post(baseURL + '/chat', payload)
+        const chat = await axios.post(baseURL, payload)
 
         if (chat.status === 200) {
           dispatch('getChats', users[0])
@@ -69,7 +68,7 @@ const chat = {
           message: data.message,
         }
 
-        await axios.put(baseURL + '/chat/' + data.chatID, payload)
+        await axios.put(baseURL + '/' + data.chatID, payload)
       } catch (error) {
         console.log({ error })
       }
