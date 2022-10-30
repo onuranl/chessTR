@@ -29,7 +29,6 @@ export default {
   mounted() {
     this.socket = this.$parent.$parent.$parent.socket
     this.socket.emit('join', {
-      chartID: this.chartID,
       user: this.user._id,
       color: this.color || null,
       time: 300000,
@@ -53,7 +52,6 @@ export default {
       color: 'chart/color',
       chart: 'chart/chart',
       users: 'chart/users',
-      chartID: 'chart/chartID',
     }),
   },
   methods: {
@@ -72,7 +70,7 @@ export default {
           chartHistory: data,
           user: this.user._id,
         }
-        this.socket.emit('moveOn', payload)
+        this.socket.emit('move on', payload)
       }
     },
   },

@@ -176,7 +176,7 @@ export default {
     },
     getTimeByOtherUser() {
       const otherUser = this.users.otherUser.id
-      this.socket.emit('getTime', otherUser)
+      this.socket.emit('get time', otherUser)
     },
     setTimeToOtherUser() {
       const payload = {

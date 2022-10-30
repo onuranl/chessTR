@@ -44,7 +44,7 @@ export default {
   },
   mounted() {
     this.socket = this.$parent.$parent.socket
-    this.socket.emit('joinAttempt', this.chartID)
+    this.socket.emit('join attempt', this.chartID)
     this.socket.on('onlineUsers', async (data) => {
       if (data) {
         const onlineUsers = Object.values(data)
