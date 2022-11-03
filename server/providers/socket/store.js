@@ -1,4 +1,5 @@
 class Store {
+  // state
   constructor() {
     this.connectedUsers = []
     this.onlineUsers = {}
@@ -7,6 +8,7 @@ class Store {
     this.chartID = null
   }
 
+  //getters
   getConnectedUsers() {
     return this.connectedUsers
   }
@@ -31,6 +33,7 @@ class Store {
     return this.chartID
   }
 
+  // mutations
   setConnectedUser(user) {
     this.connectedUser = user
   }

@@ -24,6 +24,18 @@ async function remove(id) {
   return await chart_repository.remove(id)
 }
 
+async function updatePlayers(id, payload) {
+  return await chart_repository.updatePlayers(id, payload)
+}
+
+async function updateAudience(id, user) {
+  return await chart_repository.updateAudience(id, user)
+}
+
+async function updateChatMessages(id, msg) {
+  return await chart_repository.updateChatMessages(id, msg)
+}
+
 async function updateTime(id, data) {
   return await chart_repository.updateTime(id, data)
 }
@@ -35,5 +47,8 @@ module.exports = {
   create,
   update,
   remove,
+  updatePlayers,
+  updateAudience,
+  updateChatMessages,
   updateTime,
 }

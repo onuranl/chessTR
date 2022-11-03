@@ -1,4 +1,4 @@
-const chart_model = require('../../../models/chart')
+const chart_service = require('../services/chart-service')
 
 module.exports = (socket, io, store) => {
   socket.on('message', async (msg) => {
@@ -6,14 +6,9 @@ module.exports = (socket, io, store) => {
 
     const chartID = store.getChartID()
 
-    await chart_model.findOneAndUpdate(
-      { _id: chartID },
-      { $push: { chat: msg } }
-    )
+    await chart_service.updateChatMessages(chartID, msg)
 
-    const newData = await chart_model
-      .findById(chartID)
-      .populate('users.user', 'email')
+    const newData = await chart_service.getByID(chartID)
 
     io.sockets.in(chartID).emit('chat', newData)
   })

@@ -45,6 +45,27 @@ async function remove(id) {
   return await chart_model.deleteOne({ _id: id })
 }
 
+async function updatePlayers(id, payload) {
+  return await chart_model.findOneAndUpdate(
+    { _id: id },
+    { $push: { users: payload } }
+  )
+}
+
+async function updateAudience(id, user) {
+  return await chart_model.findOneAndUpdate(
+    { _id: id },
+    { $push: { audience: user } }
+  )
+}
+
+async function updateChatMessages(id, msg) {
+  return await chart_model.findOneAndUpdate(
+    { _id: id },
+    { $push: { chat: msg } }
+  )
+}
+
 async function updateTime(id, data) {
   var chart = await getByID(id)
   chart.users.map((userInfo) => {
@@ -60,5 +81,8 @@ module.exports = {
   create,
   update,
   remove,
+  updatePlayers,
+  updateAudience,
+  updateChatMessages,
   updateTime,
 }

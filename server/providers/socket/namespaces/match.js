@@ -1,5 +1,5 @@
 const pools = require('../../../helpers/pools')
-const chart_model = require('../../../models/chart')
+const chart_service = require('../services/chart-service')
 
 module.exports = (socket, io) => {
   socket.on('match', (data) => {
@@ -18,7 +18,7 @@ module.exports = (socket, io) => {
 
           if (searchers[searchers.length - 2]) {
             const payload = {}
-            const createdChart = await chart_model.create(payload)
+            const createdChart = await chart_service.create(payload)
 
             io.to(searchers[searchers.length - 2]).emit(
               'generate',
@@ -28,7 +28,7 @@ module.exports = (socket, io) => {
             var userController
 
             userController = setInterval(async function () {
-              const chart = await chart_model.findById(createdChart._id)
+              const chart = await chart_service.getByID(createdChart._id)
               if (chart.users.length > 0) {
                 io.to(searchers[searchers.length - 1]).emit(
                   'generate',

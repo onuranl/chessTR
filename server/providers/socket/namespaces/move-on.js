@@ -1,10 +1,10 @@
-const chart_model = require('../../../models/chart')
+const chart_service = require('../services/chart-service')
 
 module.exports = (socket, io, store) => {
   socket.on('move on', async (msg) => {
     const chartID = store.getChartID()
 
-    const oldData = await chart_model.findById(chartID)
+    const oldData = await chart_service.getByID(chartID)
 
     if (oldData && oldData.chartHistory.history) {
       msg.chartHistory.history = [
@@ -13,8 +13,9 @@ module.exports = (socket, io, store) => {
       ]
     }
 
-    await chart_model.findOneAndUpdate({ _id: chartID }, msg)
-    const newData = await chart_model.findById(chartID)
+    await chart_service.update(chartID, msg)
+
+    const newData = await chart_service.getByID(chartID)
 
     io.sockets.in(chartID).emit('broadcast', newData)
   })

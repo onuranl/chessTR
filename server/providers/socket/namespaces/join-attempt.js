@@ -1,4 +1,4 @@
-const chart_model = require('../../../models/chart')
+const chart_service = require('../services/chart-service')
 
 module.exports = (socket, io, store) => {
   socket.on('join attempt', async (id) => {
@@ -8,7 +8,7 @@ module.exports = (socket, io, store) => {
 
     socket.join(chartID)
 
-    const data = await chart_model.findById(chartID)
+    const data = await chart_service.getByID(chartID)
     const sockets = await io.of('/').in(chartID).allSockets()
 
     var socketNumber = 0

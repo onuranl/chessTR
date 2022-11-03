@@ -1,4 +1,4 @@
-const chart_model = require('../../../models/chart')
+const chart_service = require('../services/chart-service')
 
 module.exports = (socket, io, store) => {
   socket.on('join', async (userInfo) => {
@@ -11,7 +11,7 @@ module.exports = (socket, io, store) => {
 
     io.sockets.in(chartID).emit('onlineUsers', store.getOnlineUsers())
 
-    const data = await chart_model.findById(chartID).populate('users.user')
+    const data = await chart_service.getByID(chartID)
 
     const isUserExist = data.users.findIndex((item) => item.user.id === user)
 
@@ -34,21 +34,13 @@ module.exports = (socket, io, store) => {
           color: color,
         }
 
-        await chart_model.findOneAndUpdate(
-          { _id: chartID },
-          { $push: { users: payload } }
-        )
+        await chart_service.updatePlayers(chartID, payload)
       } else {
-        await chart_model.findOneAndUpdate(
-          { _id: chartID },
-          { $push: { audience: user } }
-        )
+        await chart_service.updateAudience(chartID, user)
       }
     }
 
-    const newData = await chart_model
-      .findById(chartID)
-      .populate('users.user', 'email')
+    const newData = await chart_service.getByID(chartID)
 
     io.sockets.in(chartID).emit('broadcast', newData)
   })
