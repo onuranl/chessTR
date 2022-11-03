@@ -8,14 +8,10 @@ async function getUserByID(id) {
 }
 
 async function updateUser(user) {
-  try {
-    const { _id, username, email, links } = user
-    const payload = { _id, username, email, links }
+  const { _id, username, email, links } = user
+  const payload = { _id, username, email, links }
 
-    return await user_repository.updateUser(payload)
-  } catch (error) {
-    console.log({ error })
-  }
+  return await user_repository.updateUser(payload)
 }
 
 async function getAllUsers() {
@@ -34,10 +30,17 @@ async function updateFriends(payload) {
   await user_repository.updateFriends(payload.to, payload.from)
 }
 
+async function updateLastActive(user) {
+  user.active = new Date()
+
+  await user_repository.updateUser(user)
+}
+
 module.exports = {
   getUserByID,
   updateUser,
   getUserByUsername,
   getAllUsers,
   updateFriends,
+  updateLastActive,
 }

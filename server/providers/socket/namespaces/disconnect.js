@@ -1,4 +1,4 @@
-const updateLastActive = require('../../../utilities/updateLastActive')
+const user_service = require('../../../services/user-service')
 
 module.exports = (socket, io, store) => {
   socket.on('disconnect', async () => {
@@ -17,6 +17,6 @@ module.exports = (socket, io, store) => {
       store.removeChartID()
     }
 
-    await updateLastActive(store.getConnectedUser())
+    await user_service.updateLastActive(store.getConnectedUser())
   })
 }
