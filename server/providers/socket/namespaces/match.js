@@ -1,5 +1,5 @@
 const pools = require('../../../helpers/pools')
-const chart_service = require('../services/chart-service')
+const chart_service = require('../../../services/chart-service')
 
 module.exports = (socket, io) => {
   socket.on('match', (data) => {

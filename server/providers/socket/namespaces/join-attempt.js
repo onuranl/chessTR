@@ -1,4 +1,4 @@
-const chart_service = require('../services/chart-service')
+const chart_service = require('../../../services/chart-service')
 
 module.exports = (socket, io, store) => {
   socket.on('join attempt', async (id) => {
