@@ -105,6 +105,9 @@ export default {
 
       mainPages.includes(path) ? this.reDesingTab(path) : null
     },
+    isAuthenticated() {
+      this.reDesingTab(this.$route.name)
+    },
   },
   computed: {
     ...mapGetters({

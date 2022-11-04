@@ -30,7 +30,7 @@ module.exports = (socket, io, store) => {
 
         const payload = {
           user: user,
-          item: userInfo.time,
+          time: userInfo.time,
           color: color,
         }
 
