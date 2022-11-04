@@ -34,6 +34,8 @@ const tr = {
     CreateRoom: 'Oda Kur',
     WarRooms: 'Savaş Odaları',
     ActiveMatches: 'Aktif Maçlar',
+    Login: 'Giriş Yap',
+    GetStarted: 'Aramıza Katıl',
   },
   CreateRoom: {
     Public: 'Yeni bir oyun kur',

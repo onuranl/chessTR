@@ -34,6 +34,8 @@ const en = {
     CreateRoom: 'Create Room',
     WarRooms: 'War Rooms',
     ActiveMatches: 'Active Matches',
+    Login: 'Login',
+    GetStarted: 'Get Started',
   },
   CreateRoom: {
     Public: 'Create a game',

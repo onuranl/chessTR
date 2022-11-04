@@ -45,6 +45,7 @@
           v-html="traslations.Navbar.WarRooms"
         />
         <vs-navbar-item
+          v-if="isAuthenticated"
           :active="active == 'chart-actives'"
           id="chart-actives"
           class="chart-actives"
@@ -53,11 +54,15 @@
         />
       </template>
       <template #right>
-        <div class="d-flex" v-if="!isAuthenticated">
-          <vs-button flat>Login</vs-button>
-          <vs-button>Get Started</vs-button>
+        <div class="d-flex p-0" v-if="!isAuthenticated">
+          <vs-button flat @click="$router.push('/login')"
+            >{{ traslations.Navbar.Login }}
+          </vs-button>
+          <vs-button @click="$router.push('/register')"
+            >{{ traslations.Navbar.GetStarted }}
+          </vs-button>
         </div>
-        <div v-else class="d-flex align-items-center">
+        <div v-else class="d-flex align-items-center p-0">
           <notifications />
           <userMenu :username="stateUser.username" />
         </div>
