@@ -1,12 +1,12 @@
 <template>
-  <div v-if="socket && stateUser && traslations">
+  <div v-if="socket && traslations">
     <NavBar />
     <div class="config">
       <Translate />
       <Theme />
     </div>
     <Nuxt class="d-flex justify-content-center align-items-center mt-4" />
-    <div class="bottom_content">
+    <div class="bottom_content" v-if="isAuthenticated">
       <Chats />
       <Messages />
       <Friends />
@@ -75,6 +75,7 @@ export default {
     ...mapGetters({
       traslations: 'lang/traslations',
       stateUser: 'auth/stateUser',
+      isAuthenticated: 'auth/isAuthenticated',
       connectedUsers: 'user/connectedUsers',
     }),
   },

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 import CLoader from '~/components/common/CLoader.vue'
 
@@ -46,18 +46,20 @@ export default {
     pools: {
       deep: true,
       handler(pools) {
-        const value = pools.find((pool) => {
-          return pool.state
-        })
+        const value = pools.find((pool) => pool.state)
         this.socket.emit('match', value)
       },
     },
+  },
+  computed: {
+    ...mapGetters({ isAuthenticated: 'auth/isAuthenticated' }),
   },
   methods: {
     firstLetterUpperCase,
     ...mapMutations({ setColor: 'chart/setColor' }),
     ...mapActions({ createChart: 'chart/createChart' }),
     selectPool(index) {
+      if (!this.isAuthenticated) return this.$router.push('/login')
       this.pools.map((pool, poolIndex) => {
         index === poolIndex
           ? pool.state === true
