@@ -1,46 +1,33 @@
 # chess
 
-simply multiplayer chess game
-
-playable now but ui side gonna be added
-
-dark-light theme \*
-
-fixed time when gane is over \*
-
-kullanıcının uygulamaya girmesi ile oyuna girmesi farklı şeyler, socketin baglantı yerini degiştirdigimiz defaultun veya boardın destroyed fonksiyonuna yeni bir disconnect socketi gelmesi lazım \*
-
-will solve play with friend after the created \*/
-
-features that will added --> remove chart - remove invite section in \_id compoennt when other player joined the game \*
-
-will handle time states when chart ai is true and make sure save properly when quit \*
-
-matchmaking \*
-
-will edit sidebar
-
-serverjs'deki model çagırarak create ve update fonksiyonlarını vs. düzenle
-
-profil page \*
+sidebar footerda vs. kendi reklamını yap
 
 oyun kurarken süreye göre kurma
 
-arkadaş bölmesi ve arkadaş istegi için socket bildirimi
-
-özel mesaj için yeni bir feature
-
-en/tr lang
-
-profile page => created date, last online data, social medias, win lose draw, email vs.
-
 maç bittikten sonra win yada lose a göre kullanıcıların win rate durumunu ve ratingini güncelleme
 
-aktif maçlar sectionu gelebilirs
+mesaj attıgımızda client tarafından istek atıp mesajları kaydetmek yerine bu işlemi socket kısmına taşı
 
-online userları silme işlemi fonskyion hline getirelibelir
+chart-repostiry'e bi el at
 
-online userlar frontend'de arkadaşlar sectionu gibi yapılabilir
+store daki uzun map ile yapılan kontrolleri some ile degiştirebliirsin göz at hepsinse
+
+mesaj tasarımına el at
+
+bu tarz gereksiz uzatılmış kodları düzeltebilirsin activeChatIDs(newVal, oldVal) {
+oldVal.length === 0 ? (this.open = false) : (this.open = true) },
+
+script ve template'in yerlerini degiştirebilirsin şekil olsun diye
+
+///////////////
+
+arkadaşlık istegi kabul edildikten sonra arkadaş ekleme kısmında bir ibnelik var el at
+
+user güncelleme düzgün çalışmıyor incele
+
+chart chat'i ni düzenle brom
+
+chart'dan profil sayfasına geçince sıkıntı yaşanıyor
 
 ## Build Setup
 
