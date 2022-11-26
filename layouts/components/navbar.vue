@@ -18,7 +18,10 @@
           class="logo"
           style="background: url(/icon.png) no-repeat center center"
           type="button"
-          @click="reDesingTab('index')"
+          @click="
+            $router.push('/')
+            active = 'index'
+          "
         />
       </template>
       <template class="center">
@@ -85,6 +88,7 @@ export default {
     active: 'index',
     clientWidth: document.body.clientWidth,
     isMobile: document.body.clientWidth < 480,
+    mainPages: ['index', 'create', 'rooms', 'chart-actives'],
   }),
   components: {
     MenuIcon,
@@ -99,14 +103,10 @@ export default {
   },
   watch: {
     lang() {
-      const path = this.$route.name
-
-      const mainPages = ['index', 'create', 'rooms', 'chart-actives']
-
-      mainPages.includes(path) ? this.reDesingTab(path) : null
+      this.reDesingTab()
     },
     isAuthenticated() {
-      this.reDesingTab(this.$route.name)
+      this.reDesingTab()
     },
   },
   computed: {
@@ -122,8 +122,12 @@ export default {
       this.clientWidth = document.body.clientWidth
       this.isMobile = document.body.clientWidth < 480
     },
-    reDesingTab(path) {
-      document.getElementsByClassName(path)[0].click()
+    reDesingTab() {
+      const path = this.active
+
+      this.mainPages.includes(path)
+        ? document.getElementsByClassName(path)[0]?.click()
+        : null
     },
   },
 }
