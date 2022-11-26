@@ -20,5 +20,7 @@ module.exports = (socket, io, store) => {
     if (socketNumber === 2 && data.private && data.users.length !== 2) {
       io.sockets.in(chartID).emit('onlineUsers')
     }
+
+    io.to(socket.id).emit('attempted')
   })
 }

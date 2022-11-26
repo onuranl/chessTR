@@ -7,8 +7,8 @@
     <div class="d-flex justify-content-between">
       <chat class="chat-board" />
       <div class="game">
-        <game v-if="!chart.ai" />
-        <ai v-else />
+        <game v-if="!chart.ai && attempted" />
+        <ai v-else-if="chart.ai" />
       </div>
       <board
         v-if="(onlineUsers !== null && isOtherUserOnline !== null) || chart.ai"
@@ -34,6 +34,7 @@ export default {
     return {
       socket: null,
       inviteSectionControl: true,
+      attempted: false,
     }
   },
   async fetch() {
@@ -45,13 +46,16 @@ export default {
   mounted() {
     this.socket = this.$parent.$parent.socket
     this.socket.emit('join attempt', this.chartID)
-    this.socket.on('onlineUsers', async (data) => {
+    this.socket.on('onlineUsers', (data) => {
       if (data) {
         const onlineUsers = Object.values(data)
         this.setOnlineUsers(onlineUsers)
       } else {
         this.inviteSectionControl = false
       }
+    })
+    this.socket.on('attempted', () => {
+      this.attempted = true
     })
   },
   computed: {
