@@ -1,18 +1,18 @@
 const user_service = require('../../../services/user-service')
 
-module.exports = (socket, io, store) => {
+module.exports = (socket, io, globalStore, store) => {
   socket.on('disconnect', async () => {
     console.log('user ' + socket.id + ' disconnected')
 
-    store.removeConnectedUser(socket.id)
+    globalStore.removeConnectedUser(socket.id)
 
-    io.emit('connectedUsers', store.getConnectedUsers())
+    io.emit('connectedUsers', globalStore.getConnectedUsers())
 
     const chartID = store.getChartID()
 
     if (chartID) {
-      store.removeOnlineUser(socket.id)
-      io.sockets.in(chartID).emit('onlineUsers', store.getOnlineUsers())
+      globalStore.removeOnlineUser(socket.id)
+      io.sockets.in(chartID).emit('onlineUsers', globalStore.getOnlineUsers())
 
       store.removeChartID()
     }

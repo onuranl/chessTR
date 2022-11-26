@@ -1,4 +1,4 @@
-module.exports = (socket, io, store) => {
+module.exports = (socket, io, globalStore, store) => {
   socket.on('connection', (stateUser) => {
     console.log('a user ' + socket.id + ' connected')
 
@@ -8,9 +8,9 @@ module.exports = (socket, io, store) => {
       username: stateUser.username,
     }
 
-    store.addConnectedUser(user)
+    globalStore.addConnectedUser(user)
 
-    io.emit('connectedUsers', store.getConnectedUsers())
+    io.emit('connectedUsers', globalStore.getConnectedUsers())
 
     store.setConnectedUser(stateUser)
   })

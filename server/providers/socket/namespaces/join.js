@@ -1,15 +1,15 @@
 const chart_service = require('../../../services/chart-service')
 
-module.exports = (socket, io, store) => {
+module.exports = (socket, io, globalStore, store) => {
   socket.on('join', async (userInfo) => {
     const user = store.getConnectedUserID()
     const chartID = store.getChartID()
 
     console.log('user ' + user + ' joined the game')
 
-    store.addOnlineUser(socket.id, user)
+    globalStore.addOnlineUser(socket.id, user)
 
-    io.sockets.in(chartID).emit('onlineUsers', store.getOnlineUsers())
+    io.sockets.in(chartID).emit('onlineUsers', globalStore.getOnlineUsers())
 
     const data = await chart_service.getByID(chartID)
 
@@ -30,7 +30,7 @@ module.exports = (socket, io, store) => {
 
         const payload = {
           user: user,
-          time: userInfo.time,
+          time: userInfo.time || data.users[0].time,
           color: color,
         }
 

@@ -1,14 +1,9 @@
-class Store {
-  // state
+class GlobalStore {
   constructor() {
     this.connectedUsers = []
     this.onlineUsers = {}
-
-    this.connectedUser = null
-    this.chartID = null
   }
 
-  //getters
   getConnectedUsers() {
     return this.connectedUsers
   }
@@ -20,6 +15,37 @@ class Store {
   getOnlineUser(id) {
     return this.onlineUsers[id]
   }
+
+
+  addConnectedUser(user) {
+    this.connectedUsers.push(user)
+  }
+
+  addOnlineUser(id, user) {
+    this.onlineUsers[id] = user
+  }
+
+  removeConnectedUser(id) {
+    const index = this.connectedUsers.map((e) => e.socketID).indexOf(id)
+
+    if (index > -1) {
+      this.connectedUsers.splice(index, 1)
+    }
+  }
+
+  removeOnlineUser(id) {
+    delete this.onlineUsers[id]
+  }
+}
+
+class Store {
+  // state
+  constructor() {
+    this.connectedUser = null
+    this.chartID = null
+  }
+
+  //getters
 
   getConnectedUser() {
     return this.connectedUser
@@ -42,29 +68,9 @@ class Store {
     this.chartID = id
   }
 
-  addConnectedUser(user) {
-    this.connectedUsers.push(user)
-  }
-
-  addOnlineUser(id, user) {
-    this.onlineUsers[id] = user
-  }
-
-  removeConnectedUser(id) {
-    const index = this.connectedUsers.map((e) => e.socketID).indexOf(id)
-
-    if (index > -1) {
-      this.connectedUsers.splice(index, 1)
-    }
-  }
-
-  removeOnlineUser(id) {
-    delete this.onlineUsers[id]
-  }
-
   removeChartID() {
     this.chartID = null
   }
 }
 
-module.exports = { Store }
+module.exports = { GlobalStore, Store }

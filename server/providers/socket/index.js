@@ -1,4 +1,4 @@
-const { Store } = require('./store')
+const { GlobalStore, Store } = require('./store')
 
 module.exports = (server) => {
   const io = require('socket.io')(server, {
@@ -7,14 +7,16 @@ module.exports = (server) => {
     },
   })
 
-  const store = new Store()
+  const globalStore = new GlobalStore()
 
   io.on('connection', (socket) => {
-    require('./namespaces/connection')(socket, io, store)
+    const store = new Store()
+
+    require('./namespaces/connection')(socket, io, globalStore, store)
     require('./namespaces/join-attempt')(socket, io, store)
-    require('./namespaces/join')(socket, io, store)
-    require('./namespaces/quit')(socket, io, store)
-    require('./namespaces/disconnect')(socket, io, store)
+    require('./namespaces/join')(socket, io, globalStore, store)
+    require('./namespaces/quit')(socket, io, globalStore, store)
+    require('./namespaces/disconnect')(socket, io, globalStore, store)
     require('./namespaces/move-on')(socket, io, store)
     require('./namespaces/time')(socket, io, store)
     require('./namespaces/get-time')(socket, io, store)
