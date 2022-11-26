@@ -41,7 +41,7 @@ const ChartSchema = new mongoose.Schema(
         time: {
           type: Number,
           required: false,
-          default: 300000,
+          default: -1,
         },
       },
       { _id: false },
@@ -53,6 +53,11 @@ const ChartSchema = new mongoose.Schema(
         required: true,
       },
     ],
+    increment: {
+      type: Number,
+      required: false,
+      default: 0
+    },
     chat: [MessageSchema],
     private: {
       type: Boolean,
@@ -72,7 +77,7 @@ const ChartSchema = new mongoose.Schema(
     aiTime: {
       type: Number,
       required: false,
-      default: 300000,
+      default: 0,
     },
   },
   { timestamps: true }
