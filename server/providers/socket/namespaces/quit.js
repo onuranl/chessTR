@@ -1,11 +1,11 @@
-module.exports = (socket, io, store) => {
+module.exports = (socket, io, globalStore, store) => {
   socket.on('quit', () => {
     console.log('user ' + store.getConnectedUserID() + ' quit from game')
 
-    store.removeOnlineUser(socket.id)
+    globalStore.removeOnlineUser(socket.id)
     io.sockets
       .in(store.getChartID())
-      .emit('onlineUsers', store.getOnlineUsers())
+      .emit('onlineUsers', globalStore.getOnlineUsers())
 
     store.removeChartID()
   })
