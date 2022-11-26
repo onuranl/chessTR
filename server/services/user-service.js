@@ -31,9 +31,11 @@ async function updateFriends(payload) {
 }
 
 async function updateLastActive(user) {
-  user.active = new Date()
+  if (user) {
+    user.active = new Date()
 
-  await user_repository.updateUser(user)
+    await user_repository.updateUser(user)
+  }
 }
 
 module.exports = {
