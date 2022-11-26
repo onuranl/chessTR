@@ -1,5 +1,5 @@
 <template>
-  <div v-if="socket && traslations">
+  <div v-if="socket && traslations && userAuth">
     <NavBar />
     <div class="config">
       <Translate />
@@ -78,6 +78,15 @@ export default {
       isAuthenticated: 'auth/isAuthenticated',
       connectedUsers: 'user/connectedUsers',
     }),
+    userAuth() {
+      const allowedPages = ['index', 'create', 'rooms']
+
+      if (allowedPages.includes(this.$route.name)) {
+        return true
+      } else {
+        return this.stateUser
+      }
+    },
   },
   methods: {
     ...mapMutations({
