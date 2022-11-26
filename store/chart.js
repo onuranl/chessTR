@@ -16,6 +16,7 @@ const chart = {
     users: null,
     started: false,
     color: null,
+    time: null,
     inviteSection: null,
   }),
   getters: {
@@ -28,17 +29,19 @@ const chart = {
         state.chart.users.map((element) => {
           element.user.id === stateUser.id
             ? (currentUser = {
-                id: element.user.id,
-                email: element.user.email,
-                color: element.color,
-                time: element.time,
-              })
+              id: element.user.id,
+              email: element.user.email,
+              username: element.user.username,
+              color: element.color,
+              time: element.time,
+            })
             : (otherUser = {
-                id: element.user.id,
-                email: element.user.email,
-                color: element.color,
-                time: element.time,
-              })
+              id: element.user.id,
+              email: element.user.email,
+              username: element.user.username,
+              color: element.color,
+              time: element.time,
+            })
         })
       }
       return {
@@ -47,6 +50,7 @@ const chart = {
       }
     },
     color: (state) => state.color,
+    time: (state) => state.time,
     hasTheMatchStarted: (state) =>
       state.chart.chartHistory.history?.length >= 2,
     inviteSection: (state, getters) =>
@@ -71,6 +75,9 @@ const chart = {
         state.color = color(['white', 'black'])
       }
     },
+    setTime(state, data) {
+      state.time = data * 60000
+    }
   },
   actions: {
     async getChart({ commit, state }) {

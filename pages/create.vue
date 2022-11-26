@@ -63,6 +63,7 @@
             :key="color"
             @click="
               setColor(color)
+              setTime(value !== 'unlimited' ? minutes : -1)
               createChart(mod.value)
             "
           >
@@ -108,7 +109,7 @@ export default {
   },
   methods: {
     firstLetterUpperCase,
-    ...mapMutations({ setColor: 'chart/setColor' }),
+    ...mapMutations({ setColor: 'chart/setColor', setTime: 'chart/setTime' }),
     ...mapActions({ createChart: 'chart/createChart' }),
     openModal(mod) {
       this.mod = mod

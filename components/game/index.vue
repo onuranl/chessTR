@@ -31,7 +31,7 @@ export default {
     this.socket.emit('join', {
       user: this.user._id,
       color: this.color || null,
-      time: 300000,
+      time: this.time,
     })
     this.started = true
     this.socket.on('broadcast', async (msg) => {
@@ -50,6 +50,7 @@ export default {
     ...mapGetters({
       user: 'auth/stateUser',
       color: 'chart/color',
+      time: 'chart/time',
       chart: 'chart/chart',
       users: 'chart/users',
     }),

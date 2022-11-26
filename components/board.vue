@@ -3,7 +3,7 @@
     v-if="users"
     class="d-flex flex-column align-items-center justify-content-center"
   >
-    <div class="w-100">
+    <div class="w-100" v-if="!unlimited">
       <div class="w-50 border">
         <span>{{ otherUserFormateedElapsedTime }}</span>
       </div>
@@ -21,7 +21,7 @@
                 chart.ai
                   ? 'Computer'
                   : users.otherUser
-                  ? users.otherUser.email
+                  ? users.otherUser.username
                   : '----'
               }}
             </div>
@@ -39,9 +39,9 @@
             <span class="ml-2">
               {{
                 chart.ai
-                  ? stateUser.email
+                  ? stateUser.username
                   : users.currentUser
-                  ? users.currentUser.email
+                  ? users.currentUser.username
                   : '----'
               }}
             </span>
@@ -49,7 +49,7 @@
         </template>
       </b-card>
     </b-card-group>
-    <div class="w-100">
+    <div class="w-100" v-if="!unlimited">
       <div class="w-50 border">
         <span>{{ currentUserFormattedElapsedTime }}</span>
       </div>
@@ -64,10 +64,11 @@ export default {
   data() {
     return {
       socket: null,
-      currentUserElapsedTime: 300000,
+      unlimited: false,
+      currentUserElapsedTime: null,
       currentUserTimer: undefined,
       currentUserTimerState: false,
-      otherUserElapsedTime: 300000,
+      otherUserElapsedTime: null,
       otherUserTimer: undefined,
       otherUserTimerState: false,
     }
@@ -77,7 +78,9 @@ export default {
       this.currentUserElapsedTime = this.chart.aiTime
       return
     }
+
     this.socket = this.$parent.$parent.$parent.socket
+
     if (this.hasTheMatchStarted) {
       if (this.isOtherUserOnline) {
         this.getTimeByOtherUser()
@@ -85,6 +88,18 @@ export default {
         this.getChart().then(() => {
           this.currentUserElapsedTime = this.users.currentUser.time
           this.otherUserElapsedTime = this.users.otherUser.time
+        })
+      }
+    } else {
+      if (this.time) {
+        this.currentUserElapsedTime = this.time
+        this.otherUserElapsedTime = this.time
+      } else {
+        this.getChart().then(() => {
+          this.currentUserElapsedTime =
+            this.users.otherUser.time || this.users.currentUser.time
+          this.otherUserElapsedTime =
+            this.users.otherUser.time || this.users.currentUser.time
         })
       }
     }
@@ -137,6 +152,12 @@ export default {
         }
       },
     },
+    currentUserElapsedTime(val) {
+      if (val < 0) this.unlimited = true
+    },
+    otherUserElapsedTime(val) {
+      if (val < 0) this.unlimited = true
+    },
   },
   computed: {
     ...mapGetters({
@@ -145,6 +166,7 @@ export default {
       users: 'chart/users',
       chartID: 'chart/chartID',
       hasTheMatchStarted: 'chart/hasTheMatchStarted',
+      time: 'chart/time',
       isOtherUserOnline: 'user/isOtherUserOnline',
     }),
     currentUserFormattedElapsedTime() {
