@@ -11,7 +11,7 @@ async function get(public) {
 }
 
 async function getByID(id) {
-  return await chart_model.findById({ _id: id }).populate('users.user', 'email')
+  return await chart_model.findById({ _id: id }).populate('users.user', 'email username')
 }
 
 async function getByUserID(id) {
@@ -22,6 +22,7 @@ async function getByUserID(id) {
 
 async function create(chart) {
   var createdChart = await chart_model.create(chart)
+
 
   if (chart.private) {
     createdChart.private = true
