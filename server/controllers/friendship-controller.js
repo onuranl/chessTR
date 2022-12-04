@@ -51,7 +51,7 @@ async function updateRequest(req, res) {
       payload
     )
 
-    if ((payload.status = 'accepted')) {
+    if (payload.status === 'accepted') {
       await user_service.updateFriends(result)
     }
 
