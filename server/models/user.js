@@ -12,13 +12,17 @@ const UserSchema = new mongoose.Schema(
       {
         type: mongoose.Types.ObjectId,
         ref: 'user',
-        unique: true,
+        unique: false,
       },
     ],
     links: {
       type: Array,
       default: [],
     },
+    matches: { type: Number, required: false, default: 0 },
+    win: { type: Number, required: false, default: 0 },
+    draw: { type: Number, required: false, default: 0 },
+    lose: { type: Number, required: false, default: 0 }
   },
   { timestamps: true }
 )

@@ -58,6 +58,32 @@ const user = {
         commit('vuesax/openNotification', { text: error }, { root: true })
       }
     },
+    async updateRating({ commit }, payload) {
+      try {
+        const response = await axios.get(baseURL + '/' + payload.username)
+
+        const user = response.data.user
+
+        user.matches++
+
+        user[payload.status]++
+
+        switch (payload.status) {
+          case 'win':
+            user.rating += 50
+            break;
+          case 'lose':
+            user.rating -= 50
+          default:
+            user.rating = user.rating
+            break;
+        }
+
+        await axios.put(baseURL, user)
+      } catch (error) {
+        commit('vuesax/openNotification', { text: error }, { root: true })
+      }
+    },
   },
 }
 

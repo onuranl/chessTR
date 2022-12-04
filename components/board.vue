@@ -31,7 +31,9 @@
           <span>
             {{ chart.chartHistory.history }}
           </span>
-          <span v-if="!chart.chartHistory.turn"> the game is over </span>
+          <span v-if="isGameOver">
+            the game is over, {{ winingColor }} won!
+          </span>
         </div>
         <template #footer>
           <div class="d-flex align-items-center">
@@ -71,6 +73,8 @@ export default {
       otherUserElapsedTime: null,
       otherUserTimer: undefined,
       otherUserTimerState: false,
+      isGameOver: false,
+      winingColor: null,
     }
   },
   mounted() {
@@ -103,6 +107,7 @@ export default {
         })
       }
     }
+
     this.socket.on('setTime', (user) => {
       if (user === this.users.currentUser.id) {
         this.setTimeToOtherUser()
@@ -124,29 +129,45 @@ export default {
     'chart.chartHistory.turn': {
       immediate: true,
       deep: true,
-      handler(turn) {
-        if (this.chart.ai) {
-          const currentUserColor = this.color || this.chart.aiColor
+      handler(turn, prevTurn) {
+        if (!turn) {
+          this.isGameOver = true
 
-          if (turn === currentUserColor) {
-            this.startCurrentUserTimer()
-          } else {
-            this.stopCurrentUserTimer()
-          }
+          if (!prevTurn) return
+
+          this.winingColor = prevTurn
+
+          this.chart.users.map(async (el) => {
+            const username = el.user.username
+            if (this.stateUser.username === username)
+              el.color === prevTurn
+                ? await this.updateRating({ username, status: 'win' })
+                : await this.updateRating({ username, status: 'lose' })
+          })
         } else {
-          const currentUserColor = this.users.currentUser
-            ? this.users.currentUser.color
-            : null
-          const otherUserColor = this.users.otherUser
-            ? this.users.otherUser.color
-            : null
-          if (this.chart && this.hasTheMatchStarted) {
-            if (turn === currentUserColor || turn !== otherUserColor) {
+          if (this.chart.ai) {
+            const currentUserColor = this.color || this.chart.aiColor
+
+            if (turn === currentUserColor) {
               this.startCurrentUserTimer()
-              this.stopOtherUserTimer()
             } else {
-              this.startOtherUserTimer()
               this.stopCurrentUserTimer()
+            }
+          } else {
+            const currentUserColor = this.users.currentUser
+              ? this.users.currentUser.color
+              : null
+            const otherUserColor = this.users.otherUser
+              ? this.users.otherUser.color
+              : null
+            if (this.chart && this.hasTheMatchStarted) {
+              if (turn === currentUserColor || turn !== otherUserColor) {
+                this.startCurrentUserTimer()
+                this.stopOtherUserTimer()
+              } else {
+                this.startOtherUserTimer()
+                this.stopCurrentUserTimer()
+              }
             }
           }
         }
@@ -187,6 +208,7 @@ export default {
   methods: {
     ...mapActions({
       getChart: 'chart/getChart',
+      updateRating: 'user/updateRating',
     }),
     async updateTime() {
       const payload = {}
