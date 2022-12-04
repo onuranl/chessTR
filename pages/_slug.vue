@@ -31,19 +31,24 @@
             </div>
             <div class="socialMedias-mobile">
               <div class="d-flex h1 margin-top">
-                <vs-button href="http://vuesax.com/" blank icon color="twitter">
+                <vs-button
+                  :href="stateUser.links[0]"
+                  blank
+                  icon
+                  color="twitter"
+                >
                   <twitter-icon size="1.5x" />
                 </vs-button>
                 <vs-button
-                  href="http://vuesax.com/"
+                  :href="stateUser.links[1]"
                   blank
                   icon
                   color="linkedin"
                 >
                   <linkedin-icon size="1.5x" />
                 </vs-button>
-                <vs-button href="http://vuesax.com/" blank icon color="tumblr">
-                  <github-icon size="1.5x"></github-icon>
+                <vs-button :href="stateUser.links[2]" blank icon color="tumblr">
+                  <github-icon size="1.5x" />
                 </vs-button>
               </div>
             </div>
@@ -62,13 +67,13 @@
           </p>
           <div class="socialMedias">
             <div class="d-flex">
-              <vs-button href="http://vuesax.com/" blank icon color="twitter">
+              <vs-button :href="stateUser.links[0]" blank icon color="twitter">
                 <twitter-icon size="1.5x" />
               </vs-button>
-              <vs-button href="http://vuesax.com/" blank icon color="linkedin">
+              <vs-button :href="stateUser.links[1]" blank icon color="linkedin">
                 <linkedin-icon size="1.5x" />
               </vs-button>
-              <vs-button href="http://vuesax.com/" blank icon color="tumblr">
+              <vs-button :href="stateUser.links[2]" blank icon color="tumblr">
                 <github-icon size="1.5x" />
               </vs-button>
             </div>
@@ -99,20 +104,20 @@
           </p>
           <p>
             {{ traslations.Profile.TotalMatch }}
-            <span class="text-white" v-html="31" />
+            <span class="text-white" v-html="user.matches" />
           </p>
           <div class="d-flex justify-content-between">
             <p>
               {{ traslations.Profile.Win }}
-              <span class="text-success ml-2" v-html="31" />
+              <span class="text-success ml-2" v-html="user.win" />
             </p>
             <p>
               {{ traslations.Profile.Draw }}
-              <span class="text-primary ml-2" v-html="31" />
+              <span class="text-primary ml-2" v-html="user.draw" />
             </p>
             <p>
               {{ traslations.Profile.Lose }}
-              <span class="text-danger ml-2" v-html="31" />
+              <span class="text-danger ml-2" v-html="user.lose" />
             </p>
           </div>
         </div>
@@ -144,29 +149,24 @@ export default {
   data() {
     return {
       socket: null,
+      user: null,
     }
   },
-  async asyncData({ $axios, app, route }) {
-    const loading = app.router.app.$vs.loading()
+  async fetch() {
+    const loading = this.$vs.loading()
 
     try {
-      const username = route.params.slug
+      const username = this.$route.params.slug
 
-      const response = await $axios.$get(`user/${username}`)
+      const response = await this.$axios.$get(`user/${username}`)
 
       loading.close()
 
-      return { user: response.user }
+      this.user = response.user
     } catch (error) {
-      app.router.app.$vs.notification({
-        progress: 'auto',
-        color: 'danger',
-        position: 'top-right',
-        title: 'error',
-        text: error.response.data.error,
-      })
+      this.openNotification({ text: error.response.data.error })
 
-      app.router.push('/')
+      this.$router.push('/')
     }
   },
   mounted() {
@@ -196,6 +196,7 @@ export default {
     }),
     ...mapMutations({
       setActiveChatIDs: 'chat/setActiveChatIDs',
+      openNotification: 'vuesax/openNotification',
     }),
     async sendMessage() {
       const users = [this.stateUser._id, this.user._id]
