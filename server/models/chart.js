@@ -79,6 +79,12 @@ const ChartSchema = new mongoose.Schema(
       required: false,
       default: 0,
     },
+    won: {
+      type: mongoose.Types.ObjectId,
+      ref: 'user',
+      required: false,
+      default: null
+    }
   },
   { timestamps: true }
 )
