@@ -56,8 +56,8 @@ export default {
       if (data.status && data.status === 'accepted') {
         const notification = {
           color: 'success',
-          title: 'Arkadaşlık isteğin kabul edildi',
-          text: `Artık ${data.user} ile arkadaşsınız`,
+          title: this.traslations.Notification.RequestAccepted,
+          text: this.traslations.Notification.FriendsNow(data.user),
         }
 
         this.openNotification(notification)

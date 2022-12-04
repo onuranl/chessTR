@@ -41,8 +41,8 @@ const request = {
         if (response.status === 200) {
           const notification = {
             color: 'success',
-            title: 'Başarılı',
-            text: 'Arkadaşlık isteği başarıyla gönderildi',
+            title: rootGetters['lang/traslations'].Notification.Successful,
+            text: rootGetters['lang/traslations'].Notification.RequestSuccessfullySent,
           }
 
           dispatch('getFriendshipRequests')

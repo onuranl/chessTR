@@ -28,6 +28,10 @@ const tr = {
     Sent: (user, time) => `${user} tarafından ${time} gönderildi`,
     YouSent: (user, time) => `${user} kullanıcısına ${time} gönderdin`,
     NotFound: 'Bildirimin yok',
+    Successful: 'Başarılı',
+    RequestSuccessfullySent: 'Arkadaşlık isteği başarıyla gönderildi',
+    RequestAccepted: 'Arkadaşlık isteğin kabul edildi',
+    FriendsNow: (user) => `Artık ${user} ile arkadaşsınız`
   },
   Navbar: {
     Home: 'Ana Sayfa',

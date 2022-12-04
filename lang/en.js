@@ -28,6 +28,10 @@ const en = {
     Sent: (user, time) => `Sent ${time} by ${user}`,
     YouSent: (user, time) => `You sent to ${user} ${time}`,
     NotFound: 'You have no notification',
+    Successful: 'Successful',
+    RequestSuccessfullySent: 'Your friend request has been sent successfully',
+    RequestAccepted: 'Your friend request has been accepted',
+    FriendsNow: (user) => `You are now friends with ${user}`
   },
   Navbar: {
     Home: 'Home',
