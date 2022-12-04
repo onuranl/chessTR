@@ -69,10 +69,10 @@ export default {
           this.logOut()
           break
         case 'profile':
-          this.$router.push(this.stateUser.username)
+          this.$router.push('/' + this.stateUser.username)
           break
         case 'settings':
-          this.$router.push(val)
+          this.$router.push('/' + val)
       }
       this.onClose()
     },

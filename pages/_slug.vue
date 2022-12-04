@@ -149,24 +149,28 @@ export default {
   data() {
     return {
       socket: null,
-      user: null,
     }
   },
-  async fetch() {
-    const loading = this.$vs.loading()
-
+  async asyncData({ $axios, app, route }) {
+    const loading = app.router.app.$vs.loading()
     try {
-      const username = this.$route.params.slug
+      const username = route.params.slug
 
-      const response = await this.$axios.$get(`user/${username}`)
+      const response = await $axios.$get(`user/${username}`)
 
       loading.close()
 
-      this.user = response.user
+      return { user: response.user }
     } catch (error) {
-      this.openNotification({ text: error.response.data.error })
+      app.router.app.$vs.notification({
+        progress: 'auto',
+        color: 'danger',
+        position: 'top-right',
+        title: 'error',
+        text: error.response.data.error,
+      })
 
-      this.$router.push('/')
+      app.router.push('/')
     }
   },
   mounted() {
