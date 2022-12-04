@@ -31,6 +31,8 @@
 <script>
 import CDropup from '~/components/common/CDropup.vue'
 
+import deepClone from '../../utilities/deepClone'
+
 import { mapGetters } from 'vuex'
 
 export default {
@@ -44,14 +46,14 @@ export default {
     }),
     friends() {
       const connectedFriends = []
-      const exceptOnlineFriends = []
+      const exceptOnlineFriends = deepClone(this.stateUser.friends)
 
-      this.stateUser.friends?.map((friend) => {
+      exceptOnlineFriends?.map((friend, index) => {
         this.connectedUsers?.map((connectedUser) => {
           if (friend._id === connectedUser.userID) {
             connectedFriends.push(friend)
-          } else {
-            exceptOnlineFriends.push(friend)
+
+            exceptOnlineFriends.splice(index, 1)
           }
         })
       })
