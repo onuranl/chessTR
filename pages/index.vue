@@ -3,7 +3,13 @@
     <div class="content">
       <div class="pools">
         <div
-          class="pool rounded border border-secondary text-center text-white cursor-pointer"
+          class="
+            pool
+            rounded
+            border border-secondary
+            text-center text-white
+            cursor-pointer
+          "
           v-for="(pool, index) in pools"
           :key="index"
           @click="selectPool(index)"
@@ -40,6 +46,8 @@ export default {
     this.socket = this.$parent.$parent.socket
     this.socket.on('generate', (chart) => {
       this.$router.push('/chart/' + chart._id)
+
+      this.pools.map((pool) => (pool.state = false))
     })
   },
   watch: {
@@ -47,7 +55,10 @@ export default {
       deep: true,
       handler(pools) {
         const value = pools.find((pool) => pool.state)
+
         this.socket.emit('match', value)
+
+        if (value) this.setTime(value.clock.split('+')[0] * 1)
       },
     },
   },
@@ -56,7 +67,7 @@ export default {
   },
   methods: {
     firstLetterUpperCase,
-    ...mapMutations({ setColor: 'chart/setColor' }),
+    ...mapMutations({ setColor: 'chart/setColor', setTime: 'chart/setTime' }),
     ...mapActions({ createChart: 'chart/createChart' }),
     selectPool(index) {
       if (!this.isAuthenticated) return this.$router.push('/login')

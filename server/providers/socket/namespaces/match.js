@@ -25,6 +25,8 @@ module.exports = (socket, io) => {
               createdChart
             )
 
+            pool.searchers.splice(searchers.length - 2, 1)
+
             var userController
 
             userController = setInterval(async function () {
@@ -34,6 +36,8 @@ module.exports = (socket, io) => {
                   'generate',
                   createdChart
                 )
+
+                pool.searchers.splice(searchers.length - 1, 1)
 
                 clearInterval(userController)
               }
