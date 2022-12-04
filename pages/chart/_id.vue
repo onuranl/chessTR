@@ -5,7 +5,7 @@
     class="container"
   >
     <div class="d-flex justify-content-between">
-      <chat class="chat-board" />
+      <chat class="chat-board" :key="chart._id" />
       <div class="game">
         <game v-if="!chart.ai && attempted" />
         <ai v-else-if="chart.ai" />

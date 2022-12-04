@@ -1,7 +1,11 @@
 <template>
   <div>
     <div v-if="user" class="settings text-secondary">
-      <c-tabs :activeTab="activeTab" @changeActiveTab="changeActiveTab">
+      <c-tabs
+        :activeTab="activeTab"
+        @changeActiveTab="changeActiveTab"
+        :key="lang"
+      >
         <c-tab :id="1" :title="traslations.Settings.UserInformation">
           <div class="row">
             <div class="col-lg-8">
@@ -12,6 +16,7 @@
                 :label="traslations.Settings.Username"
               />
               <vs-input
+                disabled
                 dark
                 class="mt-5"
                 type="email"
@@ -101,6 +106,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      lang: 'lang/lang',
       traslations: 'lang/traslations',
       stateUser: 'auth/stateUser',
     }),
