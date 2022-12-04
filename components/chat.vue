@@ -1,7 +1,11 @@
 <template>
-  <div class="d-flex flex-column align-items-between">
+  <div class="d-flex flex-column justify-content-between">
     <div v-if="chat" class="chat">
+      <div v-if="chat.length === 0" class="text-center text-white mt-3">
+        <p>Send message to your oppenent !</p>
+      </div>
       <div
+        v-else
         v-for="(messageInfo, index) in chat"
         :key="index"
         :class="
@@ -22,8 +26,9 @@
         </div>
       </div>
     </div>
-    <input v-model="message" class="mt-2" type="text" />
-    <button class="mt-4" @click="sendMessage">send</button>
+    <div class="wrapper-content-input">
+      <vs-input v-model="message" v-on:keyup.enter="sendMessage" />
+    </div>
   </div>
 </template>
 
@@ -85,7 +90,7 @@ export default {
 .chat {
   width: 300px;
   height: 570px;
-  border: solid 1px #eee;
+  /* border: solid 1px #eee; */
   display: flex;
   flex-direction: column;
   padding: 4px 10px;
@@ -134,7 +139,7 @@ export default {
   left: -10px;
   width: 10px;
   height: 20px;
-  background: white;
+  background: #18191c;
   border-bottom-right-radius: 10px;
 }
 
@@ -171,7 +176,7 @@ export default {
   right: -10px;
   width: 10px;
   height: 20px;
-  background: white;
+  background: #18191c;
   border-bottom-left-radius: 10px;
 }
 </style>
