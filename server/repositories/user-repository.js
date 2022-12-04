@@ -6,11 +6,7 @@ async function getUser(id) {
 }
 
 async function updateUser(user) {
-  try {
-    return await user_model.findByIdAndUpdate(user._id, user, { new: true })
-  } catch (error) {
-    console.log({ error })
-  }
+  return await user_model.findByIdAndUpdate(user._id, user, { new: true })
 }
 
 async function getAllUsers() {
@@ -55,6 +51,10 @@ async function updateFriends(userID, friend) {
   })
 }
 
+async function updateLastActive(user) {
+  await user_model.findByIdAndUpdate(user._id, { active: new Date() })
+}
+
 module.exports = {
   createUser,
   login,
@@ -65,4 +65,5 @@ module.exports = {
   isUsernameTaken,
   isEmailExits,
   updateFriends,
+  updateLastActive
 }

@@ -8,8 +8,8 @@ async function getUserByID(id) {
 }
 
 async function updateUser(user) {
-  const { _id, username, email, links } = user
-  const payload = { _id, username, email, links }
+  const { _id, username, email, links, rating, matches, win, lose } = user
+  const payload = { _id, username, email, links, rating, matches, win, lose }
 
   return await user_repository.updateUser(payload)
 }
@@ -32,9 +32,7 @@ async function updateFriends(payload) {
 
 async function updateLastActive(user) {
   if (user) {
-    user.active = new Date()
-
-    await user_repository.updateUser(user)
+    await user_repository.updateLastActive(user)
   }
 }
 
