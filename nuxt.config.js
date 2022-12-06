@@ -46,7 +46,7 @@ export default {
     sockets: [
       {
         name: 'home',
-        url: 'http://localhost:8000', // This is the default socket with name "dflt" because it's the first entry
+        url: 'https://chess-tr.herokuapp.com', // This is the default socket with name "dflt" because it's the first entry
       },
     ],
   },
@@ -58,7 +58,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:8000',
+    baseURL: 'https://chess-tr.herokuapp.com',
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
