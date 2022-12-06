@@ -11,7 +11,7 @@ async function get(public) {
 }
 
 async function getByID(id) {
-  return await chart_model.findById({ _id: id }).populate('users.user', 'email username')
+  return await chart_model.findById({ _id: id }).populate('users.user won', 'email username')
 }
 
 async function getByUserID(id) {

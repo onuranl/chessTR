@@ -141,7 +141,7 @@ export default {
             const username = el.user.username
             if (this.stateUser.username === username)
               el.color === prevTurn
-                ? await this.updateRating({ username, status: 'win' })
+                ? await this.updateRating({ username, status: 'win', chart: this.chart })
                 : await this.updateRating({ username, status: 'lose' })
           })
         } else {

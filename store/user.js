@@ -1,4 +1,5 @@
 import axios from 'axios'
+import deepClone from '~/utilities/deepClone'
 import setBaseURL from '../utilities/setBaseURL'
 
 const baseURL = setBaseURL('user')
@@ -58,7 +59,7 @@ const user = {
         commit('vuesax/openNotification', { text: error }, { root: true })
       }
     },
-    async updateRating({ commit }, payload) {
+    async updateRating({ commit, dispatch }, payload) {
       try {
         const response = await axios.get(baseURL + '/' + payload.username)
 
@@ -70,6 +71,12 @@ const user = {
 
         switch (payload.status) {
           case 'win':
+            const chart = deepClone(payload.chart)
+
+            chart.won = user.id
+
+            await dispatch('chart/updateChart', chart, { root: true })
+
             user.rating += 50
             break;
           case 'lose':
