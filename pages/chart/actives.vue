@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="charts">
+  <div v-if="charts">
+    <div class="charts" v-if="charts.length > 0">
       <div
         class="cursor-pointer"
         v-for="chart in charts"
@@ -19,6 +19,7 @@
         </p>
       </div>
     </div>
+    <div class="text-white" v-else>You don't have any active match yet</div>
   </div>
 </template>
 
