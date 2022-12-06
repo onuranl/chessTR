@@ -43,6 +43,11 @@ const ChartSchema = new mongoose.Schema(
           required: false,
           default: -1,
         },
+        increment: {
+          type: Number,
+          required: false,
+          default: 0
+        },
       },
       { _id: false },
     ],
@@ -53,11 +58,6 @@ const ChartSchema = new mongoose.Schema(
         required: true,
       },
     ],
-    increment: {
-      type: Number,
-      required: false,
-      default: 0
-    },
     chat: [MessageSchema],
     private: {
       type: Boolean,

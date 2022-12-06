@@ -64,7 +64,8 @@
             @click="
               setColor(color)
               setTime(value !== 'unlimited' ? minutes : -1)
-              createChart(mod.value)
+              setIncrement(increment)
+              createChart(mod !== 'public' ? mod : null)
             "
           >
             <vs-tooltip class="color" :class="{ random: color === 'random' }">
@@ -109,7 +110,11 @@ export default {
   },
   methods: {
     firstLetterUpperCase,
-    ...mapMutations({ setColor: 'chart/setColor', setTime: 'chart/setTime' }),
+    ...mapMutations({
+      setColor: 'chart/setColor',
+      setTime: 'chart/setTime',
+      setIncrement: 'chart/setIncrement',
+    }),
     ...mapActions({ createChart: 'chart/createChart' }),
     openModal(mod) {
       this.mod = mod

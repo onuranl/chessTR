@@ -32,6 +32,7 @@ export default {
       user: this.user._id,
       color: this.color || null,
       time: this.time,
+      increment: this.increment,
     })
     this.started = true
     this.socket.on('broadcast', async (msg) => {
@@ -51,6 +52,7 @@ export default {
       user: 'auth/stateUser',
       color: 'chart/color',
       time: 'chart/time',
+      increment: 'chart/increment',
       chart: 'chart/chart',
       users: 'chart/users',
     }),

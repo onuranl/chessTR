@@ -31,6 +31,7 @@ module.exports = (socket, io, globalStore, store) => {
         const payload = {
           user: user,
           time: userInfo.time || data.users[0].time,
+          increment: userInfo.increment === 0 ? 0 : userInfo.increment || data.users[0].increment,
           color: color,
         }
 

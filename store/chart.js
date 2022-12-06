@@ -17,6 +17,7 @@ const chart = {
     started: false,
     color: null,
     time: null,
+    increment: null,
     inviteSection: null,
   }),
   getters: {
@@ -34,6 +35,7 @@ const chart = {
               username: element.user.username,
               color: element.color,
               time: element.time,
+              increment: element.increment
             })
             : (otherUser = {
               id: element.user.id,
@@ -41,6 +43,7 @@ const chart = {
               username: element.user.username,
               color: element.color,
               time: element.time,
+              increment: element.increment
             })
         })
       }
@@ -51,6 +54,7 @@ const chart = {
     },
     color: (state) => state.color,
     time: (state) => state.time,
+    increment: (state) => state.increment,
     hasTheMatchStarted: (state) =>
       state.chart.chartHistory.history?.length >= 2,
     inviteSection: (state, getters) =>
@@ -77,6 +81,9 @@ const chart = {
     },
     setTime(state, data) {
       state.time = data * 60000
+    },
+    setIncrement(state, data) {
+      state.increment = data * 1000
     }
   },
   actions: {

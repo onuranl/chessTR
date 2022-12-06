@@ -58,12 +58,28 @@ export default {
       this.attempted = true
     })
   },
+  watch: {
+    chart(val, oldVal) {
+      if (val && !oldVal && val.private && val.users.length < 1) {
+        this.socket.emit('join', {
+          user: this.user._id,
+          color: this.color || null,
+          time: this.time,
+          increment: this.increment,
+        })
+      }
+    },
+  },
   computed: {
     ...mapGetters({
+      user: 'auth/stateUser',
       chart: 'chart/chart',
       chartID: 'chart/chartID',
       inviteSection: 'chart/inviteSection',
       users: 'chart/users',
+      color: 'chart/color',
+      time: 'chart/time',
+      increment: 'chart/increment',
       onlineUsers: 'user/onlineUsers',
       isOtherUserOnline: 'user/isOtherUserOnline',
     }),

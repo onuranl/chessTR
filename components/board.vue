@@ -99,12 +99,8 @@ export default {
         this.currentUserElapsedTime = this.time
         this.otherUserElapsedTime = this.time
       } else {
-        this.getChart().then(() => {
-          this.currentUserElapsedTime =
-            this.users.otherUser.time || this.users.currentUser.time
-          this.otherUserElapsedTime =
-            this.users.otherUser.time || this.users.currentUser.time
-        })
+        this.currentUserElapsedTime = this.chart.users[0].time
+        this.otherUserElapsedTime = this.chart.users[0].time
       }
     }
 
@@ -141,7 +137,11 @@ export default {
             const username = el.user.username
             if (this.stateUser.username === username)
               el.color === prevTurn
-                ? await this.updateRating({ username, status: 'win', chart: this.chart })
+                ? await this.updateRating({
+                    username,
+                    status: 'win',
+                    chart: this.chart,
+                  })
                 : await this.updateRating({ username, status: 'lose' })
           })
         } else {
@@ -173,11 +173,21 @@ export default {
         }
       },
     },
-    currentUserElapsedTime(val) {
-      if (val < 0) this.unlimited = true
+    currentUserElapsedTime(val, oldVal) {
+      if (val < 0 || (!oldVal && val === 0)) this.unlimited = true
     },
-    otherUserElapsedTime(val) {
-      if (val < 0) this.unlimited = true
+    otherUserElapsedTime(val, oldVal) {
+      if (val < 0 || (!oldVal && val === 0)) this.unlimited = true
+    },
+    currentUserTimerState(val) {
+      if (this.users.currentUser.increment > 0 && !val) {
+        this.currentUserElapsedTime += this.users.currentUser.increment
+      }
+    },
+    otherUserTimerState(val) {
+      if (this.users.otherUser.increment > 0 && !val) {
+        this.otherUserElapsedTime += this.users.otherUser.increment
+      }
     },
   },
   computed: {
