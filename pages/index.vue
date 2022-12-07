@@ -58,7 +58,11 @@ export default {
 
         this.socket.emit('match', value)
 
-        if (value) this.setTime(value.clock.split('+')[0] * 1)
+        if (value) {
+          this.setTime(value.clock.split('+')[0] * 1) 
+          this.setIncrement(value.clock.split('+')[1] * 1) 
+        }
+
       },
     },
   },
@@ -67,7 +71,7 @@ export default {
   },
   methods: {
     firstLetterUpperCase,
-    ...mapMutations({ setColor: 'chart/setColor', setTime: 'chart/setTime' }),
+    ...mapMutations({ setColor: 'chart/setColor', setTime: 'chart/setTime', setIncrement: 'chart/setIncrement' }),
     ...mapActions({ createChart: 'chart/createChart' }),
     selectPool(index) {
       if (!this.isAuthenticated) return this.$router.push('/login')
