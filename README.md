@@ -1,10 +1,12 @@
 # chess
 
+responsive
+
+şifremi unuttum gelebilir
+
+query url halledebilirsin
+
 sidebar footerda vs. kendi reklamını yap
-
-oyun kurarken süreye göre kurma
-
-maç bittikten sonra win yada lose a göre kullanıcıların win rate durumunu ve ratingini güncelleme
 
 mesaj attıgımızda client tarafından istek atıp mesajları kaydetmek yerine bu işlemi socket kısmına taşı
 
@@ -12,22 +14,9 @@ chart-repostiry'e bi el at
 
 store daki uzun map ile yapılan kontrolleri some ile degiştirebliirsin göz at hepsinse
 
-mesaj tasarımına el at
-
 bu tarz gereksiz uzatılmış kodları düzeltebilirsin activeChatIDs(newVal, oldVal) {
 oldVal.length === 0 ? (this.open = false) : (this.open = true) },
 
-script ve template'in yerlerini degiştirebilirsin şekil olsun diye
-
-///////////////
-
-arkadaşlık istegi kabul edildikten sonra arkadaş ekleme kısmında bir ibnelik var el at
-
-user güncelleme düzgün çalışmıyor incele
-
-chart chat'i ni düzenle brom
-
-chart'dan profil sayfasına geçince sıkıntı yaşanıyor
 
 ## Build Setup
 

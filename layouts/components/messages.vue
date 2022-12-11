@@ -1,5 +1,5 @@
 <template>
-  <c-dropup>
+  <c-dropup :mobile="activeComponent === 'messages'">
     <template slot="title">
       <span v-html="traslations.Default.Messages.toLowerCase()" />
     </template>
@@ -28,6 +28,7 @@ export default {
   components: { CDropup },
   computed: {
     ...mapGetters({
+      activeComponent: 'vuesax/activeComponent',
       traslations: 'lang/traslations',
       stateUser: 'auth/stateUser',
       activeChatIDs: 'chat/activeChatIDs',

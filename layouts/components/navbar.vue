@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content" :class="{ invisible: activeComponent }">
     <vs-navbar
       class="position-relative mb-3"
       center-collapsed
@@ -74,6 +74,7 @@
     <SideBar ref="sidebar" />
   </div>
 </template>
+
 <script>
 import { MenuIcon } from 'vue-feather-icons'
 
@@ -86,8 +87,6 @@ export default {
   name: 'Navbar',
   data: () => ({
     active: 'index',
-    clientWidth: document.body.clientWidth,
-    isMobile: document.body.clientWidth < 480,
     mainPages: ['index', 'create', 'rooms', 'chart-actives'],
   }),
   components: {
@@ -98,9 +97,6 @@ export default {
   created() {
     this.active = this.$route.name
   },
-  mounted() {
-    window.addEventListener('resize', this.handleResize)
-  },
   watch: {
     lang() {
       this.reDesingTab()
@@ -108,9 +104,16 @@ export default {
     isAuthenticated() {
       this.reDesingTab()
     },
+    clientWidth(val) {
+      if (val >= 1068 && this.$refs.sidebar._data.activeSidebar)
+        this.$refs.sidebar._data.activeSidebar = false
+    },
   },
   computed: {
     ...mapGetters({
+      clientWidth: 'vuesax/width',
+      isMobile: 'vuesax/isMobile',
+      activeComponent: 'vuesax/activeComponent',
       lang: 'lang/lang',
       traslations: 'lang/traslations',
       isAuthenticated: 'auth/isAuthenticated',
@@ -118,10 +121,6 @@ export default {
     }),
   },
   methods: {
-    handleResize() {
-      this.clientWidth = document.body.clientWidth
-      this.isMobile = document.body.clientWidth < 480
-    },
     reDesingTab() {
       const path = this.active
 

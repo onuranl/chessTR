@@ -1,5 +1,5 @@
 <template>
-  <c-dropup>
+  <c-dropup :mobile="activeComponent === 'friends'">
     <template slot="title">
       <span v-html="traslations.Default.Friends.toLowerCase()" />
     </template>
@@ -10,7 +10,7 @@
       :key="user.userID"
     >
       <span class="dot bg-success" style="height: 15px; width: 15px" />
-      <nuxt-link :to="user.username" class="ml-2 text-white">{{
+      <nuxt-link :to="'/' + user.username" class="ml-2 text-white">{{
         user.username
       }}</nuxt-link>
     </div>
@@ -21,7 +21,7 @@
       :key="user._id"
     >
       <span class="dot" style="height: 15px; width: 15px" />
-      <nuxt-link :to="user.username" class="ml-2 text-white">{{
+      <nuxt-link :to="'/' + user.username" class="ml-2 text-white">{{
         user.username
       }}</nuxt-link>
     </div>
@@ -40,6 +40,7 @@ export default {
   components: { CDropup },
   computed: {
     ...mapGetters({
+      activeComponent: 'vuesax/activeComponent',
       traslations: 'lang/traslations',
       stateUser: 'auth/stateUser',
       connectedUsers: 'user/connectedUsers',

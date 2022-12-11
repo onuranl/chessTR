@@ -1,5 +1,9 @@
 <template>
-  <div class="activeChats" v-if="activeChats">
+  <div
+    v-if="activeChats"
+    class="activeChats"
+    :class="{ visible: activeComponent === 'private-chat' }"
+  >
     <private-chat
       v-for="chat in activeChats"
       :key="chat._id"
@@ -34,6 +38,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      activeComponent: 'vuesax/activeComponent',
       currentUserID: 'user/currentUserID',
       activeChats: 'chat/activeChats',
       activeChatIDs: 'chat/activeChatIDs',

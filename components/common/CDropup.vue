@@ -1,6 +1,35 @@
 <template>
-  <div class="wrapper" :class="{ 'wrapper-short': !isOpen }">
+  <div
+    class="wrapper"
+    :class="{
+      'wrapper-short': !isOpen && !mobile,
+      'wrapper-mobile visible rounded-0': mobile,
+    }"
+  >
+    <div v-if="mobile" class="wrapper-header-mobile">
+      <div class="d-flex align-items-center">
+        <h4 class="mr-4">
+          <slot v-if="activeComponent === 'private-chat'" name="title" />
+          <span v-else v-html="firstLetterUpperCase(activeComponent)" />
+        </h4>
+        <vs-input v-show="activeComponent !== 'private-chat'" v-model="search">
+          <template #icon>
+            <search-icon size="1x" />
+          </template>
+        </vs-input>
+      </div>
+      <x-icon
+        class="cursor-pointer"
+        size="1.5x"
+        @click="
+          activeComponent === 'private-chat'
+            ? $emit('closeChat') && setActiveComponent('messages')
+            : setActiveComponent(null)
+        "
+      />
+    </div>
     <div
+      v-else
       class="wrapper-header"
       :class="{ 'wrapper-header-active': isOpen }"
       @click="isOpen = !isOpen"
@@ -14,25 +43,36 @@
       </div>
       <x-icon v-if="closeIcon" @click="$emit('closeChat')" size="1.5x" />
     </div>
-    <div class="wrapper-content" :class="classContent" v-if="isOpen">
+    <div class="wrapper-content" :class="classContent" v-if="isOpen || mobile">
       <slot />
     </div>
   </div>
 </template>
 
 <script>
-import { ChevronUpIcon, ChevronDownIcon, XIcon } from 'vue-feather-icons'
+import {
+  ChevronUpIcon,
+  ChevronDownIcon,
+  XIcon,
+  SearchIcon,
+} from 'vue-feather-icons'
+
+import { mapGetters, mapMutations } from 'vuex'
+
+import firstLetterUpperCase from '~/utilities/firstLetterUpperCase'
 
 export default {
-  props: ['classContent', 'closeIcon', 'open'],
+  props: ['classContent', 'closeIcon', 'open', 'mobile'],
   components: {
     ChevronUpIcon,
     ChevronDownIcon,
     XIcon,
+    SearchIcon,
   },
   data() {
     return {
       isOpen: this.open,
+      search: '',
     }
   },
   watch: {
@@ -43,6 +83,17 @@ export default {
         }, 100)
       }
     },
+  },
+  computed: {
+    ...mapGetters({
+      activeComponent: 'vuesax/activeComponent',
+    }),
+  },
+  methods: {
+    firstLetterUpperCase,
+    ...mapMutations({
+      setActiveComponent: 'vuesax/setActiveComponent',
+    }),
   },
 }
 </script>
@@ -56,6 +107,15 @@ export default {
   position: relative;
   transition: height 0.5s;
   box-shadow: 0 2px 5px 0 rgb(0 0 0 / 23%);
+  &-mobile {
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    bottom: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+  }
   &-short {
     height: 50px;
   }
@@ -74,6 +134,12 @@ export default {
     &-active {
       bottom: auto;
       top: 0px;
+    }
+    &-mobile {
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
   &-content {

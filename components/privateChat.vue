@@ -2,6 +2,7 @@
   <c-dropup
     classContent="justify-content-between"
     :closeIcon="true"
+    :mobile="activeComponent === 'private-chat'"
     :open="open"
     @closeChat="closeChat"
     @scrollToBottom="scrollToBottom"
@@ -77,6 +78,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      activeComponent: 'vuesax/activeComponent',
       activeChatIDs: 'chat/activeChatIDs',
       stateUser: 'auth/stateUser',
       connectedUsers: 'user/connectedUsers',

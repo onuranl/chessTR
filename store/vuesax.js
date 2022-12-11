@@ -1,5 +1,21 @@
 const vusax = {
+  state: () => ({
+    width: null,
+    activeComponent: null
+  }),
+  getters: {
+    width: (state) => state.width,
+    isMobile: (state) => state.width < 400,
+    isTablet: (state) => state.width < 768,
+    activeComponent: (state) => state.width >= 768 ? false : state.activeComponent
+  },
   mutations: {
+    setWidth(state, data) {
+      state.width = data
+    },
+    setActiveComponent(state, data) {
+      state.activeComponent = data
+    },
     openNotification(state, payload) {
       this.app.router.app.$vs.notification({
         progress: 'auto',

@@ -33,15 +33,50 @@
         to="/chart/actives"
         v-html="traslations.Navbar.ActiveMatches"
       />
+      <hr />
+      <div v-if="isTablet && isAuthenticated">
+        <div @click="setActiveComponent('users')">
+          <vs-sidebar-item
+            id="users"
+            to=""
+            v-html="traslations.Default.Users"
+          />
+        </div>
+        <div @click="setActiveComponent('friends')">
+          <vs-sidebar-item
+            id="friends"
+            to=""
+            v-html="traslations.Default.Friends"
+          />
+        </div>
+        <div @click="setActiveComponent('messages')">
+          <vs-sidebar-item
+            id="messages"
+            to=""
+            v-html="traslations.Default.Messages"
+          />
+        </div>
+      </div>
+      <!-- <template #footer>
+        <Translate />
+        <Theme />
+      </template> -->
     </vs-sidebar>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import Translate from './translate.vue'
+import Theme from './theme.vue'
+
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'Sidebar',
+  components: {
+    Translate,
+    Theme,
+  },
   data: () => ({
     active: 'index',
     activeSidebar: false,
@@ -60,7 +95,14 @@ export default {
   },
   computed: {
     ...mapGetters({
+      isTablet: 'vuesax/isTablet',
       traslations: 'lang/traslations',
+      isAuthenticated: 'auth/isAuthenticated',
+    }),
+  },
+  methods: {
+    ...mapMutations({
+      setActiveComponent: 'vuesax/setActiveComponent',
     }),
   },
 }

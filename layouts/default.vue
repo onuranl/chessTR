@@ -1,12 +1,16 @@
 <template>
   <div v-if="socket && traslations && userAuth">
     <NavBar />
-    <div class="config">
+    <div class="config" :class="{ 'd-none': isTablet }">
       <Translate />
       <Theme />
     </div>
     <Nuxt class="d-flex justify-content-center align-items-center mt-4" />
-    <div class="bottom_content" v-if="isAuthenticated">
+    <div
+      v-if="isAuthenticated"
+      class="bottom_content"
+      :class="{ invisible: isTablet }"
+    >
       <Chats />
       <Messages />
       <Friends />
@@ -42,6 +46,7 @@ export default {
     }
   },
   created() {
+    this.handleResize()
     this.getTranslations()
   },
   mounted() {
@@ -55,6 +60,8 @@ export default {
         this.setConnectedUsers(data)
       }
     })
+
+    window.addEventListener('resize', this.handleResize)
   },
   watch: {
     stateUser: {
@@ -70,9 +77,16 @@ export default {
         }
       },
     },
+    isTablet(val) {
+      if (!val) this.setActiveComponent(null)
+    },
+    '$route.params': function () {
+      this.setActiveComponent(null)
+    },
   },
   computed: {
     ...mapGetters({
+      isTablet: 'vuesax/isTablet',
       traslations: 'lang/traslations',
       stateUser: 'auth/stateUser',
       isAuthenticated: 'auth/isAuthenticated',
@@ -90,11 +104,16 @@ export default {
   },
   methods: {
     ...mapMutations({
+      setActiveComponent: 'vuesax/setActiveComponent',
       setConnectedUsers: 'user/setConnectedUsers',
+      setWidth: 'vuesax/setWidth',
     }),
     ...mapActions({
       getTranslations: 'lang/getTranslations',
     }),
+    handleResize() {
+      this.setWidth(document.body.clientWidth)
+    },
   },
 }
 </script>

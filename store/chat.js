@@ -25,7 +25,15 @@ const chat = {
       } else {
         state.activeChatIDs.push(data)
       }
+
       this.app.$cookies.set('activeChatIDs', state.activeChatIDs)
+
+      const isTablet = this.app.store.getters['vuesax/isTablet']
+      const activeComponent = this.app.store.getters['vuesax/activeComponent']
+
+      if (isTablet && activeComponent === 'messages') {
+        window.$nuxt.$store.commit('vuesax/setActiveComponent', 'private-chat')
+      }
     },
     setChatMessageByChatID(state, { chatID, payload }) {
       state.chats.some((chat) => {
