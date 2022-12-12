@@ -83,6 +83,9 @@ export default {
         }, 100)
       }
     },
+    search(val) {
+      this.$emit('updateSearchInput', val)
+    },
   },
   computed: {
     ...mapGetters({

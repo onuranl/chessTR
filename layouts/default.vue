@@ -7,7 +7,7 @@
     </div>
     <Nuxt class="d-flex justify-content-center align-items-center mt-4" />
     <div
-      v-if="isAuthenticated"
+      v-if="isAuthenticated && connectedUsers"
       class="bottom_content"
       :class="{ invisible: isTablet }"
     >

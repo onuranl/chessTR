@@ -1,5 +1,8 @@
 <template>
-  <c-dropup :mobile="activeComponent === 'friends'">
+  <c-dropup
+    :mobile="activeComponent === 'friends'"
+    @updateSearchInput="(val) => (searchInput = val)"
+  >
     <template slot="title">
       <span v-html="traslations.Default.Friends.toLowerCase()" />
     </template>
@@ -38,6 +41,9 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'friends',
   components: { CDropup },
+  data: () => ({
+    searchInput: '',
+  }),
   computed: {
     ...mapGetters({
       activeComponent: 'vuesax/activeComponent',
@@ -60,8 +66,12 @@ export default {
       })
 
       return {
-        connectedFriends,
-        exceptOnlineFriends,
+        connectedFriends: connectedFriends.filter((user) =>
+          user.username.includes(this.searchInput)
+        ),
+        exceptOnlineFriends: exceptOnlineFriends.filter((user) =>
+          user.username.includes(this.searchInput)
+        ),
       }
     },
   },

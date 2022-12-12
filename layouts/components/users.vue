@@ -1,12 +1,17 @@
 <template>
-  <c-dropup :mobile="activeComponent === 'users'">
+  <c-dropup
+    :mobile="activeComponent === 'users'"
+    @updateSearchInput="(val) => (searchInput = val)"
+  >
     <template slot="title">
       <span v-html="traslations.Default.Users.toLowerCase()" />
     </template>
 
     <div
       class="d-flex align-items-center"
-      v-for="user in connectedUsers"
+      v-for="user in connectedUsers.filter((user) =>
+        user.username.includes(searchInput)
+      )"
       :key="user.userID"
     >
       <span class="dot bg-success" style="height: 15px; width: 15px" />
@@ -41,6 +46,7 @@ export default {
   data() {
     return {
       users: null,
+      searchInput: '',
     }
   },
   async created() {
@@ -75,7 +81,7 @@ export default {
             users.splice(index, 1)
           }
         })
-        return users
+        return users.filter((user) => user.username.includes(this.searchInput))
       }
     },
   },

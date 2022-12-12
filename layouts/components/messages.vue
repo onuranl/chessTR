@@ -1,9 +1,18 @@
 <template>
-  <c-dropup :mobile="activeComponent === 'messages'">
+  <c-dropup
+    v-if="chats"
+    :mobile="activeComponent === 'messages'"
+    @updateSearchInput="(val) => (searchInput = val)"
+  >
     <template slot="title">
       <span v-html="traslations.Default.Messages.toLowerCase()" />
     </template>
-    <div v-for="chat in chats" :key="chat._id">
+    <div
+      v-for="chat in chats.filter((chat) =>
+        to(chat.users).username.includes(searchInput)
+      )"
+      :key="chat._id"
+    >
       <div
         v-if="
           chat.messages.length > 0 && activeChatIDs.includes(chat._id) === false
@@ -26,6 +35,9 @@ import { mapGetters, mapMutations } from 'vuex'
 export default {
   name: 'messages',
   components: { CDropup },
+  data: () => ({
+    searchInput: '',
+  }),
   computed: {
     ...mapGetters({
       activeComponent: 'vuesax/activeComponent',
