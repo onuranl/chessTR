@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="content">
-      <vs-button block v-for="mod in mods" :key="mod" @click="openModal(mod)">
+      <vs-button
+        class="mx-0"
+        block
+        v-for="mod in mods"
+        :key="mod"
+        @click="openModal(mod)"
+      >
         {{ traslations.CreateRoom[firstLetterUpperCase(mod)] }}
       </vs-button>
     </div>
@@ -66,6 +72,7 @@
               setTime(value !== 'unlimited' ? minutes : -1)
               setIncrement(increment)
               createChart(mod !== 'public' ? mod : null)
+              clearTooltips()
             "
           >
             <vs-tooltip class="color" :class="{ random: color === 'random' }">
@@ -119,6 +126,13 @@ export default {
     openModal(mod) {
       this.mod = mod
       this.active = true
+    },
+    clearTooltips() {
+      const tooltips = document.getElementsByClassName('vs-tooltip top')
+
+      while (tooltips.length > 0) {
+        tooltips[0].parentNode.removeChild(tooltips[0])
+      }
     },
   },
 }
