@@ -59,10 +59,9 @@ export default {
         this.socket.emit('match', value)
 
         if (value) {
-          this.setTime(value.clock.split('+')[0] * 1) 
-          this.setIncrement(value.clock.split('+')[1] * 1) 
+          this.setTime(value.clock.split('+')[0] * 1)
+          this.setIncrement(value.clock.split('+')[1] * 1)
         }
-
       },
     },
   },
@@ -71,7 +70,11 @@ export default {
   },
   methods: {
     firstLetterUpperCase,
-    ...mapMutations({ setColor: 'chart/setColor', setTime: 'chart/setTime', setIncrement: 'chart/setIncrement' }),
+    ...mapMutations({
+      setColor: 'chart/setColor',
+      setTime: 'chart/setTime',
+      setIncrement: 'chart/setIncrement',
+    }),
     ...mapActions({ createChart: 'chart/createChart' }),
     selectPool(index) {
       if (!this.isAuthenticated) return this.$router.push('/login')
@@ -112,6 +115,15 @@ export default {
   }
   .active {
     margin-bottom: -30px;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  .pools {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pool {
+    width: auto;
   }
 }
 </style>

@@ -80,6 +80,14 @@ export default {
   row-gap: 10px;
   padding: 20px;
   padding-top: 0px;
+
+  @media only screen and (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media only screen and (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .disable {

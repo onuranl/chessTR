@@ -13,7 +13,7 @@
             </div>
             <div
               class="userActions-mobile"
-              :class="{ invisible: stateUser.username === $route.params.slug }"
+              :class="{ 'd-none': stateUser.username === $route.params.slug }"
             >
               <div class="d-flex h1 margin-top">
                 <vs-button
@@ -297,6 +297,16 @@ export default {
   }
   .socialMedias-mobile {
     display: block;
+  }
+}
+
+@media only screen and (max-width: 478px) {
+  .profile {
+    padding: 24px;
+  }
+
+  .socialMedias-mobile {
+    margin-left: 10px;
   }
 }
 </style>

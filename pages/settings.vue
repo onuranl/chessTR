@@ -7,8 +7,8 @@
         :key="lang"
       >
         <c-tab :id="1" :title="traslations.Settings.UserInformation">
-          <div class="row">
-            <div class="col-lg-8">
+          <div class="settings-content">
+            <div>
               <vs-input
                 dark
                 type="text"
@@ -24,7 +24,7 @@
                 :label="traslations.Settings.Email"
               />
             </div>
-            <div class="col-lg-4 save-button">
+            <div class="save-button">
               <vs-button
                 icon
                 relief
@@ -42,8 +42,8 @@
           </div>
         </c-tab>
         <c-tab :id="2" :title="traslations.Settings.Links">
-          <div class="row">
-            <div class="col-lg-8">
+          <div class="settings-content">
+            <div>
               <vs-input
                 dark
                 type="url"
@@ -54,7 +54,7 @@
                 :label="firstLetterUpperCase(medias[index - 1])"
               />
             </div>
-            <div class="col-lg-4 save-button">
+            <div class="save-button">
               <vs-button
                 icon
                 relief
@@ -132,11 +132,38 @@ export default {
   padding: 36px;
   margin: 0px 30px;
   width: 550px;
+
+  &-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .save-button {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+</style>
+
+<style lang="scss">
+@media only screen and (max-width: 576px) {
+  .settings {
+    width: 90% !important;
+    margin: 0px 15px !important;
+    &-content {
+      div {
+        .vs-input {
+          width: 150px;
+        }
+      }
+    }
+    .row {
+      .content {
+        padding-right: 0px !important;
+      }
+    }
+  }
 }
 </style>

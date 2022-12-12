@@ -141,6 +141,10 @@ export default {
 <style lang="scss" scoped>
 .content {
   width: 400px;
+
+  @media only screen and (max-width: 418px) {
+    width: 90%;
+  }
 }
 
 .colors {
