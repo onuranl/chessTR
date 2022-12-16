@@ -4,7 +4,10 @@
     id="app"
     class="container"
   >
-    <div class="d-flex justify-content-between">
+    <div
+      class="d-flex justify-content-between"
+      :class="{ 'flex-wrap': width < 1250 }"
+    >
       <chat class="chat-board" :key="chart._id" />
       <div class="game">
         <game v-if="!chart.ai && attempted" />
@@ -72,6 +75,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      width: 'vuesax/width',
       user: 'auth/stateUser',
       chart: 'chart/chart',
       chartID: 'chart/chartID',
@@ -106,6 +110,51 @@ export default {
   height: 100%;
 }
 
+.container {
+  @media only screen and (max-width: 1250px) {
+    max-width: 980px;
+  }
+
+  @media only screen and (max-width: 991px) {
+    max-width: 860px;
+  }
+
+  @media only screen and (max-width: 870px) {
+    max-width: 720px;
+  }
+
+  @media only screen and (max-width: 725px) {
+    max-width: 600px;
+  }
+
+  @media only screen and (max-width: 625px) {
+    max-width: 540px;
+  }
+
+  @media only screen and (max-width: 560px) {
+    max-width: 500px;
+  }
+
+  @media only screen and (max-width: 530px) {
+    max-width: 460px;
+  }
+
+  @media only screen and (max-width: 480px) {
+    max-width: 430px;
+  }
+
+  @media only screen and (max-width: 450px) {
+    max-width: 400px;
+  }
+
+  @media only screen and (max-width: 420px) {
+    max-width: 360px;
+  }
+  @media only screen and (max-width: 380px) {
+    max-width: 320px;
+  }
+}
+
 .chat-board {
   height: 630px;
   margin-right: 15px;
@@ -113,5 +162,120 @@ export default {
 
 .game {
   margin-right: 25px;
+
+  @media only screen and (max-width: 1250px) {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+  }
+
+  div {
+    width: 100%;
+    height: 100%;
+    ::v-deep .blue {
+      .cg-board-wrap {
+        width: 630px;
+        height: 630px;
+        @media only screen and (max-width: 1250px) {
+          width: 980px;
+          height: 980px;
+
+          order: 1;
+        }
+
+        @media only screen and (max-width: 991px) {
+          width: 860px;
+          height: 860px;
+        }
+
+        @media only screen and (max-width: 870px) {
+          width: 720px;
+          height: 720px;
+        }
+
+        @media only screen and (max-width: 725px) {
+          width: 600px;
+          height: 600px;
+        }
+
+        @media only screen and (max-width: 625px) {
+          width: 540px;
+          height: 540px;
+        }
+
+        @media only screen and (max-width: 560px) {
+          width: 500px;
+          height: 500px;
+        }
+
+        @media only screen and (max-width: 530px) {
+          width: 460px;
+          height: 460px;
+        }
+
+        @media only screen and (max-width: 480px) {
+          width: 430px;
+          height: 430px;
+        }
+
+        @media only screen and (max-width: 450px) {
+          width: 400px;
+          height: 400px;
+        }
+
+        @media only screen and (max-width: 420px) {
+          width: 360px;
+          height: 360px;
+        }
+        @media only screen and (max-width: 380px) {
+          width: 320px;
+          height: 320px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1250px) {
+  .game {
+    margin-right: 0px;
+  }
+
+  .chat-board {
+    height: 320px;
+    order: 2;
+  }
+
+  .board {
+    order: 3;
+    justify-content: flex-start;
+  }
+}
+
+@media only screen and (max-width: 625px) {
+  .chat-board {
+    width: 200px;
+    .chat {
+      width: 100%;
+    }
+    .wrapper-content-input {
+      padding: 4px 10px;
+    }
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .chat-board {
+    order: 3;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .board {
+    order: 2;
+    width: 100%;
+    margin: 20px 0px;
+  }
 }
 </style>

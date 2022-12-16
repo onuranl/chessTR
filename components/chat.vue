@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .chat {
   width: 300px;
   height: 570px;
@@ -95,6 +95,10 @@ export default {
   flex-direction: column;
   padding: 4px 10px;
   overflow: auto;
+
+  @media only screen and (max-width: 625px) {
+    width: 100%;
+  }
 }
 
 .messages {

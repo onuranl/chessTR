@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="users"
-    class="d-flex flex-column align-items-center justify-content-center"
-  >
+  <div v-if="users" class="board">
     <div class="w-100" v-if="!unlimited">
       <div class="w-50 border">
         <span>{{ otherUserFormateedElapsedTime }}</span>
@@ -271,3 +268,22 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.board {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media only screen and (max-width: 991px) {
+    align-items: initial;
+  }
+
+  .card-deck {
+    .card {
+      margin-bottom: 0px;
+    }
+  }
+}
+</style>

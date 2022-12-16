@@ -6,8 +6,8 @@ const vusax = {
   getters: {
     width: (state) => state.width,
     isMobile: (state) => state.width < 400,
-    isTablet: (state) => state.width < 768,
-    activeComponent: (state) => state.width >= 768 ? false : state.activeComponent
+    isTablet: (state) => state.width < 991,
+    activeComponent: (state) => state.width >= 991 ? false : state.activeComponent
   },
   mutations: {
     setWidth(state, data) {

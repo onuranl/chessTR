@@ -8,6 +8,7 @@
       @onMove="onMove"
       :fen="chart.chartHistory.fen"
       :orientation="users.currentUser.color || 'white'"
+      :key="count"
     />
   </div>
 </template>
@@ -24,6 +25,7 @@ export default {
     return {
       socket: null,
       started: false,
+      count: 0,
     }
   },
   mounted() {
@@ -44,11 +46,17 @@ export default {
       }
     })
   },
+  watch: {
+    width() {
+      this.count++
+    },
+  },
   beforeDestroy() {
     this.quitFromGame()
   },
   computed: {
     ...mapGetters({
+      width: 'vuesax/width',
       user: 'auth/stateUser',
       color: 'chart/color',
       time: 'chart/time',
@@ -81,11 +89,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .cg-board-wrap {
-  width: 630px;
-  height: 630px;
-}
-
 .disable {
   ::v-deep .cg-board {
     pointer-events: none;
