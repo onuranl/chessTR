@@ -22,6 +22,7 @@ async function getUserByUsername(username) {
   const user = await user_repository.getUserByUsername(username)
 
   if (!user) throw new Error('Kullanıcı bulunamadı.')
+
   return user
 }
 
@@ -31,9 +32,7 @@ async function updateFriends(payload) {
 }
 
 async function updateLastActive(user) {
-  if (user) {
-    await user_repository.updateLastActive(user)
-  }
+  if (user) await user_repository.updateLastActive(user)
 }
 
 module.exports = {

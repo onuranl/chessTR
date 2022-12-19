@@ -33,7 +33,7 @@ export default {
   },
   watch: {
     activeChatIDs(newVal, oldVal) {
-      oldVal.length === 0 ? (this.open = false) : (this.open = true)
+      this.open = oldVal.length !== 0
     },
   },
   computed: {

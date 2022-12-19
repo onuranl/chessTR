@@ -78,6 +78,7 @@ export default {
     ...mapActions({ createChart: 'chart/createChart' }),
     selectPool(index) {
       if (!this.isAuthenticated) return this.$router.push('/login')
+
       this.pools.map((pool, poolIndex) => {
         index === poolIndex
           ? pool.state === true

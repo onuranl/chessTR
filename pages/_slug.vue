@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="user">
     <div class="profile text-secondary">
       <div class="row">
         <div class="col-lg-6">
@@ -149,28 +149,23 @@ export default {
   data() {
     return {
       socket: null,
+      user: null,
     }
   },
-  async asyncData({ $axios, app, route }) {
-    const loading = app.router.app.$vs.loading()
+  async fetch() {
+    const loading = this.$vs.loading()
     try {
-      const username = route.params.slug
+      const username = this.$route.params.slug
 
-      const response = await $axios.$get(`user/${username}`)
+      const response = await this.$axios.$get(`user/${username}`)
 
       loading.close()
 
-      return { user: response.user }
+      this.user = response.user
     } catch (error) {
-      app.router.app.$vs.notification({
-        progress: 'auto',
-        color: 'danger',
-        position: 'top-right',
-        title: 'error',
-        text: error.response.data.error,
-      })
+      this.openNotification({ text: error.response.data.error })
 
-      app.router.push('/')
+      this.$router.push('/')
     }
   },
   mounted() {

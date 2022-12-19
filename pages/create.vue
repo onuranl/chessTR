@@ -79,7 +79,7 @@
               <div
                 class="icon"
                 :style="`background: url(/${color}.svg) no-repeat center center`"
-              ></div>
+              />
               <template #tooltip>
                 {{
                   color === 'random'

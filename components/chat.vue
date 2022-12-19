@@ -90,7 +90,6 @@ export default {
 .chat {
   width: 300px;
   height: 570px;
-  /* border: solid 1px #eee; */
   display: flex;
   flex-direction: column;
   padding: 4px 10px;

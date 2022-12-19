@@ -13,7 +13,27 @@ async function getByUserID(id) {
 }
 
 async function create(chart) {
-  return await chart_repository.create(chart)
+  var createdChart = await chart_repository.create(chart)
+
+
+  if (chart.private) {
+    createdChart.private = true
+
+    await update(createdChart._id, createdChart)
+
+    return await getByID(createdChart._id)
+  }
+
+  if (chart.ai) {
+    createdChart.ai = true
+    createdChart.private = true
+
+    await update(createdChart._id, createdChart)
+
+    return await getByID(createdChart._id)
+  }
+
+  return createdChart
 }
 
 async function update(id, chart) {
@@ -37,7 +57,13 @@ async function updateChatMessages(id, msg) {
 }
 
 async function updateTime(id, data) {
-  return await chart_repository.updateTime(id, data)
+  var chart = await getByID(id)
+
+  chart.users.map((userInfo) => {
+    userInfo.time = data[userInfo.user.id]
+  })
+
+  return await update(id, chart)
 }
 
 module.exports = {

@@ -31,7 +31,6 @@ export default {
   data() {
     return { tabs: [] }
   },
-  created() {},
   watch: {
     activeTab: {
       immediate: true,

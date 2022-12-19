@@ -1,17 +1,10 @@
 <template>
   <div class="w-100 d-flex justify-content-center">
     <div class="lds-ellipsis">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+      <div v-for="index in 4" :key="index" />
     </div>
   </div>
 </template>
-
-<script>
-export default {}
-</script>
 
 <style scoped>
 .lds-ellipsis {

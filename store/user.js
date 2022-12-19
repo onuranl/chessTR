@@ -18,15 +18,8 @@ const user = {
     isOtherUserOnline(state, getters, rootState, rootGetters) {
       const users = rootGetters['chart/users']
       const otherUserId = users.otherUser ? users.otherUser.id : null
-      var result = false
-      if (state.onlineUsers) {
-        state.onlineUsers.map((el) => {
-          if (el === otherUserId) {
-            result = true
-          }
-        })
-      }
-      return result
+
+      return state.onlineUsers.some(user => user === otherUserId)
     },
     isUserMyFriend: () => (friends, userID) => {
       return friends.some((friend) => friend._id === userID)

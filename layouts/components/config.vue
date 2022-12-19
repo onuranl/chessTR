@@ -29,12 +29,12 @@ export default {
       isTablet: 'vuesax/isTablet',
     }),
     isSidebarOpen() {
-      return this.$parent._name === '<Auth>'
-        ? true
-        : this.$parent?.$children
-            .find((child) => child._name === '<Navbar>')
-            .$children?.find((child) => child._name === '<Sidebar>')
-            .activeSidebar
+      return (
+        this.$parent._name === '<Auth>' ||
+        this.$parent?.$children
+          .find((child) => child._name === '<Navbar>')
+          .$children?.find((child) => child._name === '<Sidebar>').activeSidebar
+      )
     },
   },
 }

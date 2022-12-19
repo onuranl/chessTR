@@ -1,9 +1,11 @@
 class GlobalStore {
+  // state
   constructor() {
     this.connectedUsers = []
     this.onlineUsers = {}
   }
 
+  // getters
   getConnectedUsers() {
     return this.connectedUsers
   }
@@ -16,7 +18,7 @@ class GlobalStore {
     return this.onlineUsers[id]
   }
 
-
+  // mutations
   addConnectedUser(user) {
     this.connectedUsers.push(user)
   }
@@ -45,8 +47,7 @@ class Store {
     this.chartID = null
   }
 
-  //getters
-
+  // getters
   getConnectedUser() {
     return this.connectedUser
   }

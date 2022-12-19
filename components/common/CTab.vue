@@ -27,7 +27,9 @@ export default {
   },
   created() {
     const { disabled, icon, id, title } = this
+
     const payload = { disabled, icon, id, title }
+
     this.$parent.tabs.push(payload)
   },
 }

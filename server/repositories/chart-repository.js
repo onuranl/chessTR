@@ -5,9 +5,8 @@ async function get(public) {
     return await chart_model
       .find({ private: false, users: { $size: 1 } })
       .populate('users.user', 'username rating')
-  } else {
-    return await chart_model.find({})
   }
+  return await chart_model.find({})
 }
 
 async function getByID(id) {
@@ -21,21 +20,7 @@ async function getByUserID(id) {
 }
 
 async function create(chart) {
-  var createdChart = await chart_model.create(chart)
-
-
-  if (chart.private) {
-    createdChart.private = true
-    await update(createdChart._id, createdChart)
-    return await getByID(createdChart._id)
-  } else if (chart.ai) {
-    createdChart.ai = true
-    createdChart.private = true
-    await update(createdChart._id, createdChart)
-    return await getByID(createdChart._id)
-  } else {
-    return createdChart
-  }
+  return await chart_model.create(chart)
 }
 
 async function update(id, chart) {
@@ -65,14 +50,6 @@ async function updateChatMessages(id, msg) {
     { _id: id },
     { $push: { chat: msg } }
   )
-}
-
-async function updateTime(id, data) {
-  var chart = await getByID(id)
-  chart.users.map((userInfo) => {
-    userInfo.time = data[userInfo.user.id]
-  })
-  return await update(id, chart)
 }
 
 module.exports = {

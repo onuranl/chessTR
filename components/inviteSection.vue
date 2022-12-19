@@ -14,14 +14,14 @@
             @click="copyUrl"
           >
             <copy-icon v-if="!copied" size="1.5x" class="cursor-pointer" />
-            <check-icon v-else size="1.5x" class="cursor-pointer"></check-icon>
+            <check-icon v-else size="1.5x" class="cursor-pointer" />
           </vs-button>
         </div>
         <p>The first person to come to this URL will play with you.</p>
       </div>
       <div class="d-flex justify-content-center align-items-center">
         <vs-button @click="deleteChart" danger border class="text-white" active>
-          <x-icon size="1.5x" class="mr-1"></x-icon> CANCEL
+          <x-icon size="1.5x" class="mr-1" /> CANCEL
         </vs-button>
       </div>
     </div>

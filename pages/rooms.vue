@@ -62,8 +62,11 @@ export default {
   }),
   async asyncData({ $axios, app }) {
     const loading = app.router.app.$vs.loading()
+
     const rooms = await $axios.$get('/chart/public')
+
     loading.close()
+
     return { rooms }
   },
   computed: {
