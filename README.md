@@ -19,7 +19,7 @@ A platform that was started to be developed mainly for playing chess in multipla
 # Installation
 You can simply install the dependencies for both sides and then run the 'dev' command to stand up client side and run the 'start' command to stand up server side of the project.
 # View
-![Screenshot_1](https://user-images.githubusercontent.com/53944526/208545869-6685478c-13b4-4b22-87fe-8d9b49409085.png)  
+![Screenshot_3](https://user-images.githubusercontent.com/53944526/208548046-2ea36d55-3880-44c0-9123-7cdb173ce1f2.png)
 ![Screenshot_9](https://user-images.githubusercontent.com/53944526/208545883-5e4ef049-2857-4e18-92c6-c0557e025666.png)  
 ![Screenshot_7](https://user-images.githubusercontent.com/53944526/208545874-4b903f5a-8457-4880-ae04-f629839ad65b.png)  
 ![Screenshot_8](https://user-images.githubusercontent.com/53944526/208545876-ff34c46c-f2cb-40bf-a1ce-906f6a48e8a3.png)  
