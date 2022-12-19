@@ -1,10 +1,7 @@
 <template>
   <div v-if="socket && traslations && userAuth">
     <NavBar />
-    <div class="config" :class="{ 'd-none': isTablet }">
-      <Translate />
-      <Theme />
-    </div>
+    <Config />
     <Nuxt class="d-flex justify-content-center align-items-center mt-4" />
     <div
       v-if="isAuthenticated && connectedUsers"
@@ -21,8 +18,7 @@
 
 <script>
 import NavBar from './components/navbar.vue'
-import Translate from './components/translate.vue'
-import Theme from './components/theme.vue'
+import Config from './components/config.vue'
 import Chats from './components/chats.vue'
 import Messages from './components/messages.vue'
 import Friends from './components/friends.vue'
@@ -33,8 +29,7 @@ import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   components: {
     NavBar,
-    Translate,
-    Theme,
+    Config,
     Chats,
     Messages,
     Friends,
@@ -119,20 +114,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.config {
-  z-index: 99001;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  background: #1e2023;
-  border: 0;
-  border-radius: 0 20px 0 0;
-  outline: none;
-  padding: 15px;
-  padding-bottom: 0px;
-}
-
 .bottom_content {
   position: fixed;
   z-index: 2;
