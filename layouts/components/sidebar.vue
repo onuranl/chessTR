@@ -56,11 +56,13 @@
             v-html="traslations.Default.Messages"
           />
         </div>
+        <hr />
       </div>
-      <!-- <template #footer>
-        <Translate />
-        <Theme />
-      </template> -->
+      <vs-sidebar-item
+        class="text-success"
+        href="https://www.linkedin.com/in/onuranl/"
+        v-html="traslations.Navbar.Reach"
+      />
     </vs-sidebar>
   </div>
 </template>

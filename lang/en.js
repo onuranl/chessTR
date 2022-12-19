@@ -38,6 +38,7 @@ const en = {
     CreateRoom: 'Create Room',
     WarRooms: 'War Rooms',
     ActiveMatches: 'Active Matches',
+    Reach: "Reach The Developer",
     Login: 'Login',
     GetStarted: 'Get Started',
   },
