@@ -102,7 +102,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      lang: 'vuesax/lang',
+      lang: 'lang/lang',
       activeComponent: 'vuesax/activeComponent',
     }),
     parent() {
