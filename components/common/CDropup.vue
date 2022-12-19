@@ -34,8 +34,18 @@
       :class="{ 'wrapper-header-active': isOpen }"
       @click="isOpen = !isOpen"
     >
-      <div class="d-flex align-items-center">
-        <div class="mr-3">
+      <div
+        class="d-flex align-items-center"
+        :class="{
+          'justify-content-between w-100':
+            parent === '<Friends>' || parent === '<Users>',
+        }"
+      >
+        <div
+          :class="{
+            'mr-3': parent === '<PrivateChat>' || parent === '<Messages>',
+          }"
+        >
           <chevron-down-icon v-if="isOpen" size="1.5x" />
           <chevron-up-icon v-else size="1.5x" />
         </div>
@@ -91,6 +101,9 @@ export default {
     ...mapGetters({
       activeComponent: 'vuesax/activeComponent',
     }),
+    parent() {
+      return this.$parent._name
+    },
   },
   methods: {
     firstLetterUpperCase,
