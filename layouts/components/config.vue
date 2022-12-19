@@ -1,5 +1,8 @@
 <template>
-  <div class="config" :class="{ 'd-none': !isSidebarOpen && isTablet }">
+  <div
+    class="config"
+    :class="{ 'd-none': !($parent._name === '<Auth>' || sidebar) && isTablet }"
+  >
     <Translate />
     <Theme />
     <vs-button
@@ -27,15 +30,8 @@ export default {
   computed: {
     ...mapGetters({
       isTablet: 'vuesax/isTablet',
+      sidebar: 'vuesax/sidebar',
     }),
-    isSidebarOpen() {
-      return (
-        this.$parent._name === '<Auth>' ||
-        this.$parent?.$children
-          .find((child) => child._name === '<Navbar>')
-          .$children?.find((child) => child._name === '<Sidebar>').activeSidebar
-      )
-    },
   },
 }
 </script>

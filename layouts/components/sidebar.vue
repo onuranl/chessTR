@@ -86,6 +86,11 @@ export default {
   created() {
     this.active = this.$route.name
   },
+  watch: {
+    activeSidebar(val) {
+      this.setSidebar(val)
+    },
+  },
   mounted() {
     const items = document.getElementsByClassName('vs-sidebar__item')
 
@@ -105,6 +110,7 @@ export default {
   methods: {
     ...mapMutations({
       setActiveComponent: 'vuesax/setActiveComponent',
+      setSidebar: 'vuesax/setSidebar',
     }),
   },
 }
