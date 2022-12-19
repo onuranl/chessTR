@@ -38,12 +38,15 @@
         class="d-flex align-items-center"
         :class="{
           'justify-content-between w-100':
-            parent === '<Friends>' || parent === '<Users>',
+            (parent === '<Friends>' || parent === '<Users>') && lang === 'tr',
         }"
       >
         <div
           :class="{
-            'mr-3': parent === '<PrivateChat>' || parent === '<Messages>',
+            'mr-3':
+              parent === '<PrivateChat>' ||
+              parent === '<Messages>' ||
+              lang !== 'tr',
           }"
         >
           <chevron-down-icon v-if="isOpen" size="1.5x" />
@@ -99,6 +102,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      lang: 'vuesax/lang',
       activeComponent: 'vuesax/activeComponent',
     }),
     parent() {
