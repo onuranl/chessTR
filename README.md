@@ -2,6 +2,8 @@
 A platform that was started to be developed mainly for playing chess in multiplayer.
 
 [Reach the developer](https://www.linkedin.com/in/onuranl/)
+
+- Light theme will added.
 # Techs
 - Nuxt (Vue.js) - SASS, Boostrap, Vuesax
 - Node.js - Express - Socket.io - MongoDB
