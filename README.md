@@ -4,7 +4,7 @@ A platform that was started to be developed mainly for playing chess in multipla
 [Reach the developer](https://www.linkedin.com/in/onuranl/)
 
 - Light theme will added.
-# Techs
+# Tech
 - Nuxt (Vue.js) - SASS, Boostrap, Vuesax
 - Node.js - Express - Socket.io - MongoDB
 # Features
